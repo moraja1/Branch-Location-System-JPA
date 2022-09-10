@@ -1,4 +1,4 @@
-package View.Controller;
+package View;
 
 public class MainWindow {
 }
