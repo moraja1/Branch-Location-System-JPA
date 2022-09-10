@@ -43,7 +43,7 @@ public class LogInWindow extends ViewParent {
         register_Button.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-
+                LogInWindowController.registerButtonClicked();
             }
         });
         setVisible(true);

@@ -23,4 +23,11 @@ public class LogInWindowController {
     public static void logInButtonClicked(){
 
     }
+
+    /**
+     *
+     */
+    public static void registerButtonClicked(){
+
+    }
 }
