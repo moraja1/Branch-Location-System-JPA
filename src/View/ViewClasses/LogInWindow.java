@@ -1,6 +1,7 @@
-package View;
+package View.ViewClasses;
 
-import Controller.LogInWindowController;
+import Controller.ViewControllers.LogInWindowViewController;
+import View.ViewParent;
 
 import javax.swing.*;
 import java.awt.*;
@@ -36,14 +37,14 @@ public class LogInWindow extends ViewParent {
         logIn_Button.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                LogInWindowController.logInButtonClicked();
+                LogInWindowViewController.logInButtonClicked();
             }
         });
 
         register_Button.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                LogInWindowController.registerButtonClicked();
+                LogInWindowViewController.registerButtonClicked();
             }
         });
         setVisible(true);

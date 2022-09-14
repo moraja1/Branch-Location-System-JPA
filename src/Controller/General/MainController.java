@@ -1,11 +1,9 @@
 package Controller.General;
 
 
-import View.LogInWindow;
+import View.ViewClasses.LogInWindow;
 import View.ViewParent;
 
-import javax.swing.JPanel;
-import java.awt.*;
 import java.util.HashMap;
 
 public class MainController {

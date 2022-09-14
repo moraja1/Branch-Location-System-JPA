@@ -1,8 +1,8 @@
-package Controller;
+package Controller.ViewControllers;
 
-import View.LogInWindow;
+import View.ViewClasses.LogInWindow;
 
-public class LogInWindowController {
+public class LogInWindowViewController {
     private static String email;
     private static String password;
     private static LogInWindow logIn_window = new LogInWindow();
