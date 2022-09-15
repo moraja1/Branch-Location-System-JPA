@@ -1,13 +1,15 @@
 package View.ViewClasses;
 
 
+import Controller.Utils.GeneralUtilities;
 import View.ViewParent;
 
 import javax.swing.*;
+import java.awt.*;
 
 public class MainWindow extends ViewParent {
-    private JPanel MainWindowPanel;
-    private JTabbedPane tabbedPane;
+    private JPanel main_window_panel;
+    private JTabbedPane tabbed_Pane;
     private JTextField branches_srch_bar;
     private JButton srch_branches_button;
     private JButton add_branch_button;
@@ -23,9 +25,22 @@ public class MainWindow extends ViewParent {
     private JPanel tab_employees;
     private JPanel tab_branches;
     private JPanel tab_about;
+    private GeneralUtilities utils;
+    public MainWindow(){
+        utils = GeneralUtilities.getInstanceOf();
 
+        if(!getContentPane().equals(main_window_panel)){
+            setContentPane(main_window_panel);
+            setName("MainWindow");
+            setSize(new Dimension(1000, 800));
+            setTitle("Sistema de Sucursales y Empleados");
+            setLocation(utils.getScreenX()/4, utils.getScreenY()/6);
+        }
+    }
 
-    public void initComponents(){ }
+    public void initComponents(){
+        setVisible(true);
+    }
 
 
     public String getEmployeesSearchBar(){ return employees_srch_bar.getText(); }

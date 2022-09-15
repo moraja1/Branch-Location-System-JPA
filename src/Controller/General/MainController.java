@@ -1,9 +1,7 @@
 package Controller.General;
 
-
-import View.ViewClasses.LogInWindow;
+import Controller.ViewControllers.MainWindowViewController;
 import View.ViewParent;
-
 import java.util.HashMap;
 
 public class MainController {
@@ -26,7 +24,7 @@ public class MainController {
      * in a hashmap to fast future access.
      */
     public static void initFlow(){
-        main_Window = new LogInWindow();
+        main_Window = MainWindowViewController.getMain_window();
         recordPanel(main_Window);
         main_Window.initComponents();
     }

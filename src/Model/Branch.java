@@ -5,7 +5,7 @@ import java.util.Set;
 public class Branch {
     private String id;
     private String address;
-    private Double zoningPercentage;
+    private Double zoning_percentage;
     private Coordinates coords;
     private Set<Employee> employees;
 
@@ -25,12 +25,12 @@ public class Branch {
         this.address = address;
     }
 
-    public Double getZoningPercentage() {
-        return zoningPercentage;
+    public Double getZoning_percentage() {
+        return zoning_percentage;
     }
 
-    public void setZoningPercentage(Double zoningPercentage) {
-        this.zoningPercentage = zoningPercentage;
+    public void setZoning_percentage(Double zoning_percentage) {
+        this.zoning_percentage = zoning_percentage;
     }
 
     public Coordinates getCoords() {

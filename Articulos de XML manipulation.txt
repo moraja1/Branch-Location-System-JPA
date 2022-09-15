@@ -1,2 +1,3 @@
 https://www.vogella.com/tutorials/JavaXML/article.html Articulo de ejemplo de uso de XML Stax API. Uso de XML Files by stream
 https://www.vogella.com/tutorials/JAXB/article.html Articulo de ejemplo de uso de XML JAXB API. Uso de XML files by mapping.
+https://zetcode.com/java/dom/ Lectura y ESCRITURA de XML con DOM

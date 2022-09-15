@@ -4,15 +4,14 @@ public class Coordinates {
     private String id;
     private int x;
     private int y;
-
-    public Coordinates(){
-
+    public Coordinates(String id, int x, int y){
+        this.id = id;
+        this.x = x;
+        this.y = y;
     }
-
     public String getId() {
         return id;
     }
-
     public int getX() {
         return x;
     }

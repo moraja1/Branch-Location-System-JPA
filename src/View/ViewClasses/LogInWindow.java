@@ -1,5 +1,6 @@
 package View.ViewClasses;
 
+import Controller.Utils.GeneralUtilities;
 import Controller.ViewControllers.LogInWindowViewController;
 import View.ViewParent;
 
@@ -14,18 +15,20 @@ public class LogInWindow extends ViewParent {
     private JButton register_Button;
     private JTextField txt_email;
     private JTextField txt_password;
-
+    private GeneralUtilities utils;
     private JPanel logIn_panel;
 
     /**
      * Constructs Log In Window while its hidden.
      */
     public LogInWindow(){
+        utils = GeneralUtilities.getInstanceOf();
         if(!getContentPane().equals(logIn_panel)){
             setContentPane(logIn_panel);
             setName("LogInWindow");
             setSize(new Dimension(400, 200));
             setTitle("Log In Window");
+            setLocation(utils.getScreenX()/4, utils.getScreenY()/6);
         }
     }
 

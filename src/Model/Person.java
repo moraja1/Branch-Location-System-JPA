@@ -1,31 +1,27 @@
 package Model;
 
 public class Person {
-    private String id;
-    private String name;
-    private String phoneNumber;
-
-    public Person(){
-
+    protected String id;
+    protected String name;
+    protected String phone_number;
+    public Person(String id, String name, String phoneNumber) {
+        this.id = id;
+        this.name = name;
+        this.phone_number = phoneNumber;
     }
-
     public String getId() {
         return id;
     }
-
     public String getName() {
         return name;
     }
-
     public void setName(String name) {
         this.name = name;
     }
-
-    public String getPhoneNumber() {
-        return phoneNumber;
+    public String getPhone_number() {
+        return phone_number;
     }
-
-    public void setPhoneNumber(String phoneNumber) {
-        this.phoneNumber = phoneNumber;
+    public void setPhone_number(String phone_number) {
+        this.phone_number = phone_number;
     }
 }
