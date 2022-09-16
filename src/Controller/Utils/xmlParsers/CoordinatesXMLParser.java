@@ -16,23 +16,32 @@ import java.util.HashSet;
 import java.util.Set;
 
 public class CoordinatesXMLParser {
-    private static final String FILE = "Places.xml";
+    private static final String FILE = "src\\xmlFiles\\Places.xml";
     private static final DocumentBuilderFactory documentBuilderFactory = DocumentBuilderFactory.newInstance();
     private static DocumentBuilder builder;
     private static Document doc;
+    public static Document getCoordinatesDocumento() {
+        return doc;
+    }
 
-    public static Set<Coordinates> getCoordinatesSet(String xmlFile) throws ParserConfigurationException, IOException, SAXException {
-
-        Set<Coordinates> coordinates = new HashSet<>();//Create Coordinates´ Set.
+    public static Set<Coordinates> getCoordinatesSet() throws ParserConfigurationException, IOException, SAXException {
+        Set<Coordinates> coordinates = new HashSet<>();
         builder = documentBuilderFactory.newDocumentBuilder();//Create DocumentBuilder
         doc = builder.parse(new File(FILE));//Create the parsed xml
 
-        NodeList nodeList = doc.getElementsByTagName("Coordinates");
-
+        NodeList nodeList = doc.getDocumentElement().getChildNodes();
         for (int i = 0; i < nodeList.getLength(); i++) {
-
             Node node = nodeList.item(i);
 
+            if (node.getNodeType() == Node.ELEMENT_NODE) {
+                Element elem = (Element) node;
+                // Get the value of the ID attribute.
+                String id = node.getAttributes().getNamedItem("id").getNodeValue();
+                // Get the value of all sub-elements.
+                String x = elem.getElementsByTagName("x").item(0).getChildNodes().item(0).getNodeValue();
+                String y = elem.getElementsByTagName("y").item(0).getChildNodes().item(0).getNodeValue();
+                coordinates.add(new Coordinates(id, Integer.parseInt(x), Integer.parseInt(y)));
+            }
 
         }
         return coordinates;

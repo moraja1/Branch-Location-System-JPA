@@ -2,6 +2,7 @@ package View.ViewClasses;
 
 
 import Controller.Utils.GeneralUtilities;
+import Model.DAO.CoordinatesDAO;
 import View.ViewParent;
 
 import javax.swing.*;
