@@ -1,7 +1,7 @@
-<?xml version="1.0"?>
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <Places>
-    <Coordinates id="1">
+    <Coordinates id = "1">
         <x>100</x>
-        <y>100</y>
+        <y>25</y>
     </Coordinates>
 </Places>
