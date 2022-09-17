@@ -9,6 +9,11 @@ public class Person {
         this.name = name;
         this.phone_number = phoneNumber;
     }
+
+    public Person(String id) {
+        this.id = id;
+    }
+
     public String getId() {
         return id;
     }

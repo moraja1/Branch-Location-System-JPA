@@ -1,5 +1,6 @@
 package Model;
 
+import java.util.HashMap;
 import java.util.Set;
 
 public class Branch {
@@ -7,7 +8,7 @@ public class Branch {
     private String address;
     private Double zoning_percentage;
     private Coordinates coords;
-    private Set<Employee> employees;
+    private HashMap<String, Employee> employees;
 
     public Branch(){
 
@@ -41,11 +42,11 @@ public class Branch {
         this.coords = coords;
     }
 
-    public Set<Employee> getEmployees() {
+    public HashMap<String, Employee> getEmployees() {
         return employees;
     }
 
-    public void setEmployees(Set<Employee> employees) {
+    public void setEmployees(HashMap<String, Employee> employees) {
         this.employees = employees;
     }
 }

@@ -8,6 +8,11 @@ public class Employee extends Person{
         this.base_salary = baseSalary;
         this.branch = branch;
     }
+
+    public Employee(String id) {
+        super(id);
+    }
+
     public Double getBase_salary() {
         return base_salary;
     }

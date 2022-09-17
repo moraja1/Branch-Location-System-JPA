@@ -17,43 +17,11 @@ import java.io.File;
 import java.io.IOException;
 import java.util.HashMap;
 
-public class CoordinateXML extends XMLParser<Coordinates> {
+public final class CoordinateXML extends XMLParser<Coordinates> {
     private static final String path = "src\\xmlFiles\\Places.xml";
 
     public CoordinateXML() {
         super(path);
-    }
-
-    @Override
-    /**
-     * A Coordinate depending on the key sent by parameter or null if the Coordinate does not exists in XML File.
-     * @param key
-     * @return Coordinate
-     * @throws ParserConfigurationException
-     * @throws IOException
-     * @throws SAXException
-     */
-    public Coordinates getObject(String key) throws ParserConfigurationException, IOException, SAXException {
-        Coordinates coordinates;
-        doc = getDocument();
-
-        NodeList nodeList = doc.getElementsByTagName("Coordinates");
-        for (int i = 0; i < nodeList.getLength(); i++) {
-            Node node = nodeList.item(i);
-            Element elem = (Element) node;
-            // Get the value of the ID attribute.
-            String id = elem.getAttributes().getNamedItem("id").getNodeValue();
-            if(id.equals(key)){
-                coordinates = new Coordinates(id);
-                // Get the value of all sub-elements.
-                String x = elem.getElementsByTagName("x").item(0).getChildNodes().item(0).getNodeValue();
-                String y = elem.getElementsByTagName("y").item(0).getChildNodes().item(0).getNodeValue();
-                coordinates.setX(Integer.parseInt(x));
-                coordinates.setY(Integer.parseInt(y));
-                return coordinates;
-            }
-        }
-        return null;
     }
 
     @Override
@@ -94,5 +62,45 @@ public class CoordinateXML extends XMLParser<Coordinates> {
             coordinates.put(id, new Coordinates(id, Integer.parseInt(x), Integer.parseInt(y)));
         }
         return coordinates;
+    }
+
+    @Override
+    /**
+     * A Coordinate depending on the key sent by parameter or null if the Coordinate does not exists in XML File.
+     * @param key
+     * @return Coordinate
+     * @throws ParserConfigurationException
+     * @throws IOException
+     * @throws SAXException
+     */
+    public Coordinates getObject(String key) throws ParserConfigurationException, IOException, SAXException {
+        Coordinates coordinate;
+        doc = getDocument();
+
+        NodeList nodeList = doc.getElementsByTagName("Coordinates");
+        for (int i = 0; i < nodeList.getLength(); i++) {
+            Node node = nodeList.item(i);
+            Element elem = (Element) node;
+            // Get the value of the ID attribute.
+            String id = elem.getAttributes().getNamedItem("id").getNodeValue();
+            if(id.equals(key)){
+                coordinate = new Coordinates(id);
+                coordinate = getElementData(elem, coordinate);
+
+                return coordinate;
+            }
+        }
+        return null;
+    }
+
+    @Override
+    protected Coordinates getElementData(Element elem, Coordinates coordinate) {
+        // Get the value of all sub-elements.
+        String x = elem.getElementsByTagName("x").item(0).getChildNodes().item(0).getNodeValue();
+        String y = elem.getElementsByTagName("y").item(0).getChildNodes().item(0).getNodeValue();
+        coordinate.setX(Integer.parseInt(x));
+        coordinate.setY(Integer.parseInt(y));
+
+        return coordinate;
     }
 }

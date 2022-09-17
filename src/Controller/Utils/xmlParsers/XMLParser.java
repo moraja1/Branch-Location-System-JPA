@@ -27,7 +27,7 @@ public abstract class XMLParser<T> {
         file = path;
     }
     /**
-     * Return a DOM Document parsed as Places.xml located in src\xmlFiles\Places.xml
+     * Return a DOM Document parsed as the name of the file .xml located in src\xmlFiles\
      * @return Document
      * @throws ParserConfigurationException
      * @throws IOException
@@ -91,4 +91,11 @@ public abstract class XMLParser<T> {
      * @throws SAXException
      */
     public abstract T getObject(String key) throws ParserConfigurationException, IOException, SAXException;
+
+    /**
+     * Return the same object sent by parameter but with all its field filled.
+     * @param elem
+     * @return Objects
+     */
+    protected abstract T getElementData(Element elem, T object) throws ParserConfigurationException, IOException, SAXException;
 }

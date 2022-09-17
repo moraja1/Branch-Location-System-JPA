@@ -9,6 +9,16 @@ public class MainController {
     private static HashMap<String, ViewParent> application_panels = new HashMap<>();
 
     /**
+     * Execute first window's program. And record the window panel
+     * in a hashmap to fast future access.
+     */
+    public static void initFlow(){
+        main_Window = MainWindowViewController.getMain_window();
+        recordPanel(main_Window);
+        main_Window.initComponents();
+    }
+
+    /**
      * @param view
      * Save the window in a hashmap to fast future access.
      */
@@ -17,16 +27,6 @@ public class MainController {
         if(!application_panels.containsKey(view_name)){
             application_panels.put(view_name, view);
         }
-    }
-
-    /**
-     * Execute first window's program. And record the window panel
-     * in a hashmap to fast future access.
-     */
-    public static void initFlow(){
-        main_Window = MainWindowViewController.getMain_window();
-        recordPanel(main_Window);
-        main_Window.initComponents();
     }
 
     /**
