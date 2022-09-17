@@ -39,10 +39,10 @@ public class EmployeeXML extends XMLParser<Employee> {
                 e.printStackTrace();
             }else{
                 doc = builder.newDocument();
-                createXMLFile(doc, "Places", "Places.xml");
+                createXMLFile(doc, "Employees", "Employees.xml");
             }
         }
-        NodeList nodeList = doc.getElementsByTagName("Coordinates");
+        NodeList nodeList = doc.getElementsByTagName("Employee");
         for (int i = 0; i < nodeList.getLength(); i++) {
             Node node = nodeList.item(i);
             Element elem = (Element) node;
@@ -68,7 +68,7 @@ public class EmployeeXML extends XMLParser<Employee> {
         Employee employee;
         doc = getDocument();
 
-        NodeList nodeList = doc.getElementsByTagName("Coordinates");
+        NodeList nodeList = doc.getElementsByTagName("Employee");
         for (int i = 0; i < nodeList.getLength(); i++) {
             Node node = nodeList.item(i);
             Element elem = (Element) node;

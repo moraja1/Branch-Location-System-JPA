@@ -56,10 +56,8 @@ public final class CoordinateXML extends XMLParser<Coordinates> {
             Element elem = (Element) node;
             // Get the value of the ID attribute.
             String id = elem.getAttributes().getNamedItem("id").getNodeValue();
-            // Get the value of all sub-elements.
-            String x = elem.getElementsByTagName("x").item(0).getChildNodes().item(0).getNodeValue();
-            String y = elem.getElementsByTagName("y").item(0).getChildNodes().item(0).getNodeValue();
-            coordinates.put(id, new Coordinates(id, Integer.parseInt(x), Integer.parseInt(y)));
+            Coordinates coord = new Coordinates(id);
+            coordinates.put(id, getElementData(elem, coord));
         }
         return coordinates;
     }

@@ -1,6 +1,7 @@
 package Controller.Utils.xmlParsers;
 
 import Model.Coordinates;
+import org.jetbrains.annotations.NotNull;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.xml.sax.SAXException;
@@ -61,7 +62,7 @@ public abstract class XMLParser<T> {
      * @param doc
      * @throws TransformerException
      */
-    protected static void createXMLFile(Document doc, String root_tag, String file_name) throws TransformerException {
+    protected static void createXMLFile(@NotNull Document doc, String root_tag, String file_name) throws TransformerException {
         Element root = doc.createElement(root_tag);
         doc.appendChild(root);
 

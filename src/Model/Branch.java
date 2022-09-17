@@ -14,6 +14,10 @@ public class Branch {
 
     }
 
+    public Branch(String id) {
+        this.id = id;
+    }
+
     public String getId() {
         return id;
     }
