@@ -1,7 +1,6 @@
 package Model.DAO;
 
-import Controller.Utils.xmlParsers.ModelsParsers.CoordinateXML;
-import Controller.Utils.xmlParsers.XMLParser;
+import Model.xmlParsers.ModelsParsers.CoordinateXML;
 import org.w3c.dom.Document;
 
 /**
@@ -11,24 +10,15 @@ public class CoordinatesDAO {
     private Document doc;
 
     public CoordinatesDAO(){
-        try{
-            doc = CoordinateXML.getDocument();
-        }catch (Exception e){
-            e.printStackTrace();
-        }
-
     }
 
-    public void write(){
-
+    public void add(){
     }
 
     public void erase(){
-
     }
 
     public void edit(char coord, int value){
-
     }
 
 

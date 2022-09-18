@@ -1,6 +1,6 @@
-package Controller.Utils.xmlParsers.ModelsParsers;
+package Model.xmlParsers.ModelsParsers;
 
-import Controller.Utils.xmlParsers.XMLParser;
+import Model.xmlParsers.XMLParser;
 import Model.Branch;
 import Model.Coordinates;
 import Model.Employee;
@@ -15,15 +15,14 @@ import javax.xml.transform.TransformerException;
 import java.io.File;
 import java.io.IOException;
 import java.util.HashMap;
-import java.util.Set;
 
-public class BranchXML extends XMLParser<Branch> {
+public final class BranchXML extends XMLParser<Branch> {
     private static final String path = "src\\xmlFiles\\Branches.xml";
-    private static final CoordinateXML coordsXML = new CoordinateXML();
+    private static final String TAG = "branch";
+
     public BranchXML() {
         super(path);
     }
-
     @Override
     public HashMap<String, Branch> getObjectsHashMap() throws TransformerException, ParserConfigurationException, IOException, SAXException {
         HashMap<String, Branch> branches = new HashMap<>();
@@ -43,7 +42,7 @@ public class BranchXML extends XMLParser<Branch> {
                 createXMLFile(doc, "Branches", "Branches.xml");
             }
         }
-        NodeList nodeList = doc.getElementsByTagName("Branch");
+        NodeList nodeList = doc.getElementsByTagName(TAG);
         for (int i = 0; i < nodeList.getLength(); i++) {
             Node node = nodeList.item(i);
             Element elem = (Element) node;
@@ -57,6 +56,23 @@ public class BranchXML extends XMLParser<Branch> {
 
     @Override
     public Branch getObject(String key) throws ParserConfigurationException, IOException, SAXException {
+        Branch branch;
+
+        doc = getDocument();
+
+        NodeList nodeList = doc.getElementsByTagName(TAG);
+        for (int i = 0; i < nodeList.getLength(); i++) {
+            Node node = nodeList.item(i);
+            Element elem = (Element) node;
+            // Get the value of the ID attribute.
+            String id = elem.getAttributes().getNamedItem("id").getNodeValue();
+            if(id.equals(key)){
+                branch = new Branch(id);
+                branch = getElementData(elem, branch);
+
+                return branch;
+            }
+        }
         return null;
     }
 
@@ -67,14 +83,22 @@ public class BranchXML extends XMLParser<Branch> {
         String zoning_percentage = elem.getElementsByTagName("zoning_percentage").item(0).getChildNodes().item(0).getNodeValue();
         String coords = elem.getElementsByTagName("coords").item(0).getChildNodes().item(0).getNodeValue();
         Coordinates coordinates = coordsXML.getObject(coords);
-
         //Get the nodelist of employees
         NodeList employees_nodeList = elem.getElementsByTagName("employee");
         HashMap<String, Employee> employees = new HashMap<>();
         for (int i = 0; i < employees_nodeList.getLength(); i++) {
             Node node = employees_nodeList.item(i);
             // Get the value of the ID attribute.
-            String id_employee = node.getAttributes().getNamedItem("id").getNodeValue();
+            String id_employee = node.getChildNodes().item(0).getNodeValue();
 
-            branches.put(id, getElementData(elem, branch));
+            employees.put(id_employee, employeesXML.getObject(id_employee, branch));
+        }
+        //Set the values of all sub-elements.
+        branch.setAddress(address);
+        branch.setZoning_percentage(Double.valueOf(zoning_percentage));
+        branch.setCoords(coordinates);
+        branch.setEmployees(employees);
+
+        return branch;
+    }
 }

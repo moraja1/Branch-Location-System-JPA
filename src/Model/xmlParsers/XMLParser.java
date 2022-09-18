@@ -1,7 +1,9 @@
-package Controller.Utils.xmlParsers;
+package Model.xmlParsers;
 
 import Model.Coordinates;
-import org.jetbrains.annotations.NotNull;
+import Model.xmlParsers.ModelsParsers.BranchXML;
+import Model.xmlParsers.ModelsParsers.CoordinateXML;
+import Model.xmlParsers.ModelsParsers.EmployeeXML;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.xml.sax.SAXException;
@@ -19,11 +21,13 @@ import java.io.IOException;
 import java.util.HashMap;
 
 public abstract class XMLParser<T> {
+    protected static final CoordinateXML coordsXML = new CoordinateXML();
+    protected static final EmployeeXML employeesXML = new EmployeeXML();
+    protected static final BranchXML branchXML = new BranchXML();
     protected static final DocumentBuilderFactory documentBuilderFactory = DocumentBuilderFactory.newInstance();
     protected static DocumentBuilder builder;
-    protected static Document doc;
-    protected static String file;
-
+    protected Document doc;
+    protected String file;
     public XMLParser(String path){
         file = path;
     }
@@ -34,7 +38,7 @@ public abstract class XMLParser<T> {
      * @throws IOException
      * @throws SAXException
      */
-    public static Document getDocument() throws ParserConfigurationException, IOException,
+    public Document getDocument() throws ParserConfigurationException, IOException,
             SAXException {
         builder = documentBuilderFactory.newDocumentBuilder();//Create DocumentBuilder
         doc = builder.parse(new File(file));//Create the parsed xml
@@ -49,7 +53,7 @@ public abstract class XMLParser<T> {
      * @throws IOException
      * @throws SAXException
      */
-    protected static Document getDocument(File file) throws ParserConfigurationException, IOException,
+    protected Document getDocument(File file) throws ParserConfigurationException, IOException,
             SAXException {
         HashMap<String, Coordinates> coordinates = new HashMap<>();
         builder = documentBuilderFactory.newDocumentBuilder();//Create DocumentBuilder
@@ -62,7 +66,7 @@ public abstract class XMLParser<T> {
      * @param doc
      * @throws TransformerException
      */
-    protected static void createXMLFile(@NotNull Document doc, String root_tag, String file_name) throws TransformerException {
+    protected static void createXMLFile(Document doc, String root_tag, String file_name) throws TransformerException {
         Element root = doc.createElement(root_tag);
         doc.appendChild(root);
 

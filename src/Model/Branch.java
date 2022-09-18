@@ -1,7 +1,9 @@
 package Model;
 
+import java.util.ArrayList;
+import java.util.Collection;
 import java.util.HashMap;
-import java.util.Set;
+import java.util.List;
 
 public class Branch {
     private String id;
@@ -52,5 +54,17 @@ public class Branch {
 
     public void setEmployees(HashMap<String, Employee> employees) {
         this.employees = employees;
+    }
+
+    @Override
+    public String toString() {
+        StringBuilder string = new StringBuilder();
+        string.append("Branch{").append("id='").append(id).append('\'').append(", address='").append(address).append('\'')
+                .append(", zoning_percentage=").append(zoning_percentage).append(", coords=").append(coords);
+        List<Employee> e = new ArrayList<Employee>(employees.values());
+        e.get(0).setBranch_callAs(true);
+        string.append(", employees=").append(employees).append('}');
+        e.get(0).setBranch_callAs(false);
+        return string.toString();
     }
 }

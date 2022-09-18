@@ -1,16 +1,13 @@
-package Controller.Utils.xmlParsers.ModelsParsers;
+package Model.xmlParsers.ModelsParsers;
 
-import Controller.Utils.xmlParsers.XMLParser;
+import Model.xmlParsers.XMLParser;
 import Model.Coordinates;
-import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 import org.xml.sax.SAXException;
 
 import javax.swing.*;
-import javax.xml.parsers.DocumentBuilder;
-import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
 import javax.xml.transform.TransformerException;
 import java.io.File;
@@ -19,7 +16,7 @@ import java.util.HashMap;
 
 public final class CoordinateXML extends XMLParser<Coordinates> {
     private static final String path = "src\\xmlFiles\\Places.xml";
-
+    private static final String TAG = "coordinates";
     public CoordinateXML() {
         super(path);
     }
@@ -50,7 +47,7 @@ public final class CoordinateXML extends XMLParser<Coordinates> {
                 createXMLFile(doc, "Places", "Places.xml");
             }
         }
-        NodeList nodeList = doc.getElementsByTagName("Coordinates");
+        NodeList nodeList = doc.getElementsByTagName(TAG);
         for (int i = 0; i < nodeList.getLength(); i++) {
             Node node = nodeList.item(i);
             Element elem = (Element) node;
@@ -75,7 +72,7 @@ public final class CoordinateXML extends XMLParser<Coordinates> {
         Coordinates coordinate;
         doc = getDocument();
 
-        NodeList nodeList = doc.getElementsByTagName("Coordinates");
+        NodeList nodeList = doc.getElementsByTagName(TAG);
         for (int i = 0; i < nodeList.getLength(); i++) {
             Node node = nodeList.item(i);
             Element elem = (Element) node;
