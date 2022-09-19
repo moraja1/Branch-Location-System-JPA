@@ -130,7 +130,7 @@ public final class EmployeeXML extends XMLParser<Employee> {
     }
 
     @Override
-    public void eraseElement() {
+    public void eraseElement(String key) {
 
     }
     @Override

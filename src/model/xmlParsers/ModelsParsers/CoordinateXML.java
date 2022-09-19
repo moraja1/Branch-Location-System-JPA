@@ -110,34 +110,44 @@ public final class CoordinateXML extends XMLParser<Coordinates> {
     public void insertElement(Coordinates coord) throws ParserConfigurationException, IOException, SAXException,
             TransformerException {
         doc = getDocument();
-        Element root = (Element) doc.getFirstChild();
-        root.appendChild(setElementData(doc, coord));
+        Element root = (Element) doc.getFirstChild();//Busco el primer tag del file
+
+        root.appendChild(setElementData(doc, coord));//Inserto el objeto en el tag
+
+        //Elimino los espacios en blanco del elemento agregado
+        removeEmptyText(root);
+        //Creo el transformer
         TransformerFactory transformerFactory = TransformerFactory.newInstance();
         Transformer transformer = transformerFactory.newTransformer();
+        //Le doy indentado a la configuracion del transformer
         transformer.setOutputProperty(OutputKeys.INDENT, "yes");
-        removeEmptyText(doc.getDocumentElement());
+        //Creo la fuente DOM e inserto el DOM al file.
         DOMSource source = new DOMSource(doc);
-        System.out.println("-----------Modified File-----------");
         StreamResult consoleResult = new StreamResult(new File(path));
         transformer.transform(source, consoleResult);
     }
 
     @Override
-    public void eraseElement() {
+    public void eraseElement(String key) {
 
     }
     @Override
     protected Node setElementData(Document doc, Coordinates coord) {
-        Element coordinate = doc.createElement(TAG);
-        coordinate.setAttribute("id", coord.getId());
+        Element coordinate = doc.createElement(TAG);//Creo un tag para el objeto
+        coordinate.setAttribute("id", coord.getId());//Asigno el atributo principal.
+
+        //Asigno los subnodos y valores del objeto
         coordinate.appendChild(createSubElements(doc, "x", String.valueOf(coord.getX())));
         coordinate.appendChild(createSubElements(doc, "y", String.valueOf(coord.getY())));
+
         return coordinate;
     }
     @Override
     protected Node createSubElements(Document doc, String nodeName, String value){
-        Element subElement = doc.createElement(nodeName);
-        subElement.appendChild(doc.createTextNode(value));
+        Element subElement = doc.createElement(nodeName);//Creo el tag de cada subnodo del Objeto
+
+        subElement.appendChild(doc.createTextNode(value));//Le doy el valor al subnodo.
+
         return subElement;
     }
 

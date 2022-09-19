@@ -109,7 +109,7 @@ public final class BranchXML extends XMLParser<Branch> {
     }
 
     @Override
-    public void eraseElement() {
+    public void eraseElement(String key) {
 
     }
     @Override
