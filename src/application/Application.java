@@ -17,14 +17,11 @@ public class Application {
     public static void main(String[] args) throws ParserConfigurationException, IOException, TransformerException, SAXException {
         //MainController.initFlow();
         XMLParser bxml = new CoordinateXML();
-        try {
-            HashMap<String, Coordinates> coordinates = bxml.getObjectsHashMap();
-            coordinates.forEach((key, value) ->{
-                System.out.print(key + "->" + value.toString() + "\n");
-            });
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+        bxml.insertElement(new Coordinates("2", 50, 200));
+        HashMap<String, Coordinates> coordinatesHashMap = new HashMap<>(bxml.getObjectsHashMap());
+        coordinatesHashMap.forEach((key, value) -> {
+            System.out.println(value);
+        });
 
     }
 }

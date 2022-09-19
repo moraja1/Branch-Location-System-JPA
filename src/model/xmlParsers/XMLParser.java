@@ -6,6 +6,7 @@ import model.xmlParsers.ModelsParsers.CoordinateXML;
 import model.xmlParsers.ModelsParsers.EmployeeXML;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
+import org.w3c.dom.Node;
 import org.xml.sax.SAXException;
 
 import javax.xml.parsers.DocumentBuilder;
@@ -103,6 +104,26 @@ public abstract class XMLParser<T> {
      * @return Objects
      */
     protected abstract T getElementData(Element elem, T object) throws ParserConfigurationException, IOException, SAXException;
-    public abstract void insertElement();
+    public abstract void insertElement(T obj) throws ParserConfigurationException, IOException, SAXException, TransformerException;
     public abstract void eraseElement();
+    protected abstract Node setElementData(Document doc, T obj);
+    protected abstract Node createSubElements(Document doc, String nodeName, String value);
+
+    /**
+     * This Method fix the indentation of the node passed by parameter, providing a better writting result on xml file
+     * @param node
+     */
+    protected static void removeEmptyText(Node node){
+        Node child = node.getFirstChild();
+
+        while(child!=null){
+            Node sibling = child.getNextSibling();
+            if(child.getNodeType()==Node.TEXT_NODE){
+                if(child.getTextContent().trim().isEmpty())
+                    node.removeChild(child);
+            }else
+                removeEmptyText(child);
+            child = sibling;
+        }
+    }
 }

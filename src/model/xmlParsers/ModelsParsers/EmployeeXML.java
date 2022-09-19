@@ -3,15 +3,14 @@ package model.xmlParsers.ModelsParsers;
 import model.Branch;
 import model.xmlParsers.XMLParser;
 import model.Employee;
+import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 import org.xml.sax.SAXException;
 
-import javax.swing.*;
 import javax.xml.parsers.ParserConfigurationException;
 import javax.xml.transform.TransformerException;
-import java.io.File;
 import java.io.IOException;
 import java.util.HashMap;
 
@@ -126,12 +125,21 @@ public final class EmployeeXML extends XMLParser<Employee> {
         return employee;
     }
     @Override
-    public void insertElement() {
+    public void insertElement(Employee employee) {
 
     }
 
     @Override
     public void eraseElement() {
 
+    }
+    @Override
+    protected Node setElementData(Document doc, Employee employee) {
+
+        return null;
+    }
+    @Override
+    protected Node createSubElements(Document doc, String nodeName, String value){
+        return null;
     }
 }

@@ -4,6 +4,7 @@ import model.xmlParsers.XMLParser;
 import model.Branch;
 import model.Coordinates;
 import model.Employee;
+import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
@@ -103,12 +104,21 @@ public final class BranchXML extends XMLParser<Branch> {
     }
 
     @Override
-    public void insertElement() {
+    public void insertElement(Branch branch) {
 
     }
 
     @Override
     public void eraseElement() {
 
+    }
+    @Override
+    protected Node setElementData(Document doc, Branch branch) {
+
+        return null;
+    }
+    @Override
+    protected Node createSubElements(Document doc, String nodeName, String value){
+        return null;
     }
 }
