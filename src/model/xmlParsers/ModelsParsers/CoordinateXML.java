@@ -10,10 +10,7 @@ import org.xml.sax.SAXException;
 
 import javax.swing.*;
 import javax.xml.parsers.ParserConfigurationException;
-import javax.xml.transform.OutputKeys;
-import javax.xml.transform.Transformer;
-import javax.xml.transform.TransformerException;
-import javax.xml.transform.TransformerFactory;
+import javax.xml.transform.*;
 import javax.xml.transform.dom.DOMSource;
 import javax.xml.transform.stream.StreamResult;
 import java.io.File;
@@ -128,8 +125,33 @@ public final class CoordinateXML extends XMLParser<Coordinates> {
     }
 
     @Override
-    public void eraseElement(String key) {
+    public void eraseElement(String key) throws ParserConfigurationException, IOException, SAXException,
+            TransformerException {
+        doc = getDocument();
+        Element root = (Element) doc.getFirstChild();//Busco el primer tag del file
 
+        NodeList nodeList = doc.getElementsByTagName(TAG);
+        for (int i = 0; i < nodeList.getLength(); i++) {
+            Node node = nodeList.item(i);
+            // Get the value of the ID attribute.
+            String id = node.getAttributes().getNamedItem("id").getNodeValue();
+            if(id.equals(key)){
+                root.removeChild(node);
+                break;
+            }
+        }
+
+        //Elimino los espacios en blanco del elemento agregado
+        removeEmptyText(root);
+        //Creo el transformer
+        TransformerFactory transformerFactory = TransformerFactory.newInstance();
+        Transformer transformer = transformerFactory.newTransformer();
+        //Le doy indentado a la configuracion del transformer
+        transformer.setOutputProperty(OutputKeys.INDENT, "yes");
+        //Creo la fuente DOM e inserto el DOM al file.
+        DOMSource source = new DOMSource(doc);
+        StreamResult consoleResult = new StreamResult(new File(path));
+        transformer.transform(source, consoleResult);
     }
     @Override
     protected Node setElementData(Document doc, Coordinates coord) {

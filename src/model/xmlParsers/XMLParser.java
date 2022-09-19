@@ -13,6 +13,7 @@ import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
 import javax.xml.transform.Transformer;
+import javax.xml.transform.TransformerConfigurationException;
 import javax.xml.transform.TransformerException;
 import javax.xml.transform.TransformerFactory;
 import javax.xml.transform.dom.DOMSource;
@@ -105,7 +106,7 @@ public abstract class XMLParser<T> {
      */
     protected abstract T getElementData(Element elem, T object) throws ParserConfigurationException, IOException, SAXException;
     public abstract void insertElement(T obj) throws ParserConfigurationException, IOException, SAXException, TransformerException;
-    public abstract void eraseElement(String key);
+    public abstract void eraseElement(String key) throws ParserConfigurationException, IOException, SAXException, TransformerException;
     protected abstract Node setElementData(Document doc, T obj);
     protected abstract Node createSubElements(Document doc, String nodeName, String value);
 
