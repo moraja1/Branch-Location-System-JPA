@@ -74,17 +74,13 @@ public final class CoordinateXML extends XMLParser<Coordinates> {
         doc = getDocument();
 
         NodeList nodeList = doc.getElementsByTagName(TAG);
-        for (int i = 0; i < nodeList.getLength(); i++) {
-            Node node = nodeList.item(i);
-            Element elem = (Element) node;
-            // Get the value of the ID attribute.
+        Element elem = (Element)searchNode(nodeList, key);
+        if(elem != null){
             String id = elem.getAttributes().getNamedItem("id").getNodeValue();
-            if(id.equals(key)){
-                coordinate = new Coordinates(id);
-                coordinate = getElementData(elem, coordinate);
+            coordinate = new Coordinates(id);
+            coordinate = getElementData(elem, coordinate);
 
-                return coordinate;
-            }
+            return coordinate;
         }
         return null;
     }
@@ -125,15 +121,8 @@ public final class CoordinateXML extends XMLParser<Coordinates> {
 
         //Elimino los espacios en blanco del elemento agregado
         removeEmptyText(root);
-        //Creo el transformer
-        TransformerFactory transformerFactory = TransformerFactory.newInstance();
-        Transformer transformer = transformerFactory.newTransformer();
-        //Le doy indentado a la configuracion del transformer
-        transformer.setOutputProperty(OutputKeys.INDENT, "yes");
-        //Creo la fuente DOM e inserto el DOM al file.
-        DOMSource source = new DOMSource(doc);
-        StreamResult consoleResult = new StreamResult(new File(path));
-        transformer.transform(source, consoleResult);
+        //Guardo los cambios
+        saveChanges(doc, path);
     }
 
     /**
@@ -152,29 +141,26 @@ public final class CoordinateXML extends XMLParser<Coordinates> {
         Element root = (Element) doc.getFirstChild();//Busco el primer tag del file
 
         NodeList nodeList = doc.getElementsByTagName(TAG);
-        for (int i = 0; i < nodeList.getLength(); i++) {
-            Node node = nodeList.item(i);
-            // Get the value of the ID attribute.
-            String id = node.getAttributes().getNamedItem("id").getNodeValue();
-            if(id.equals(key)){
-                root.removeChild(node);
-                break;
-            }
+        Element elem = (Element)searchNode(nodeList, key);
+        if(elem != null){
+            root.removeChild(elem);
         }
 
         //Elimino los espacios en blanco del elemento agregado
         removeEmptyText(root);
-        //Creo el transformer
-        TransformerFactory transformerFactory = TransformerFactory.newInstance();
-        Transformer transformer = transformerFactory.newTransformer();
-        //Le doy indentado a la configuracion del transformer
-        transformer.setOutputProperty(OutputKeys.INDENT, "yes");
-        //Creo la fuente DOM e inserto el DOM al file.
-        DOMSource source = new DOMSource(doc);
-        StreamResult consoleResult = new StreamResult(new File(path));
-        transformer.transform(source, consoleResult);
+        //Guardo los cambios
+        saveChanges(doc, path);
     }
-
+    /**
+     * This method search for the Node that contains the same key that the Coordinates passed by param, and the
+     * merge the fields into the file. Warning: This method does not work if there is not an Element containing the
+     * key of the Coordinates
+     * @param coord
+     * @throws ParserConfigurationException
+     * @throws IOException
+     * @throws SAXException
+     * @throws TransformerException
+     */
     @Override
     public void mergeElement(Coordinates coord) throws ParserConfigurationException, IOException, SAXException,
             TransformerException {
@@ -182,40 +168,27 @@ public final class CoordinateXML extends XMLParser<Coordinates> {
         Element root = (Element) doc.getFirstChild();//Busco el primer tag del file
 
         NodeList nodeList = doc.getElementsByTagName(TAG);
-        for (int i = 0; i < nodeList.getLength(); i++) {
-            Node node = nodeList.item(i);
-            // Get the value of the ID attribute.
-            String id = node.getAttributes().getNamedItem("id").getNodeValue();
-            if (id.equals(coord.getId())) {
-                NodeList coord_fields = node.getChildNodes();
-                for(int j = 0; j < coord_fields.getLength(); j++){
-                    Node attr = coord_fields.item(j);
-                    if (node.getNodeType() == Node.ELEMENT_NODE){
-                        if("x".equals(attr.getNodeName())){
-                            attr.setTextContent(String.valueOf(coord.getX()));
-                        }
-                        if("y".equals(attr.getNodeName())){
-                            attr.setTextContent(String.valueOf(coord.getY()));
-                        }
+        Element elem = (Element)searchNode(nodeList, coord.getId());
+        if(elem != null){
+            NodeList coord_fields = elem.getChildNodes();
+            for(int j = 0; j < coord_fields.getLength(); j++){
+                Node attr = coord_fields.item(j);
+                if (elem.getNodeType() == Node.ELEMENT_NODE){
+                    if("x".equals(attr.getNodeName())){
+                        attr.setTextContent(String.valueOf(coord.getX()));
+                    }
+                    if("y".equals(attr.getNodeName())){
+                        attr.setTextContent(String.valueOf(coord.getY()));
                     }
                 }
-                break;
             }
         }
 
         //Elimino los espacios en blanco del elemento agregado
         removeEmptyText(root);
-        //Creo el transformer
-        TransformerFactory transformerFactory = TransformerFactory.newInstance();
-        Transformer transformer = transformerFactory.newTransformer();
-        //Le doy indentado a la configuracion del transformer
-        transformer.setOutputProperty(OutputKeys.INDENT, "yes");
-        //Creo la fuente DOM e inserto el DOM al file.
-        DOMSource source = new DOMSource(doc);
-        StreamResult consoleResult = new StreamResult(new File(path));
-        transformer.transform(source, consoleResult);
+        //Guardo los cambios
+        saveChanges(doc, path);
     }
-
     /**
      * This method create a Coordinates in the xml form before adding it to the file.
      * @param doc
@@ -233,7 +206,6 @@ public final class CoordinateXML extends XMLParser<Coordinates> {
 
         return coordinate;
     }
-
     /**
      * This method create a SubNode of the coordinate passed, this means that every time this method is called, a new
      * subTag will be created in the xml file by the DOMsource.
@@ -250,5 +222,4 @@ public final class CoordinateXML extends XMLParser<Coordinates> {
 
         return subElement;
     }
-
 }

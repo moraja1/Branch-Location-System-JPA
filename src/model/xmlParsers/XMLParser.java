@@ -7,13 +7,14 @@ import model.xmlParsers.ModelsParsers.EmployeeXML;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
+import org.w3c.dom.NodeList;
 import org.xml.sax.SAXException;
 
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
+import javax.xml.transform.OutputKeys;
 import javax.xml.transform.Transformer;
-import javax.xml.transform.TransformerConfigurationException;
 import javax.xml.transform.TransformerException;
 import javax.xml.transform.TransformerFactory;
 import javax.xml.transform.dom.DOMSource;
@@ -78,39 +79,6 @@ public abstract class XMLParser<T> {
         StreamResult streamResult = new StreamResult(new File(new StringBuilder().append("src\\xmlFiles\\").append(file_name).toString()));
         transformer.transform(domSource, streamResult);
     }
-
-    /** A HashMap for all Elements in the xml file. The HashMap is build with the id and the Objects indexed
-     * for easier look up.
-     * @return HashMap<id, T>
-     * @throws ParserConfigurationException
-     * @throws IOException
-     * @throws SAXException
-     * @throws TransformerException
-     */
-    public abstract HashMap<String, T> getObjectsHashMap() throws TransformerException, ParserConfigurationException, IOException, SAXException;
-
-    /**
-     * A Coordinate depending on the key sent by parameter or null if the Coordinate does not exists in XML File.
-     * @param key
-     * @return Coordinate
-     * @throws ParserConfigurationException
-     * @throws IOException
-     * @throws SAXException
-     */
-    public abstract T getObject(String key) throws ParserConfigurationException, IOException, SAXException;
-
-    /**
-     * Return the same object sent by parameter but with all its field filled.
-     * @param elem
-     * @return Objects
-     */
-    protected abstract T getElementData(Element elem, T object) throws ParserConfigurationException, IOException, SAXException;
-    public abstract void insertElement(T obj) throws ParserConfigurationException, IOException, SAXException, TransformerException;
-    public abstract void eraseElement(String key) throws ParserConfigurationException, IOException, SAXException, TransformerException;
-    public abstract void mergeElement(T obj) throws ParserConfigurationException, IOException, SAXException, TransformerException;
-    protected abstract Node setElementData(Document doc, T obj);
-    protected abstract Node createSubElements(Document doc, String nodeName, String value);
-
     /**
      * This Method fix the indentation of the node passed by parameter, providing a better writting result on xml file
      * @param node
@@ -128,4 +96,55 @@ public abstract class XMLParser<T> {
             child = sibling;
         }
     }
+    protected static Node searchNode(NodeList nd, String key){
+        for (int i = 0; i < nd.getLength(); i++) {
+            Node node = nd.item(i);
+            // Get the value of the ID attribute.
+            String id = node.getAttributes().getNamedItem("id").getNodeValue();
+            if (id.equals(key)) {
+                return node;
+            }
+        }
+        return null;
+    }
+    protected static void saveChanges(Document doc, String path) throws TransformerException {
+        //Creo el transformer
+        TransformerFactory transformerFactory = TransformerFactory.newInstance();
+        Transformer transformer = transformerFactory.newTransformer();
+        //Le doy indentado a la configuracion del transformer
+        transformer.setOutputProperty(OutputKeys.INDENT, "yes");
+        //Creo la fuente DOM e inserto el DOM al file.
+        DOMSource source = new DOMSource(doc);
+        StreamResult consoleResult = new StreamResult(new File(path));
+        transformer.transform(source, consoleResult);
+    }
+    /** A HashMap for all Elements in the xml file. The HashMap is build with the id and the Objects indexed
+     * for easier look up.
+     * @return HashMap<id, T>
+     * @throws ParserConfigurationException
+     * @throws IOException
+     * @throws SAXException
+     * @throws TransformerException
+     */
+    public abstract HashMap<String, T> getObjectsHashMap() throws TransformerException, ParserConfigurationException, IOException, SAXException;
+    /**
+     * A Coordinate depending on the key sent by parameter or null if the Coordinate does not exists in XML File.
+     * @param key
+     * @return Coordinate
+     * @throws ParserConfigurationException
+     * @throws IOException
+     * @throws SAXException
+     */
+    public abstract T getObject(String key) throws ParserConfigurationException, IOException, SAXException;
+    /**
+     * Return the same object sent by parameter but with all its field filled.
+     * @param elem
+     * @return Objects
+     */
+    protected abstract T getElementData(Element elem, T object) throws ParserConfigurationException, IOException, SAXException;
+    public abstract void insertElement(T obj) throws ParserConfigurationException, IOException, SAXException, TransformerException;
+    public abstract void eraseElement(String key) throws ParserConfigurationException, IOException, SAXException, TransformerException;
+    public abstract void mergeElement(T obj) throws ParserConfigurationException, IOException, SAXException, TransformerException;
+    protected abstract Node setElementData(Document doc, T obj);
+    protected abstract Node createSubElements(Document doc, String nodeName, String value);
 }
