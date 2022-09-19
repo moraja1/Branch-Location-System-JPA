@@ -107,6 +107,7 @@ public abstract class XMLParser<T> {
     protected abstract T getElementData(Element elem, T object) throws ParserConfigurationException, IOException, SAXException;
     public abstract void insertElement(T obj) throws ParserConfigurationException, IOException, SAXException, TransformerException;
     public abstract void eraseElement(String key) throws ParserConfigurationException, IOException, SAXException, TransformerException;
+    public abstract void mergeElement(T obj) throws ParserConfigurationException, IOException, SAXException, TransformerException;
     protected abstract Node setElementData(Document doc, T obj);
     protected abstract Node createSubElements(Document doc, String nodeName, String value);
 

@@ -133,6 +133,12 @@ public final class EmployeeXML extends XMLParser<Employee> {
     public void eraseElement(String key) {
 
     }
+
+    @Override
+    public void mergeElement(Employee obj) throws ParserConfigurationException, IOException, SAXException, TransformerException {
+
+    }
+
     @Override
     protected Node setElementData(Document doc, Employee employee) {
 

@@ -2,10 +2,7 @@ package model.xmlParsers.ModelsParsers;
 
 import model.xmlParsers.XMLParser;
 import model.Coordinates;
-import org.w3c.dom.Document;
-import org.w3c.dom.Element;
-import org.w3c.dom.Node;
-import org.w3c.dom.NodeList;
+import org.w3c.dom.*;
 import org.xml.sax.SAXException;
 
 import javax.swing.*;
@@ -92,6 +89,12 @@ public final class CoordinateXML extends XMLParser<Coordinates> {
         return null;
     }
 
+    /**
+     * Returns a Coordinates object that contains all the information of the xml.
+     * @param elem
+     * @param coordinate
+     * @return Coordinates
+     */
     @Override
     protected Coordinates getElementData(Element elem, Coordinates coordinate) {
         // Get the value of all sub-elements.
@@ -103,6 +106,15 @@ public final class CoordinateXML extends XMLParser<Coordinates> {
         return coordinate;
     }
 
+    /**
+     * Insert a new Coordinates in the xml file. Warning: This method do not verify if the id of the Coordinates
+     * already exists in the file, so you must perform a proper verification before using this method.
+     * @param coord
+     * @throws ParserConfigurationException
+     * @throws IOException
+     * @throws SAXException
+     * @throws TransformerException
+     */
     @Override
     public void insertElement(Coordinates coord) throws ParserConfigurationException, IOException, SAXException,
             TransformerException {
@@ -124,6 +136,15 @@ public final class CoordinateXML extends XMLParser<Coordinates> {
         transformer.transform(source, consoleResult);
     }
 
+    /**
+     * This method delete the Coordinates that contains the same id as the 'key' param passed. Warning: Once this method
+     * is done, the information of the Coordinate will be erase forever, no rollbacks are allowed.
+     * @param key
+     * @throws ParserConfigurationException
+     * @throws IOException
+     * @throws SAXException
+     * @throws TransformerException
+     */
     @Override
     public void eraseElement(String key) throws ParserConfigurationException, IOException, SAXException,
             TransformerException {
@@ -153,6 +174,54 @@ public final class CoordinateXML extends XMLParser<Coordinates> {
         StreamResult consoleResult = new StreamResult(new File(path));
         transformer.transform(source, consoleResult);
     }
+
+    @Override
+    public void mergeElement(Coordinates coord) throws ParserConfigurationException, IOException, SAXException,
+            TransformerException {
+        doc = getDocument();
+        Element root = (Element) doc.getFirstChild();//Busco el primer tag del file
+
+        NodeList nodeList = doc.getElementsByTagName(TAG);
+        for (int i = 0; i < nodeList.getLength(); i++) {
+            Node node = nodeList.item(i);
+            // Get the value of the ID attribute.
+            String id = node.getAttributes().getNamedItem("id").getNodeValue();
+            if (id.equals(coord.getId())) {
+                NodeList coord_fields = node.getChildNodes();
+                for(int j = 0; j < coord_fields.getLength(); j++){
+                    Node attr = coord_fields.item(j);
+                    if (node.getNodeType() == Node.ELEMENT_NODE){
+                        if("x".equals(attr.getNodeName())){
+                            attr.setTextContent(String.valueOf(coord.getX()));
+                        }
+                        if("y".equals(attr.getNodeName())){
+                            attr.setTextContent(String.valueOf(coord.getY()));
+                        }
+                    }
+                }
+                break;
+            }
+        }
+
+        //Elimino los espacios en blanco del elemento agregado
+        removeEmptyText(root);
+        //Creo el transformer
+        TransformerFactory transformerFactory = TransformerFactory.newInstance();
+        Transformer transformer = transformerFactory.newTransformer();
+        //Le doy indentado a la configuracion del transformer
+        transformer.setOutputProperty(OutputKeys.INDENT, "yes");
+        //Creo la fuente DOM e inserto el DOM al file.
+        DOMSource source = new DOMSource(doc);
+        StreamResult consoleResult = new StreamResult(new File(path));
+        transformer.transform(source, consoleResult);
+    }
+
+    /**
+     * This method create a Coordinates in the xml form before adding it to the file.
+     * @param doc
+     * @param coord
+     * @return Node
+     */
     @Override
     protected Node setElementData(Document doc, Coordinates coord) {
         Element coordinate = doc.createElement(TAG);//Creo un tag para el objeto
@@ -164,6 +233,15 @@ public final class CoordinateXML extends XMLParser<Coordinates> {
 
         return coordinate;
     }
+
+    /**
+     * This method create a SubNode of the coordinate passed, this means that every time this method is called, a new
+     * subTag will be created in the xml file by the DOMsource.
+     * @param doc
+     * @param nodeName
+     * @param value
+     * @return Node
+     */
     @Override
     protected Node createSubElements(Document doc, String nodeName, String value){
         Element subElement = doc.createElement(nodeName);//Creo el tag de cada subnodo del Objeto

@@ -112,6 +112,12 @@ public final class BranchXML extends XMLParser<Branch> {
     public void eraseElement(String key) {
 
     }
+
+    @Override
+    public void mergeElement(Branch obj) throws ParserConfigurationException, IOException, SAXException, TransformerException {
+
+    }
+
     @Override
     protected Node setElementData(Document doc, Branch branch) {
 

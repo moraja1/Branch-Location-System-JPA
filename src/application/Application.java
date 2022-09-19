@@ -17,7 +17,7 @@ public class Application {
     public static void main(String[] args) throws ParserConfigurationException, IOException, TransformerException, SAXException {
         //MainController.initFlow();
         XMLParser bxml = new CoordinateXML();
-        bxml.eraseElement("1");
+        bxml.mergeElement(new Coordinates("2", 60, 150));
         HashMap<String, Coordinates> coordinatesHashMap = new HashMap<>(bxml.getObjectsHashMap());
         coordinatesHashMap.forEach((key, value) -> {
             System.out.println(value);
