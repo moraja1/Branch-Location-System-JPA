@@ -1,11 +1,14 @@
 package view.ViewClasses;
 
 
+import controller.ViewControllers.MainWindowViewController;
 import controller.utils.GeneralUtilities;
 import view.ViewParent;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
 public class MainWindow extends ViewParent {
     private JPanel main_window_panel;
@@ -20,12 +23,15 @@ public class MainWindow extends ViewParent {
     private JButton add_employee_button;
     private JButton erase_employee_button;
     private JButton report_employee_button;
-    private JTable table_employees;
-    private JTable table_branches;
     private JPanel tab_employees;
     private JPanel tab_branches;
     private JPanel tab_about;
+    private JPanel emp_table_panel;
+    private JPanel dept_table_panel;
+    private JButton edit_employee_button;
+    private JButton edit_branch_button;
     private GeneralUtilities utils;
+    private JTable emp_table;
     public MainWindow(){
         utils = GeneralUtilities.getInstanceOf();
 
@@ -39,6 +45,57 @@ public class MainWindow extends ViewParent {
     }
 
     public void initComponents(){
+        add_employee_button.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                MainWindowViewController.addEmployee();
+            }
+        });
+        edit_employee_button.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                if(emp_table.getSelectedRow() != -1){
+                    MainWindowViewController.editEmployee();
+                }
+            }
+        });
+        erase_employee_button.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                MainWindowViewController.eraseEmployee();
+            }
+        });
+        srch_employee_button.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+
+            }
+        });
+        add_branch_button.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+
+            }
+        });
+        edit_branch_button.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+
+            }
+        });
+        erase_branch_button.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+
+            }
+        });
+        srch_branches_button.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+
+            }
+        });
+        MainWindowViewController.windowInitialized();
         setVisible(true);
     }
 
