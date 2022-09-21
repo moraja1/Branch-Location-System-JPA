@@ -2,7 +2,7 @@ package view.ViewClasses;
 
 
 import controller.ViewControllers.MainWindowViewController;
-import controller.utils.GeneralUtilities;
+import view.utils.GeneralUtilities;
 import view.ViewParent;
 
 import javax.swing.*;

@@ -16,12 +16,20 @@ import java.util.HashMap;
 
 public final class EmployeeXML extends XMLParser<Employee> {
     private static final String path = "src\\xmlFiles\\Employees.xml";
-    private static final String TAG = "employee";
-
     public EmployeeXML() {
-        super(path);
+        file = path;
+        TAG = "employee";
+        ROOT_TAG = "Employees";
     }
 
+    /**
+     *
+     * @return
+     * @throws TransformerException
+     * @throws ParserConfigurationException
+     * @throws IOException
+     * @throws SAXException
+     */
     @Override
     public HashMap<String, Employee> getObjectsHashMap() throws TransformerException, ParserConfigurationException, IOException, SAXException {
         HashMap<String, Employee> employees = new HashMap<>();
@@ -68,26 +76,116 @@ public final class EmployeeXML extends XMLParser<Employee> {
         }
         return null;
     }
-    public Employee getObject(String key, Branch branch) throws ParserConfigurationException, IOException, SAXException {
-        Employee employee;
+    /**
+     *
+     * @param employee
+     * @throws ParserConfigurationException
+     * @throws IOException
+     * @throws SAXException
+     * @throws TransformerException
+     */
+    @Override
+    public void insertElement(Employee employee) throws ParserConfigurationException, IOException, SAXException, TransformerException {
         doc = getDocument();
+        Element root = (Element) doc.getFirstChild();//Busco el primer tag del file
 
-        NodeList nodeList = doc.getElementsByTagName(TAG);
-        for (int i = 0; i < nodeList.getLength(); i++) {
-            Node node = nodeList.item(i);
-            Element elem = (Element) node;
-            // Get the value of the ID attribute.
-            String id = elem.getAttributes().getNamedItem("id").getNodeValue();
-            if(id.equals(key)){
-                employee = new Employee(id);
-                employee = getElementData(elem, employee, branch);
+        root.appendChild(setElementData(doc, employee));//Inserto el objeto en el tag
 
-                return employee;
-            }
-        }
-        return null;
+        //Elimino los espacios en blanco del elemento agregado
+        removeEmptyText(root);
+        //Guardo los cambios
+        saveChanges(doc, path);
     }
 
+    /**
+     *
+     * @param key
+     * @throws ParserConfigurationException
+     * @throws IOException
+     * @throws SAXException
+     * @throws TransformerException
+     */
+    @Override
+    public void eraseElement(String key) throws ParserConfigurationException, IOException, SAXException, TransformerException {
+        doc = getDocument();
+        Element root = (Element) doc.getFirstChild();//Busco el primer tag del file
+
+        NodeList nodeList = doc.getElementsByTagName(TAG);
+        Element elem = (Element)searchNode(nodeList, key);
+        if(elem != null){
+            root.removeChild(elem);
+        }
+
+        //Elimino los espacios en blanco del elemento agregado
+        removeEmptyText(root);
+        //Guardo los cambios
+        saveChanges(doc, path);
+    }
+
+    /**
+     *
+     * @param obj
+     * @throws ParserConfigurationException
+     * @throws IOException
+     * @throws SAXException
+     * @throws TransformerException
+     */
+    @Override
+    public void mergeElement(Employee obj) throws ParserConfigurationException, IOException, SAXException, TransformerException {
+        doc = getDocument();
+        Element root = (Element) doc.getFirstChild();//Busco el primer tag del file
+
+        NodeList nodeList = doc.getElementsByTagName(TAG);
+        Element elem = (Element)searchNode(nodeList, obj.getId());
+        if(elem != null) {
+            NodeList coord_fields = elem.getChildNodes();
+            for (int j = 0; j < coord_fields.getLength(); j++) {
+                Node attr = coord_fields.item(j);
+                if (elem.getNodeType() == Node.ELEMENT_NODE) {
+                    if ("name".equals(attr.getNodeName()) &&
+                            !attr.getTextContent().equals(obj.getName())) {
+                        attr.setTextContent(obj.getName());
+                    }
+                    if ("phone_number".equals(attr.getNodeName()) &&
+                            !attr.getTextContent().equals(String.valueOf(obj.getPhone_number()))) {
+                        attr.setTextContent(String.valueOf(obj.getPhone_number()));
+                    }
+                    if ("base_salary".equals(attr.getNodeName()) &&
+                            !attr.getTextContent().equals(String.valueOf(obj.getBase_salary()))) {
+                        attr.setTextContent(String.valueOf(obj.getBase_salary()));
+                    }
+                    if ("branch".equals(attr.getNodeName()) &&
+                            !attr.getTextContent().equals(obj.getBranch().getId())) {
+                        xml = new BranchXML();
+                        xml.deleteNode(attr.getTextContent(), "employee", obj.getId());
+                        attr.setTextContent(String.valueOf(obj.getBranch().getId()));
+                        //FALTA AÑADIR EL EMPLEADO AL NUEVO BRANCH
+
+
+                    }
+                }
+            }
+        }
+    }
+
+    /**
+     *
+     * @param doc
+     * @param employee
+     * @return
+     */
+    @Override
+    protected Node setElementData(Document doc, Employee employee) {
+        Element emp = doc.createElement(TAG);//Creo un tag para el objeto
+        emp.setAttribute("id", employee.getId());//Asigno el atributo principal.
+
+        //Asigno los subnodos y valores del objeto
+        emp.appendChild(createSubElements(doc, "name", employee.getName()));
+        emp.appendChild(createSubElements(doc, "phone_number", String.valueOf(employee.getPhone_number())));
+        emp.appendChild(createSubElements(doc, "base_salary", String.valueOf(employee.getPhone_number())));
+        emp.appendChild(createSubElements(doc, "branch", employee.getBranch().getId()));
+        return emp;
+    }
     @Override
     /**
      * Returns an Employee sent by parameter but with all its field filled.
@@ -105,47 +203,9 @@ public final class EmployeeXML extends XMLParser<Employee> {
         employee.setName(name);
         employee.setPhone_number(phone_number);
         employee.setBase_salary(Double.valueOf(base_salary));
-        employee.setBranch(branchXML.getObject(branch));
+        xml = new BranchXML();
+        employee.setBranch((Branch)xml.getObject(branch));
 
         return employee;
-    }
-
-    protected Employee getElementData(Element elem, Employee employee, Branch branch) throws ParserConfigurationException, IOException, SAXException {
-        // Get the value of all sub-elements.
-        String name = elem.getElementsByTagName("name").item(0).getChildNodes().item(0).getNodeValue();
-        String phone_number = elem.getElementsByTagName("phone_number").item(0).getChildNodes().item(0).getNodeValue();
-        String base_salary = elem.getElementsByTagName("base_salary").item(0).getChildNodes().item(0).getNodeValue();
-
-        //Set the value of all sub-elements.
-        employee.setName(name);
-        employee.setPhone_number(phone_number);
-        employee.setBase_salary(Double.valueOf(base_salary));
-        employee.setBranch(branch);
-
-        return employee;
-    }
-    @Override
-    public void insertElement(Employee employee) {
-
-    }
-
-    @Override
-    public void eraseElement(String key) {
-
-    }
-
-    @Override
-    public void mergeElement(Employee obj) throws ParserConfigurationException, IOException, SAXException, TransformerException {
-
-    }
-
-    @Override
-    protected Node setElementData(Document doc, Employee employee) {
-
-        return null;
-    }
-    @Override
-    protected Node createSubElements(Document doc, String nodeName, String value){
-        return null;
     }
 }

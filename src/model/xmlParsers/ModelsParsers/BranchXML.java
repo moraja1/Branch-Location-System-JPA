@@ -18,12 +18,21 @@ import java.io.IOException;
 import java.util.HashMap;
 
 public final class BranchXML extends XMLParser<Branch> {
-    private static final String path = "src\\xmlFiles\\Branches.xml";
-    private static final String TAG = "branch";
-
+    protected final String path = "src\\xmlFiles\\Branches.xml";
     public BranchXML() {
-        super(path);
+        file = path;
+        TAG = "branch";
+        ROOT_TAG = "Branches";
     }
+
+    /**
+     *
+     * @return
+     * @throws TransformerException
+     * @throws ParserConfigurationException
+     * @throws IOException
+     * @throws SAXException
+     */
     @Override
     public HashMap<String, Branch> getObjectsHashMap() throws TransformerException, ParserConfigurationException, IOException, SAXException {
         HashMap<String, Branch> branches = new HashMap<>();
@@ -55,6 +64,14 @@ public final class BranchXML extends XMLParser<Branch> {
         return branches;
     }
 
+    /**
+     *
+     * @param key
+     * @return
+     * @throws ParserConfigurationException
+     * @throws IOException
+     * @throws SAXException
+     */
     @Override
     public Branch getObject(String key) throws ParserConfigurationException, IOException, SAXException {
         Branch branch;
@@ -77,13 +94,66 @@ public final class BranchXML extends XMLParser<Branch> {
         return null;
     }
 
+
+
+    /**
+     *
+     * @param branch
+     */
+    @Override
+    public void insertElement(Branch branch) {
+
+    }
+
+    /**
+     *
+     * @param key
+     */
+    @Override
+    public void eraseElement(String key) {
+
+    }
+
+    /**
+     *
+     * @param obj
+     * @throws ParserConfigurationException
+     * @throws IOException
+     * @throws SAXException
+     * @throws TransformerException
+     */
+    @Override
+    public void mergeElement(Branch obj) throws ParserConfigurationException, IOException, SAXException, TransformerException {
+
+    }
+    /**
+     *
+     * @param doc
+     * @param branch
+     * @return
+     */
+    @Override
+    protected Node setElementData(Document doc, Branch branch) {
+
+        return null;
+    }
+    /**
+     *
+     * @param elem
+     * @param branch
+     * @return
+     * @throws ParserConfigurationException
+     * @throws IOException
+     * @throws SAXException
+     */
     @Override
     protected Branch getElementData(Element elem, Branch branch) throws ParserConfigurationException, IOException, SAXException {
         // Get the value of all sub-elements.
         String address = elem.getElementsByTagName("address").item(0).getChildNodes().item(0).getNodeValue();
         String zoning_percentage = elem.getElementsByTagName("zoning_percentage").item(0).getChildNodes().item(0).getNodeValue();
         String coords = elem.getElementsByTagName("coords").item(0).getChildNodes().item(0).getNodeValue();
-        Coordinates coordinates = coordsXML.getObject(coords);
+        xml = new CoordinateXML();
+        Coordinates coordinates = (Coordinates) xml.getObject(coords);
         //Get the nodelist of employees
         NodeList employees_nodeList = elem.getElementsByTagName("employee");
         HashMap<String, Employee> employees = new HashMap<>();
@@ -92,7 +162,7 @@ public final class BranchXML extends XMLParser<Branch> {
             // Get the value of the ID attribute.
             String id_employee = node.getChildNodes().item(0).getNodeValue();
 
-            employees.put(id_employee, employeesXML.getObject(id_employee, branch));
+            employees.put(id_employee, new Employee(id_employee));
         }
         //Set the values of all sub-elements.
         branch.setAddress(address);
@@ -101,30 +171,5 @@ public final class BranchXML extends XMLParser<Branch> {
         branch.setEmployees(employees);
 
         return branch;
-    }
-
-    @Override
-    public void insertElement(Branch branch) {
-
-    }
-
-    @Override
-    public void eraseElement(String key) {
-
-    }
-
-    @Override
-    public void mergeElement(Branch obj) throws ParserConfigurationException, IOException, SAXException, TransformerException {
-
-    }
-
-    @Override
-    protected Node setElementData(Document doc, Branch branch) {
-
-        return null;
-    }
-    @Override
-    protected Node createSubElements(Document doc, String nodeName, String value){
-        return null;
     }
 }

@@ -16,10 +16,10 @@ import java.util.HashMap;
 
 public final class CoordinateXML extends XMLParser<Coordinates> {
     private static final String path = "src\\xmlFiles\\Places.xml";
-    private static final String TAG = "coordinates";
-    private static final String ROOT_TAG = "Places";
     public CoordinateXML() {
-        super(path);
+        file = path;
+        TAG = "coordinates";
+        ROOT_TAG = "Places";
     }
 
     @Override
@@ -84,24 +84,6 @@ public final class CoordinateXML extends XMLParser<Coordinates> {
         }
         return null;
     }
-
-    /**
-     * Returns a Coordinates object that contains all the information of the xml.
-     * @param elem
-     * @param coordinate
-     * @return Coordinates
-     */
-    @Override
-    protected Coordinates getElementData(Element elem, Coordinates coordinate) {
-        // Get the value of all sub-elements.
-        String x = elem.getElementsByTagName("x").item(0).getChildNodes().item(0).getNodeValue();
-        String y = elem.getElementsByTagName("y").item(0).getChildNodes().item(0).getNodeValue();
-        coordinate.setX(Integer.parseInt(x));
-        coordinate.setY(Integer.parseInt(y));
-
-        return coordinate;
-    }
-
     /**
      * Insert a new Coordinates in the xml file. Warning: This method do not verify if the id of the Coordinates
      * already exists in the file, so you must perform a proper verification before using this method.
@@ -173,7 +155,7 @@ public final class CoordinateXML extends XMLParser<Coordinates> {
             NodeList coord_fields = elem.getChildNodes();
             for(int j = 0; j < coord_fields.getLength(); j++){
                 Node attr = coord_fields.item(j);
-                if (elem.getNodeType() == Node.ELEMENT_NODE){
+                if (attr.getNodeType() == Node.ELEMENT_NODE){
                     if("x".equals(attr.getNodeName())){
                         attr.setTextContent(String.valueOf(coord.getX()));
                     }
@@ -207,19 +189,20 @@ public final class CoordinateXML extends XMLParser<Coordinates> {
         return coordinate;
     }
     /**
-     * This method create a SubNode of the coordinate passed, this means that every time this method is called, a new
-     * subTag will be created in the xml file by the DOMsource.
-     * @param doc
-     * @param nodeName
-     * @param value
-     * @return Node
+     * Returns a Coordinates object that contains all the information of the xml.
+     * @param elem
+     * @param coordinate
+     * @return Coordinates
      */
     @Override
-    protected Node createSubElements(Document doc, String nodeName, String value){
-        Element subElement = doc.createElement(nodeName);//Creo el tag de cada subnodo del Objeto
+    protected Coordinates getElementData(Element elem, Coordinates coordinate) {
+        // Get the value of all sub-elements.
+        String x = elem.getElementsByTagName("x").item(0).getChildNodes().item(0).getNodeValue();
+        String y = elem.getElementsByTagName("y").item(0).getChildNodes().item(0).getNodeValue();
+        coordinate.setX(Integer.parseInt(x));
+        coordinate.setY(Integer.parseInt(y));
 
-        subElement.appendChild(doc.createTextNode(value));//Le doy el valor al subnodo.
-
-        return subElement;
+        return coordinate;
     }
+
 }

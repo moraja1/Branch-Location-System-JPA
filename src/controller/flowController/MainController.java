@@ -1,4 +1,4 @@
-package controller.general;
+package controller.flowController;
 
 import controller.ViewControllers.MainWindowViewController;
 import view.ViewParent;

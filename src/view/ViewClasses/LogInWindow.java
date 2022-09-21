@@ -1,6 +1,6 @@
 package view.ViewClasses;
 
-import controller.utils.GeneralUtilities;
+import view.utils.GeneralUtilities;
 import controller.ViewControllers.LogInWindowViewController;
 import view.ViewParent;
 

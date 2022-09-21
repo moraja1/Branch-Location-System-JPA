@@ -24,16 +24,14 @@ import java.io.IOException;
 import java.util.HashMap;
 
 public abstract class XMLParser<T> {
-    protected static final CoordinateXML coordsXML = new CoordinateXML();
-    protected static final EmployeeXML employeesXML = new EmployeeXML();
-    protected static final BranchXML branchXML = new BranchXML();
+
+    protected XMLParser xml;
     protected static final DocumentBuilderFactory documentBuilderFactory = DocumentBuilderFactory.newInstance();
     protected static DocumentBuilder builder;
     protected Document doc;
     protected String file;
-    public XMLParser(String path){
-        file = path;
-    }
+    protected String TAG;
+    protected String ROOT_TAG;
     /**
      * Return a DOM Document parsed as the name of the file .xml located in src\xmlFiles\
      * @return Document
@@ -96,6 +94,12 @@ public abstract class XMLParser<T> {
             child = sibling;
         }
     }
+    /**
+     * This methods returns the Node of the NodeList that contains the key passed.
+     * @param nd
+     * @param key
+     * @return
+     */
     protected static Node searchNode(NodeList nd, String key){
         for (int i = 0; i < nd.getLength(); i++) {
             Node node = nd.item(i);
@@ -107,6 +111,12 @@ public abstract class XMLParser<T> {
         }
         return null;
     }
+    /**
+     * This methods inserts the changes into the xml file gotten by the Document
+     * @param doc
+     * @param path
+     * @throws TransformerException
+     */
     protected static void saveChanges(Document doc, String path) throws TransformerException {
         //Creo el transformer
         TransformerFactory transformerFactory = TransformerFactory.newInstance();
@@ -118,33 +128,48 @@ public abstract class XMLParser<T> {
         StreamResult consoleResult = new StreamResult(new File(path));
         transformer.transform(source, consoleResult);
     }
-    /** A HashMap for all Elements in the xml file. The HashMap is build with the id and the Objects indexed
-     * for easier look up.
-     * @return HashMap<id, T>
-     * @throws ParserConfigurationException
-     * @throws IOException
-     * @throws SAXException
-     * @throws TransformerException
+    /**
+     * This method create a SubNode of the coordinate passed, this means that every time this method is called, a new
+     * subTag will be created in the xml file by the DOMsource.
+     * @param doc
+     * @param nodeName
+     * @param value
+     * @return Node
      */
+    protected Node createSubElements(Document doc, String nodeName, String value){
+        Element subElement = doc.createElement(nodeName);//Creo el tag de cada subnodo del Objeto
+
+        subElement.appendChild(doc.createTextNode(value));//Le doy el valor al subnodo.
+
+        return subElement;
+    }
+    public void deleteNode(String elementID, String subElementName, String subElementValue) throws ParserConfigurationException, IOException, SAXException, TransformerException {
+        doc = getDocument();
+        Element root = (Element) doc.getFirstChild();
+
+        NodeList nodeList = root.getElementsByTagName(TAG);
+        Node node = searchNode(nodeList, elementID);
+
+        NodeList subElementsNodeList = node.getChildNodes();
+        for(int j = 0; j < subElementsNodeList.getLength(); j++){
+            Node attr = subElementsNodeList.item(j);
+            if (attr.getNodeType() == Node.ELEMENT_NODE){
+                if(subElementName.equals(attr.getNodeName()) && subElementValue.equals(attr.getTextContent())){
+                    node.removeChild(attr);
+                }
+            }
+        }
+
+        //Elimino los espacios en blanco del elemento agregado
+        removeEmptyText(root);
+        //Guardo los cambios
+        saveChanges(doc, file);
+    }
     public abstract HashMap<String, T> getObjectsHashMap() throws TransformerException, ParserConfigurationException, IOException, SAXException;
-    /**
-     * A Coordinate depending on the key sent by parameter or null if the Coordinate does not exists in XML File.
-     * @param key
-     * @return Coordinate
-     * @throws ParserConfigurationException
-     * @throws IOException
-     * @throws SAXException
-     */
     public abstract T getObject(String key) throws ParserConfigurationException, IOException, SAXException;
-    /**
-     * Return the same object sent by parameter but with all its field filled.
-     * @param elem
-     * @return Objects
-     */
     protected abstract T getElementData(Element elem, T object) throws ParserConfigurationException, IOException, SAXException;
     public abstract void insertElement(T obj) throws ParserConfigurationException, IOException, SAXException, TransformerException;
     public abstract void eraseElement(String key) throws ParserConfigurationException, IOException, SAXException, TransformerException;
     public abstract void mergeElement(T obj) throws ParserConfigurationException, IOException, SAXException, TransformerException;
     protected abstract Node setElementData(Document doc, T obj);
-    protected abstract Node createSubElements(Document doc, String nodeName, String value);
 }
