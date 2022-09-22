@@ -15,7 +15,9 @@ import javax.xml.parsers.ParserConfigurationException;
 import javax.xml.transform.TransformerException;
 import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 public final class BranchXML extends XMLParser<Branch> {
@@ -107,18 +109,34 @@ public final class BranchXML extends XMLParser<Branch> {
         doc = getDocument();
         Element root = (Element) doc.getFirstChild();//Busco el primer tag del file
         root.appendChild(setElementData(doc, branch));//Inserto el objeto en el tag
+
         //Elimino los espacios en blanco del elemento agregado
         removeEmptyText(root);
         //Guardo los cambios
         saveChanges(doc, path);
 
-        HashMap<String,Employee> employees = branch.getEmployees();
-        if (!employees.isEmpty()){
-            for (Map.Entry<String, Employee> entry : employees.entrySet()) {
-                Employee value = entry.getValue();
-                value.setBranch(branch);
+        //Ingreso las cordenadas
+        if(branch.getCoords() != null){
+            xml = new CoordinateXML();
+            Coordinates coords = (Coordinates) xml.getObject(branch.getCoords().getId());
+            if(coords == null){
+                coords = branch.getCoords();
+                xml.insertElement(coords);
+            }
+        }
+
+        //Ingreso cada empleado
+        List<Employee> employees = branch.getEmployees();
+        if (employees != null){
+            for (int i = 0; i < employees.toArray().length; i++){
                 xml = new EmployeeXML();
-                xml.mergeElement(value);
+                Employee employee = (Employee) xml.getObject(employees.get(i).getId());
+                if(employee != null){
+                    if(!(branch.getId().equals(employee.getBranch().getId()))){
+                        employee.setBranch(branch);
+                        xml.mergeElement(employee);
+                    }
+                }
             }
         }
     }
@@ -137,22 +155,11 @@ public final class BranchXML extends XMLParser<Branch> {
         Element elem = (Element)searchNode(nodeList, obj.getId());
         if(elem != null){
             root.removeChild(elem);
-
             //Actualizo las clases dependientes
-            HashMap<String,Employee> employees = obj.getEmployees();
-            if (!employees.isEmpty()){
-                for (Map.Entry<String, Employee> entry : employees.entrySet()) {
-                    Employee value = entry.getValue();
-                    xml = new EmployeeXML();
-                    xml.eraseElement(value);
-                }
-            }
 
-            Coordinates coord = obj.getCoords();
-            if(coord != null){
-                xml = new CoordinateXML();
-                xml.eraseElement(coord);
-            }
+
+
+
             //Elimino los espacios en blanco del elemento agregado
             removeEmptyText(root);
             //Guardo los cambios
@@ -198,11 +205,18 @@ public final class BranchXML extends XMLParser<Branch> {
                     }
                     if("employees".equals(attr.getNodeName())){
                         NodeList employeesNodeList = attr.getChildNodes();
+                        List<Employee> employeesOnBranch = obj.getEmployees();
+                        List<Employee> employeesOnXML = new ArrayList<>();
                         for(int i = 0; i < employeesNodeList.getLength(); i++){
                            Node emp = employeesNodeList.item(i);
                             if (emp.getNodeType() == Node.ELEMENT_NODE){
-                                //FALTA Comparar la base con el objeto y hacer las correcciones
+                                if("employee".equals(emp.getNodeName())){
+                                    employeesOnXML.add(new Employee(emp.getTextContent()));
+                                }
                             }
+                        }
+                        if(!employeesOnBranch.equals(employeesOnXML)){
+                            System.out.println("Hola");
                         }
                     }
                 }
@@ -221,8 +235,25 @@ public final class BranchXML extends XMLParser<Branch> {
      */
     @Override
     protected Node setElementData(Document doc, Branch branch) {
+        Element branchTag = doc.createElement(TAG);//Creo un tag para el objeto
+        branchTag.setAttribute("id", branch.getId());//Asigno el atributo principal.
 
-        return null;
+        //Asigno los subnodos y valores del objeto
+        branchTag.appendChild(createSubElements(doc, "address", String.valueOf(branch.getAddress())));
+        branchTag.appendChild(createSubElements(doc, "zoning_percentage", String.valueOf(branch.getZoning_percentage())));
+        branchTag.appendChild(createSubElements(doc, "coords", branch.getCoords().getId()));
+        branchTag.appendChild(doc.createElement("employees"));
+
+        NodeList employeesNodeList = branchTag.getElementsByTagName("employees");
+        Element employeesTag = (Element) employeesNodeList.item(0);
+        List<Employee> employees = branch.getEmployees();
+        if(employees != null){
+            for(int i = 0; i < employees.toArray().length; i++){
+                employeesTag.appendChild(createSubElements(doc, "employee", employees.get(i).getId()));
+            }
+
+        }
+        return branchTag;
     }
     /**
      *
@@ -243,13 +274,13 @@ public final class BranchXML extends XMLParser<Branch> {
         Coordinates coordinates = (Coordinates) xml.getObject(coords);
         //Get the nodelist of employees
         NodeList employees_nodeList = elem.getElementsByTagName("employee");
-        HashMap<String, Employee> employees = new HashMap<>();
+        List<Employee> employees = new ArrayList<>();
         for (int i = 0; i < employees_nodeList.getLength(); i++) {
             Node node = employees_nodeList.item(i);
             // Get the value of the ID attribute.
             String id_employee = node.getChildNodes().item(0).getNodeValue();
 
-            employees.put(id_employee, new Employee(id_employee));
+            employees.add(new Employee(id_employee));
         }
         //Set the values of all sub-elements.
         branch.setAddress(address);
@@ -258,5 +289,66 @@ public final class BranchXML extends XMLParser<Branch> {
         branch.setEmployees(employees);
 
         return branch;
+    }
+
+    public void removeEmployeeFromBranch(Employee obj) throws ParserConfigurationException, IOException,
+            TransformerException, SAXException {
+        doc = getDocument();
+        NodeList branches = doc.getElementsByTagName("branch");
+        Element elem = (Element) searchNode(branches, obj.getBranch().getId());
+        NodeList employee = elem.getElementsByTagName("employees");
+        Element employees = (Element) employee.item(0);
+        for (int j = 0; j < employee.getLength(); j++) {
+            Node emp = employee.item(j);
+            if (emp.getNodeType() == Node.ELEMENT_NODE) {
+                if ("employee".equals(emp.getNodeName())) {
+                    if(emp.getTextContent().equals(obj.getId())){
+                        employees.removeChild(emp);
+                    }
+                }
+            }
+        }
+        /*if(elem != null){
+            NodeList elem_childs = elem.getChildNodes();
+            for (int i = 0; i < elem_childs.getLength(); i++) {
+                Node attr = elem_childs.item(i);
+                if (attr.getNodeType() == Node.ELEMENT_NODE) {
+                    if ("employees".equals(attr.getNodeName())) {
+                        Element employees = (Element) attr;
+                        NodeList employee = employees.getChildNodes();
+                        for (int j = 0; j < elem_childs.getLength(); j++) {
+                            Node emp = employee.item(j);
+                            if (emp.getNodeType() == Node.ELEMENT_NODE) {
+                                if ("employee".equals(emp.getNodeName())) {
+                                    if(emp.getTextContent().equals(obj.getId())){
+                                        employees.removeChild(emp);
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }*/
+            removeEmptyText(doc.getFirstChild());
+            saveChanges(doc, path);
+    }
+    public void addEmployeeToBranch(Employee obj) throws ParserConfigurationException, IOException,
+            TransformerException, SAXException {
+        doc = getDocument();
+        NodeList branches = doc.getElementsByTagName("branch");
+        Element elem = (Element) searchNode(branches, obj.getBranch().getId());
+        if(elem != null){
+            NodeList elem_childs = elem.getChildNodes();
+            for (int j = 0; j < elem_childs.getLength(); j++) {
+                Node attr = elem_childs.item(j);
+                if (attr.getNodeType() == Node.ELEMENT_NODE) {
+                    if ("employees".equals(attr.getNodeName())) {
+
+                    }
+                }
+            }
+            removeEmptyText(doc.getFirstChild());
+            saveChanges(doc, path);
+        }
     }
 }

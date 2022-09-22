@@ -4,4 +4,8 @@
         <x>20</x>
         <y>1</y>
     </coordinates>
+    <coordinates id="2">
+        <x>50</x>
+        <y>25</y>
+    </coordinates>
 </Places>

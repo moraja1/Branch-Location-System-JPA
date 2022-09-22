@@ -13,6 +13,8 @@ import javax.xml.parsers.ParserConfigurationException;
 import javax.xml.transform.TransformerException;
 import java.io.IOException;
 import java.util.HashMap;
+import java.util.List;
+import java.util.Set;
 
 public final class EmployeeXML extends XMLParser<Employee> {
     private static final String path = "src\\xmlFiles\\Employees.xml";
@@ -96,7 +98,8 @@ public final class EmployeeXML extends XMLParser<Employee> {
         //Guardo los cambios
         saveChanges(doc, path);
         //Update Branch
-        addEmployeeToBranch(employee);
+        BranchXML xml = new BranchXML();
+        xml.addEmployeeToBranch(employee);
     }
 
     /**
@@ -119,7 +122,8 @@ public final class EmployeeXML extends XMLParser<Employee> {
             //Remove employee
             root.removeChild(elem);
             //Update Branch
-            removeEmployeeFromBranch(obj);
+            BranchXML xml = new BranchXML();
+            xml.removeEmployeeFromBranch(obj);
             //Elimino los espacios en blanco del elemento agregado
             removeEmptyText(root);
             //Guardo los cambios
@@ -143,10 +147,10 @@ public final class EmployeeXML extends XMLParser<Employee> {
         NodeList nodeList = doc.getElementsByTagName(TAG);
         Element elem = (Element)searchNode(nodeList, obj.getId());
         if(elem != null) {
-            NodeList coord_fields = elem.getChildNodes();
-            for (int j = 0; j < coord_fields.getLength(); j++) {
-                Node attr = coord_fields.item(j);
-                if (elem.getNodeType() == Node.ELEMENT_NODE) {
+            NodeList employee_fields = elem.getChildNodes();
+            for (int j = 0; j < employee_fields.getLength(); j++) {
+                Node attr = employee_fields.item(j);
+                if (attr.getNodeType() == Node.ELEMENT_NODE) {
                     if ("name".equals(attr.getNodeName()) &&
                             !attr.getTextContent().equals(obj.getName())) {
                         attr.setTextContent(obj.getName());
@@ -164,8 +168,9 @@ public final class EmployeeXML extends XMLParser<Employee> {
                         //Obtainig current employee saved
                         Employee employee = getObject(obj.getId());
                         //Update Branch
-                        removeEmployeeFromBranch(employee);
-                        addEmployeeToBranch(obj);
+                        BranchXML xml = new BranchXML();
+                        xml.removeEmployeeFromBranch(employee);
+                        xml.addEmployeeToBranch(obj);
                         //Update xml
                         attr.setTextContent(obj.getBranch().getId());
                     }
@@ -217,30 +222,5 @@ public final class EmployeeXML extends XMLParser<Employee> {
         employee.setBranch((Branch)xml.getObject(branch));
 
         return employee;
-    }
-    private void removeEmployeeFromBranch(Employee obj) throws ParserConfigurationException, IOException,
-            TransformerException, SAXException {
-        //Update Branch
-        Branch branch =  obj.getBranch();
-        HashMap<String,Employee> employees = branch.getEmployees();
-        if(employees.containsKey(obj.getId())){
-            employees.remove(obj.getId());
-            branch.setEmployees(employees);
-            //Merge the Branch
-            xml = new BranchXML();
-            xml.mergeElement(branch);
-        }
-    }
-    private void addEmployeeToBranch(Employee obj) throws ParserConfigurationException, IOException,
-            TransformerException, SAXException {
-        Branch branch = obj.getBranch();
-        HashMap<String,Employee> employees = branch.getEmployees();
-        if(!employees.containsKey(obj.getId())){
-            employees.put(obj.getId(), obj);
-            branch.setEmployees(employees);
-            //Merge the Branch
-            xml = new BranchXML();
-            xml.mergeElement(branch);
-        }
     }
 }

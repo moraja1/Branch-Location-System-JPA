@@ -1,13 +1,21 @@
-<?xml version="1.0"?>
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <Branches>
-    <branch id = "0">
-        <address>Parque de los Angeles de Heredia</address>
+    <branch id="0">
+        <address>Parque de los Angeles</address>
         <zoning_percentage>0.5</zoning_percentage>
         <coords>1</coords>
         <employees>
             <employee>1</employee>
             <employee>2</employee>
             <employee>3</employee>
+        </employees>
+    </branch>
+    <branch id="1">
+        <address>San Jose, San Jose, Mata Redonda</address>
+        <zoning_percentage>0.7</zoning_percentage>
+        <coords>2</coords>
+        <employees>
+            <employee>1</employee>
         </employees>
     </branch>
 </Branches>

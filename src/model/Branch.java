@@ -3,20 +3,28 @@ package model;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Set;
 
 public class Branch {
     private String id;
     private String address;
     private Double zoning_percentage;
     private Coordinates coords;
-    private HashMap<String, Employee> employees;
+    private List<Employee> employees;
 
     public Branch(){
 
     }
-
     public Branch(String id) {
         this.id = id;
+    }
+
+    public Branch(String id, String address, Double zoning_percentage, Coordinates coords, List<Employee> employees) {
+        this.id = id;
+        this.address = address;
+        this.zoning_percentage = zoning_percentage;
+        this.coords = coords;
+        this.employees = employees;
     }
 
     public String getId() {
@@ -47,11 +55,15 @@ public class Branch {
         this.coords = coords;
     }
 
-    public HashMap<String, Employee> getEmployees() {
+    public void setId(String id) {
+        this.id = id;
+    }
+
+    public List<Employee> getEmployees() {
         return employees;
     }
 
-    public void setEmployees(HashMap<String, Employee> employees) {
+    public void setEmployees(List<Employee> employees) {
         this.employees = employees;
     }
 
