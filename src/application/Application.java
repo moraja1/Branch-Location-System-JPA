@@ -16,12 +16,8 @@ import java.util.HashMap;
 public class Application {
     public static void main(String[] args) throws ParserConfigurationException, IOException, TransformerException, SAXException {
         //MainController.initFlow();
-        XMLParser bxml = new CoordinateXML();
-        bxml.mergeElement(new Coordinates("1", 20, 1));
-        HashMap<String, Coordinates> coordinatesHashMap = new HashMap<>(bxml.getObjectsHashMap());
-        coordinatesHashMap.forEach((key, value) -> {
-            System.out.println(value);
-        });
-
+        EmployeeXML employeeXML = new EmployeeXML();
+        Employee employee = employeeXML.getObject("4");
+        employeeXML.eraseElement(employee);
     }
 }

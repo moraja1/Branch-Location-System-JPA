@@ -16,6 +16,7 @@ import javax.xml.transform.TransformerException;
 import java.io.File;
 import java.io.IOException;
 import java.util.HashMap;
+import java.util.Map;
 
 public final class BranchXML extends XMLParser<Branch> {
     protected final String path = "src\\xmlFiles\\Branches.xml";
@@ -101,17 +102,62 @@ public final class BranchXML extends XMLParser<Branch> {
      * @param branch
      */
     @Override
-    public void insertElement(Branch branch) {
+    public void insertElement(Branch branch) throws TransformerException, ParserConfigurationException,
+            IOException, SAXException {
+        doc = getDocument();
+        Element root = (Element) doc.getFirstChild();//Busco el primer tag del file
+        root.appendChild(setElementData(doc, branch));//Inserto el objeto en el tag
+        //Elimino los espacios en blanco del elemento agregado
+        removeEmptyText(root);
+        //Guardo los cambios
+        saveChanges(doc, path);
 
+        HashMap<String,Employee> employees = branch.getEmployees();
+        if (!employees.isEmpty()){
+            for (Map.Entry<String, Employee> entry : employees.entrySet()) {
+                Employee value = entry.getValue();
+                value.setBranch(branch);
+                xml = new EmployeeXML();
+                xml.mergeElement(value);
+            }
+        }
     }
 
     /**
      *
-     * @param key
+     * @param obj
      */
     @Override
-    public void eraseElement(String key) {
+    public void eraseElement(Branch obj) throws TransformerException, ParserConfigurationException,
+            IOException, SAXException {
+        doc = getDocument();
+        Element root = (Element) doc.getFirstChild();//Busco el primer tag del file
 
+        NodeList nodeList = doc.getElementsByTagName(TAG);
+        Element elem = (Element)searchNode(nodeList, obj.getId());
+        if(elem != null){
+            root.removeChild(elem);
+
+            //Actualizo las clases dependientes
+            HashMap<String,Employee> employees = obj.getEmployees();
+            if (!employees.isEmpty()){
+                for (Map.Entry<String, Employee> entry : employees.entrySet()) {
+                    Employee value = entry.getValue();
+                    xml = new EmployeeXML();
+                    xml.eraseElement(value);
+                }
+            }
+
+            Coordinates coord = obj.getCoords();
+            if(coord != null){
+                xml = new CoordinateXML();
+                xml.eraseElement(coord);
+            }
+            //Elimino los espacios en blanco del elemento agregado
+            removeEmptyText(root);
+            //Guardo los cambios
+            saveChanges(doc, path);
+        }
     }
 
     /**
@@ -124,7 +170,48 @@ public final class BranchXML extends XMLParser<Branch> {
      */
     @Override
     public void mergeElement(Branch obj) throws ParserConfigurationException, IOException, SAXException, TransformerException {
+        doc = getDocument();
+        Element root = (Element) doc.getFirstChild();//Busco el primer tag del file
 
+        NodeList nodeList = doc.getElementsByTagName(TAG);
+        Element elem = (Element)searchNode(nodeList, obj.getId());
+        if(elem != null){
+            NodeList coord_fields = elem.getChildNodes();
+            for(int j = 0; j < coord_fields.getLength(); j++){
+                Node attr = coord_fields.item(j);
+                if (attr.getNodeType() == Node.ELEMENT_NODE){
+                    if("address".equals(attr.getNodeName())
+                            && !attr.getTextContent().equals(obj.getAddress())){
+                        attr.setTextContent(obj.getAddress());
+                    }
+                    if("zoning_percentage".equals(attr.getNodeName())
+                            && !attr.getTextContent().equals(String.valueOf(obj.getZoning_percentage()))){
+                        attr.setTextContent(String.valueOf(obj.getZoning_percentage()));
+                    }
+                    if("coords".equals(attr.getNodeName())
+                            && !attr.getTextContent().equals(obj.getCoords().getId())){
+                        xml = new CoordinateXML();
+                        Coordinates coord = (Coordinates) xml.getObject(attr.getTextContent());
+                        xml.eraseElement(coord);
+                        xml.insertElement(obj.getCoords());
+                        attr.setTextContent(obj.getCoords().getId());
+                    }
+                    if("employees".equals(attr.getNodeName())){
+                        NodeList employeesNodeList = attr.getChildNodes();
+                        for(int i = 0; i < employeesNodeList.getLength(); i++){
+                           Node emp = employeesNodeList.item(i);
+                            if (emp.getNodeType() == Node.ELEMENT_NODE){
+                                //FALTA Comparar la base con el objeto y hacer las correcciones
+                            }
+                        }
+                    }
+                }
+            }
+            //Elimino los espacios en blanco del elemento agregado
+            removeEmptyText(root);
+            //Guardo los cambios
+            saveChanges(doc, path);
+        }
     }
     /**
      *

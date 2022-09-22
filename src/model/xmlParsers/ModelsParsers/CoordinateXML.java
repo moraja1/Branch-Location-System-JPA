@@ -110,28 +110,27 @@ public final class CoordinateXML extends XMLParser<Coordinates> {
     /**
      * This method delete the Coordinates that contains the same id as the 'key' param passed. Warning: Once this method
      * is done, the information of the Coordinate will be erase forever, no rollbacks are allowed.
-     * @param key
+     * @param obj
      * @throws ParserConfigurationException
      * @throws IOException
      * @throws SAXException
      * @throws TransformerException
      */
     @Override
-    public void eraseElement(String key) throws ParserConfigurationException, IOException, SAXException,
+    public void eraseElement(Coordinates obj) throws ParserConfigurationException, IOException, SAXException,
             TransformerException {
         doc = getDocument();
         Element root = (Element) doc.getFirstChild();//Busco el primer tag del file
 
         NodeList nodeList = doc.getElementsByTagName(TAG);
-        Element elem = (Element)searchNode(nodeList, key);
+        Element elem = (Element)searchNode(nodeList, obj.getId());
         if(elem != null){
             root.removeChild(elem);
+            //Elimino los espacios en blanco del elemento agregado
+            removeEmptyText(root);
+            //Guardo los cambios
+            saveChanges(doc, path);
         }
-
-        //Elimino los espacios en blanco del elemento agregado
-        removeEmptyText(root);
-        //Guardo los cambios
-        saveChanges(doc, path);
     }
     /**
      * This method search for the Node that contains the same key that the Coordinates passed by param, and the
@@ -156,20 +155,21 @@ public final class CoordinateXML extends XMLParser<Coordinates> {
             for(int j = 0; j < coord_fields.getLength(); j++){
                 Node attr = coord_fields.item(j);
                 if (attr.getNodeType() == Node.ELEMENT_NODE){
-                    if("x".equals(attr.getNodeName())){
+                    if("x".equals(attr.getNodeName())
+                            && !attr.getTextContent().equals(coord.getX())){
                         attr.setTextContent(String.valueOf(coord.getX()));
                     }
-                    if("y".equals(attr.getNodeName())){
+                    if("y".equals(attr.getNodeName())
+                        && !attr.getTextContent().equals(coord.getY())){
                         attr.setTextContent(String.valueOf(coord.getY()));
                     }
                 }
             }
+            //Elimino los espacios en blanco del elemento agregado
+            removeEmptyText(root);
+            //Guardo los cambios
+            saveChanges(doc, path);
         }
-
-        //Elimino los espacios en blanco del elemento agregado
-        removeEmptyText(root);
-        //Guardo los cambios
-        saveChanges(doc, path);
     }
     /**
      * This method create a Coordinates in the xml form before adding it to the file.

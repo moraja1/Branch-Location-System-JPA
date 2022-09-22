@@ -169,7 +169,7 @@ public abstract class XMLParser<T> {
     public abstract T getObject(String key) throws ParserConfigurationException, IOException, SAXException;
     protected abstract T getElementData(Element elem, T object) throws ParserConfigurationException, IOException, SAXException;
     public abstract void insertElement(T obj) throws ParserConfigurationException, IOException, SAXException, TransformerException;
-    public abstract void eraseElement(String key) throws ParserConfigurationException, IOException, SAXException, TransformerException;
+    public abstract void eraseElement(T obj) throws ParserConfigurationException, IOException, SAXException, TransformerException;
     public abstract void mergeElement(T obj) throws ParserConfigurationException, IOException, SAXException, TransformerException;
     protected abstract Node setElementData(Document doc, T obj);
 }
