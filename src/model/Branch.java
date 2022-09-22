@@ -57,13 +57,12 @@ public class Branch {
 
     @Override
     public String toString() {
-        StringBuilder string = new StringBuilder();
-        string.append("Branch{").append("id='").append(id).append('\'').append(", address='").append(address).append('\'')
-                .append(", zoning_percentage=").append(zoning_percentage).append(", coords=").append(coords);
-        List<Employee> e = new ArrayList<Employee>(employees.values());
-        e.get(0).setBranch_callAs(true);
-        string.append(", employees=").append(employees).append('}');
-        e.get(0).setBranch_callAs(false);
-        return string.toString();
+        return "Branch{" +
+                "id='" + id + '\'' +
+                ", address='" + address + '\'' +
+                ", zoning_percentage=" + zoning_percentage +
+                ", coords=" + coords +
+                ", employees=" + employees +
+                '}';
     }
 }
