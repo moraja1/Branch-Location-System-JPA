@@ -1,9 +1,0 @@
-<?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<Employees>
-    <employee id="1">
-        <name>Jaison Mora Viquez</name>
-        <phone_number>86285599</phone_number>
-        <base_salary>578000.0</base_salary>
-        <branch>1</branch>
-    </employee>
-</Employees>

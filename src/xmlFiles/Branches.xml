@@ -8,4 +8,12 @@
             <employee>1</employee>
         </employees>
     </branch>
+    <branch id="0">
+        <address>San Jose, Costa Rica</address>
+        <zoning_percentage>7.5</zoning_percentage>
+        <coords>1</coords>
+        <employees>
+            <employee>0</employee>
+        </employees>
+    </branch>
 </Branches>

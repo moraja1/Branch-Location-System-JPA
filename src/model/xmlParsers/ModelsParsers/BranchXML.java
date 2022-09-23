@@ -173,7 +173,11 @@ public final class BranchXML extends XMLParser<Branch> {
         }
     }
     /**
-     *
+     *Merge the branch with new information on the xml file. WARNING: This method
+     * do not add any employee, if the branch has new employees it only creates the
+     * tag with the id of the employee but it do not add any employee to the
+     * employee xml. Developer must add manually before this method
+     * is called for better results.
      * @param obj
      * @throws ParserConfigurationException
      * @throws IOException
@@ -187,41 +191,57 @@ public final class BranchXML extends XMLParser<Branch> {
 
         NodeList nodeList = doc.getElementsByTagName(TAG);
         Element elem = (Element)searchNode(nodeList, obj.getId());
-        if(elem != null){
-            NodeList coord_fields = elem.getChildNodes();
-            for(int j = 0; j < coord_fields.getLength(); j++){
-                Node attr = coord_fields.item(j);
-                if (attr.getNodeType() == Node.ELEMENT_NODE){
-                    if("address".equals(attr.getNodeName())
-                            && !attr.getTextContent().equals(obj.getAddress())){
-                        attr.setTextContent(obj.getAddress());
-                    }
-                    if("zoning_percentage".equals(attr.getNodeName())
-                            && !attr.getTextContent().equals(String.valueOf(obj.getZoning_percentage()))){
-                        attr.setTextContent(String.valueOf(obj.getZoning_percentage()));
-                    }
-                    if("coords".equals(attr.getNodeName())
-                            && !attr.getTextContent().equals(obj.getCoords().getId())){
-                        xml = new CoordinateXML();
-                        Coordinates coord = (Coordinates) xml.getObject(attr.getTextContent());
-                        xml.eraseElement(coord);
-                        xml.insertElement(obj.getCoords());
-                        attr.setTextContent(obj.getCoords().getId());
-                    }
-                    if("employees".equals(attr.getNodeName())){
-                        NodeList employeesNodeList = attr.getChildNodes();
-                        List<Employee> employeesOnBranch = obj.getEmployees();
-                        List<Employee> employeesOnXML = new ArrayList<>();
-                        for(int i = 0; i < employeesNodeList.getLength(); i++){
-                           Node emp = employeesNodeList.item(i);
-                            if (emp.getNodeType() == Node.ELEMENT_NODE){
-                                if("employee".equals(emp.getNodeName())){
-                                    employeesOnXML.add(new Employee(emp.getTextContent()));
-                                }
+        if(elem != null) {
+            Element address = (Element) elem.getElementsByTagName("address").item(0);
+            Element zoning_percentage = (Element) elem.getElementsByTagName("zoning_percentage").item(0);
+            Element coords = (Element) elem.getElementsByTagName("coords").item(0);
+            NodeList employeesNodeList = elem.getElementsByTagName("employee");
+
+            if(address != null && !address.getTextContent().equals(obj.getAddress())) {
+                address.setTextContent(obj.getAddress());
+            }
+            if(zoning_percentage != null && !zoning_percentage.getTextContent().equals(String.valueOf(obj.getZoning_percentage()))) {
+                zoning_percentage.setTextContent(String.valueOf(obj.getZoning_percentage()));
+            }
+            if(coords != null && !coords.getTextContent().equals(obj.getCoords().getId())) {
+                String coordsID = coords.getTextContent();
+                xml = new CoordinateXML();
+                Coordinates coordinates = (Coordinates) xml.getObject(coordsID);
+                if(coordinates != null){
+                    xml.eraseElement(coordinates);
+                    coords.setTextContent(obj.getCoords().getId());
+                }
+            }
+            //Empleados
+            if(employeesNodeList != null){
+                List<Element> employeesTagsList = new ArrayList<>();
+                //Creo un array de elementos
+                for(int i = 0; i < employeesNodeList.getLength(); i++){
+                    employeesTagsList.add((Element) employeesNodeList.item(i));
+                }
+                //Saco cada ID de los elementos y lo comparo contra cada ID de los empleados nuevos
+                for(int i = 0; i < employeesTagsList.size(); i++){
+                    if(employeesTagsList.get(i) != null){
+                        String employeeTagID = employeesTagsList.get(i).getTextContent();
+                        for(int j = 0; j < obj.getEmployees().size(); j++){
+                            String employeeObjID = obj.getEmployees().get(i).getId();
+                            //Si existe el empleado lo elimina de la lista
+                            if(employeeTagID.equals(employeeObjID)){
+                                employeesTagsList.remove(employeesTagsList.get(i));
                             }
                         }
-                        if(!employeesOnBranch.equals(employeesOnXML)){
-                            System.out.println("Hola");
+                    }
+                }
+                //Si la lista no queda vacía agrega uno por uno
+                if(!employeesTagsList.isEmpty()){
+                    for(int i = 0; i < employeesTagsList.size(); i++){
+                        String employeeTagID = employeesTagsList.get(i).getTextContent();
+                        employeesTagsList.get(i).appendChild(createSubElements(doc, "employee", employeeTagID));
+                        xml = new EmployeeXML();
+                        Employee employee = (Employee) xml.getObject(employeeTagID);
+                        if(employee != null){
+                            employee.setBranch(obj);
+                            xml.mergeElement(employee);
                         }
                     }
                 }

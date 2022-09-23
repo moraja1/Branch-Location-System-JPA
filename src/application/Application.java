@@ -20,8 +20,13 @@ import java.util.List;
 public class Application {
     public static void main(String[] args) throws ParserConfigurationException, IOException, TransformerException, SAXException {
         //MainController.initFlow();
-        BranchXML xml = new BranchXML();
-        Branch coord = xml.getObject("0");
-        xml.eraseElement(coord);
+        XMLParser xml = new BranchXML();
+        Branch coord = (Branch) xml.getObject("0");
+        List<Employee> employees = new ArrayList<>();
+        xml = new EmployeeXML();
+        employees.add((Employee) xml.getObject("1"));
+        coord.setEmployees(employees);
+        xml = new BranchXML();
+        xml.mergeElement(coord);
     }
 }

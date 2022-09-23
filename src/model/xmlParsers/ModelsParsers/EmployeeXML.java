@@ -153,19 +153,26 @@ public final class EmployeeXML extends XMLParser<Employee> {
             Element base_salary = (Element) elem.getElementsByTagName("base_salary").item(0);
             Element branch = (Element) elem.getElementsByTagName("branch").item(0);
 
-            if(name != null && !name.getTextContent().equals(obj.getName())) {
-                name.setTextContent(obj.getName());
+            if(name != null && obj.getName() != null) {
+                if(!name.getTextContent().equals(obj.getName())){
+                    name.setTextContent(obj.getName());
+                }
             }
-            if(phone_number != null && !phone_number.getTextContent().equals(String.valueOf(obj.getPhone_number()))) {
-                phone_number.setTextContent(String.valueOf(obj.getPhone_number()));
+            if(phone_number != null && obj.getPhone_number() != null) {
+                if(!phone_number.getTextContent().equals(String.valueOf(obj.getPhone_number()))){
+                    phone_number.setTextContent(String.valueOf(obj.getPhone_number()));
+                }
             }
-            if(base_salary != null && !base_salary.getTextContent().equals(String.valueOf(obj.getBase_salary()))) {
-                base_salary.setTextContent(String.valueOf(obj.getBase_salary()));
+            if(base_salary != null && obj.getBase_salary() != null) {
+                if(!base_salary.getTextContent().equals(String.valueOf(obj.getBase_salary()))){
+                    base_salary.setTextContent(String.valueOf(obj.getBase_salary()));
+                }
             }
-            if(branch != null && !branch.getTextContent().equals(obj.getBranch().getId())) {
-                branch.setTextContent(obj.getBranch().getId());
+            if(branch != null && obj.getBranch() != null) {
+                if(!branch.getTextContent().equals(obj.getBranch().getId())){
+                    branch.setTextContent(obj.getBranch().getId());
+                }
             }
-
             //Elimino los espacios en blanco del elemento agregado
             removeEmptyText(root);
             //Guardo los cambios
