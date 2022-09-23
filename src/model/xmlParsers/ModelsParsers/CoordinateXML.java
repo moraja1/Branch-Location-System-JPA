@@ -119,6 +119,8 @@ public final class CoordinateXML extends XMLParser<Coordinates> {
     @Override
     public void eraseElement(Coordinates obj) throws ParserConfigurationException, IOException, SAXException,
             TransformerException {
+        String coordinatesID = obj.getId();
+
         doc = getDocument();
         Element root = (Element) doc.getFirstChild();//Busco el primer tag del file
 
@@ -131,6 +133,9 @@ public final class CoordinateXML extends XMLParser<Coordinates> {
             //Guardo los cambios
             saveChanges(doc, path);
         }
+
+        BranchXML xml = new BranchXML();
+        xml.removeCoordinatesFromBranch(coordinatesID);
     }
     /**
      * This method search for the Node that contains the same key that the Coordinates passed by param, and the

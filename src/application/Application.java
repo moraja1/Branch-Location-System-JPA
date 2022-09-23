@@ -21,10 +21,7 @@ public class Application {
     public static void main(String[] args) throws ParserConfigurationException, IOException, TransformerException, SAXException {
         //MainController.initFlow();
         BranchXML xml = new BranchXML();
-        List<Employee> employees = new ArrayList<>();
-        employees.add(new Employee("1"));
-        Branch branch = new Branch("1", "San Jose, San Jose, Mata Redonda", 0.7, new Coordinates("2", 50, 25), employees);
-        xml.insertElement(branch);
-        System.out.println(((Branch)xml.getObject("1")).toString());
+        Branch coord = xml.getObject("0");
+        xml.eraseElement(coord);
     }
 }

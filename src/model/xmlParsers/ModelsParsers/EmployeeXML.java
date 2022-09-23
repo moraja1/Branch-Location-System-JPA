@@ -101,7 +101,6 @@ public final class EmployeeXML extends XMLParser<Employee> {
         BranchXML xml = new BranchXML();
         xml.addEmployeeToBranch(employee);
     }
-
     /**
      *
      * @param obj
@@ -142,44 +141,39 @@ public final class EmployeeXML extends XMLParser<Employee> {
     @Override
     public void mergeElement(Employee obj) throws ParserConfigurationException, IOException, SAXException, TransformerException {
         doc = getDocument();
+        //Obtainig current employee saved
+        Employee employeeLastRegister = getObject(obj.getId());
         Element root = (Element) doc.getFirstChild();//Busco el primer tag del file
 
         NodeList nodeList = doc.getElementsByTagName(TAG);
         Element elem = (Element)searchNode(nodeList, obj.getId());
         if(elem != null) {
-            NodeList employee_fields = elem.getChildNodes();
-            for (int j = 0; j < employee_fields.getLength(); j++) {
-                Node attr = employee_fields.item(j);
-                if (attr.getNodeType() == Node.ELEMENT_NODE) {
-                    if ("name".equals(attr.getNodeName()) &&
-                            !attr.getTextContent().equals(obj.getName())) {
-                        attr.setTextContent(obj.getName());
-                    }
-                    if ("phone_number".equals(attr.getNodeName()) &&
-                            !attr.getTextContent().equals(String.valueOf(obj.getPhone_number()))) {
-                        attr.setTextContent(String.valueOf(obj.getPhone_number()));
-                    }
-                    if ("base_salary".equals(attr.getNodeName()) &&
-                            !attr.getTextContent().equals(String.valueOf(obj.getBase_salary()))) {
-                        attr.setTextContent(String.valueOf(obj.getBase_salary()));
-                    }
-                    if ("branch".equals(attr.getNodeName()) &&
-                            !attr.getTextContent().equals(obj.getBranch().getId())) {
-                        //Obtainig current employee saved
-                        Employee employee = getObject(obj.getId());
-                        //Update Branch
-                        BranchXML xml = new BranchXML();
-                        xml.removeEmployeeFromBranch(employee);
-                        xml.addEmployeeToBranch(obj);
-                        //Update xml
-                        attr.setTextContent(obj.getBranch().getId());
-                    }
-                }
+            Element name = (Element) elem.getElementsByTagName("name").item(0);
+            Element phone_number = (Element) elem.getElementsByTagName("phone_number").item(0);
+            Element base_salary = (Element) elem.getElementsByTagName("base_salary").item(0);
+            Element branch = (Element) elem.getElementsByTagName("branch").item(0);
+
+            if(name != null && !name.getTextContent().equals(obj.getName())) {
+                name.setTextContent(obj.getName());
             }
+            if(phone_number != null && !phone_number.getTextContent().equals(String.valueOf(obj.getPhone_number()))) {
+                phone_number.setTextContent(String.valueOf(obj.getPhone_number()));
+            }
+            if(base_salary != null && !base_salary.getTextContent().equals(String.valueOf(obj.getBase_salary()))) {
+                base_salary.setTextContent(String.valueOf(obj.getBase_salary()));
+            }
+            if(branch != null && !branch.getTextContent().equals(obj.getBranch().getId())) {
+                branch.setTextContent(obj.getBranch().getId());
+            }
+
             //Elimino los espacios en blanco del elemento agregado
             removeEmptyText(root);
             //Guardo los cambios
             saveChanges(doc, path);
+            //Update Branch
+            BranchXML xml = new BranchXML();
+            xml.removeEmployeeFromBranch(employeeLastRegister);
+            xml.addEmployeeToBranch(obj);
         }
     }
 
@@ -222,5 +216,23 @@ public final class EmployeeXML extends XMLParser<Employee> {
         employee.setBranch((Branch)xml.getObject(branch));
 
         return employee;
+    }
+    public void removeBranchFromEmployee(Branch branch) throws ParserConfigurationException, IOException, SAXException, TransformerException {
+        doc = getDocument();
+        Element root = (Element) doc.getFirstChild();
+        NodeList branches = doc.getElementsByTagName("branch");
+
+        if(branch != null){
+            for(int i = 0; i < branches.getLength(); i++){
+                Element branchTag = (Element) branches.item(i);
+                if(branchTag != null && branchTag.getTextContent().equals(branch.getId())){
+                    branchTag.getParentNode().removeChild(branchTag);
+                }
+            }
+            //Elimino los espacios en blanco del elemento agregado
+            removeEmptyText(root);
+            //Guardo los cambios
+            saveChanges(doc, path);
+        }
     }
 }

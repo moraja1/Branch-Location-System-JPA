@@ -1,40 +1,9 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <Employees>
-        
     <employee id="1">
-                
         <name>Jaison Mora Viquez</name>
-                
         <phone_number>86285599</phone_number>
-                
-        <base_salary>578000</base_salary>
-                
-        <branch>0</branch>
-            
+        <base_salary>578000.0</base_salary>
+        <branch>1</branch>
     </employee>
-        
-    <employee id="2">
-                
-        <name>Brandon Alfaro Espinoza</name>
-                
-        <phone_number>25626193</phone_number>
-                
-        <base_salary>650000</base_salary>
-                
-        <branch>0</branch>
-            
-    </employee>
-        
-    <employee id="3">
-                
-        <name>Carlos Sibaja Vindas</name>
-                
-        <phone_number>22776925</phone_number>
-                
-        <base_salary>1200000</base_salary>
-                
-        <branch>0</branch>
-            
-    </employee>
-    
 </Employees>

@@ -156,17 +156,22 @@ public final class BranchXML extends XMLParser<Branch> {
         if(elem != null){
             root.removeChild(elem);
             //Actualizo las clases dependientes
-
-
-
-
+            Coordinates coord = obj.getCoords();
+            if(coord != null){
+                xml = new CoordinateXML();
+                xml.eraseElement(coord);
+            }
+            EmployeeXML exml = new EmployeeXML();
+            List<Employee> employees = obj.getEmployees();
+            for(int i = 0; i < employees.toArray().length; i++){
+                exml.eraseElement(employees.get(i));
+            }
             //Elimino los espacios en blanco del elemento agregado
             removeEmptyText(root);
             //Guardo los cambios
             saveChanges(doc, path);
         }
     }
-
     /**
      *
      * @param obj
@@ -293,62 +298,87 @@ public final class BranchXML extends XMLParser<Branch> {
 
     public void removeEmployeeFromBranch(Employee obj) throws ParserConfigurationException, IOException,
             TransformerException, SAXException {
-        doc = getDocument();
-        NodeList branches = doc.getElementsByTagName("branch");
-        Element elem = (Element) searchNode(branches, obj.getBranch().getId());
-        NodeList employee = elem.getElementsByTagName("employees");
-        Element employees = (Element) employee.item(0);
-        for (int j = 0; j < employee.getLength(); j++) {
-            Node emp = employee.item(j);
-            if (emp.getNodeType() == Node.ELEMENT_NODE) {
-                if ("employee".equals(emp.getNodeName())) {
-                    if(emp.getTextContent().equals(obj.getId())){
-                        employees.removeChild(emp);
-                    }
-                }
-            }
-        }
-        /*if(elem != null){
-            NodeList elem_childs = elem.getChildNodes();
-            for (int i = 0; i < elem_childs.getLength(); i++) {
-                Node attr = elem_childs.item(i);
-                if (attr.getNodeType() == Node.ELEMENT_NODE) {
-                    if ("employees".equals(attr.getNodeName())) {
-                        Element employees = (Element) attr;
-                        NodeList employee = employees.getChildNodes();
-                        for (int j = 0; j < elem_childs.getLength(); j++) {
-                            Node emp = employee.item(j);
+        if(obj.getBranch() != null){
+            String branchID = obj.getBranch().getId();
+
+            doc = getDocument();
+            NodeList branches = doc.getElementsByTagName("branch");
+            Element elem = (Element) searchNode(branches, branchID);
+            if(elem != null){
+                NodeList employeesTagNodeList = elem.getElementsByTagName("employees");
+                if(employeesTagNodeList != null){
+                    Element employeesTag = (Element) employeesTagNodeList.item(0);
+                    NodeList employees = employeesTag.getChildNodes();
+                    if(employees != null){
+                        for (int j = 0; j < employees.getLength(); j++) {
+                            Node emp = employees.item(j);
                             if (emp.getNodeType() == Node.ELEMENT_NODE) {
                                 if ("employee".equals(emp.getNodeName())) {
                                     if(emp.getTextContent().equals(obj.getId())){
-                                        employees.removeChild(emp);
+                                        if(employees.getLength() > 1){
+                                            employeesTag.removeChild(emp);
+                                        }else{
+                                            emp.setTextContent("null");
+                                        }
+
                                     }
                                 }
                             }
                         }
                     }
                 }
-            }*/
-            removeEmptyText(doc.getFirstChild());
-            saveChanges(doc, path);
+                removeEmptyText(doc.getFirstChild());
+                saveChanges(doc, path);
+            }
+        }
     }
     public void addEmployeeToBranch(Employee obj) throws ParserConfigurationException, IOException,
             TransformerException, SAXException {
+        String branchID = obj.getBranch().getId();
+        boolean exists = false;
         doc = getDocument();
         NodeList branches = doc.getElementsByTagName("branch");
-        Element elem = (Element) searchNode(branches, obj.getBranch().getId());
-        if(elem != null){
-            NodeList elem_childs = elem.getChildNodes();
-            for (int j = 0; j < elem_childs.getLength(); j++) {
-                Node attr = elem_childs.item(j);
-                if (attr.getNodeType() == Node.ELEMENT_NODE) {
-                    if ("employees".equals(attr.getNodeName())) {
+        Element elem = (Element) searchNode(branches, branchID);
 
+        if(elem != null){
+            NodeList employeesTagNodeList = elem.getElementsByTagName("employees");
+            if(employeesTagNodeList != null){
+                Element employeesTag = (Element) employeesTagNodeList.item(0);
+                NodeList employees = employeesTag.getChildNodes();
+                if(employees != null){
+                    for (int j = 0; j < employees.getLength(); j++) {
+                        Node emp = employees.item(j);
+                        if (emp.getNodeType() == Node.ELEMENT_NODE) {
+                            if ("employee".equals(emp.getNodeName())) {
+                                if (emp.getTextContent().equals(obj.getId())) {
+                                    exists = true;
+                                }
+                            }
+                        }
+                    }
+                    if(!exists){
+                        employeesTag.appendChild(createSubElements(doc, "employee", obj.getId()));
+                        removeEmptyText(doc.getFirstChild());
+                        saveChanges(doc, path);
                     }
                 }
             }
-            removeEmptyText(doc.getFirstChild());
-            saveChanges(doc, path);
+        }
+    }
+    public void removeCoordinatesFromBranch(String coordinatesID) throws ParserConfigurationException, IOException, SAXException, TransformerException {
+        doc = getDocument();
+        Element root = (Element) doc.getFirstChild();
+        NodeList coordinates = root.getElementsByTagName("coords");
+        if(coordinates != null){
+            for(int i = 0; i < coordinates.getLength(); i++){
+                Element coord = (Element) root.getElementsByTagName("coords").item(i);
+                if(coord != null && coord.getTextContent().equals(coordinatesID)){
+                    coord.setTextContent("null");
+                    //Guardo los cambios
+                    removeEmptyText(root);
+                    saveChanges(doc, path);
+                }
+            }
         }
     }
 }
