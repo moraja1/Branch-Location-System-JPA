@@ -1,20 +1,17 @@
 package application;
 
 
-import model.Branch;
-import model.Coordinates;
-import model.Employee;
-import model.xmlParsers.ModelsParsers.BranchXML;
-import model.xmlParsers.ModelsParsers.CoordinateXML;
-import model.xmlParsers.ModelsParsers.EmployeeXML;
-import model.xmlParsers.XMLParser;
+import data.Branch;
+import data.Employee;
+import data.xmlParsers.ModelsParsers.BranchXML;
+import data.xmlParsers.ModelsParsers.EmployeeXML;
+import data.xmlParsers.XMLParser;
 import org.xml.sax.SAXException;
 
 import javax.xml.parsers.ParserConfigurationException;
 import javax.xml.transform.TransformerException;
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 
 public class Application {

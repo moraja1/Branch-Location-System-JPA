@@ -1,4 +1,4 @@
-package controller.ViewControllers;
+package presentation.controller.ViewControllers;
 
 import view.ViewClasses.MainWindow;
 

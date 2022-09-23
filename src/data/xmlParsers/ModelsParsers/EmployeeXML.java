@@ -1,8 +1,8 @@
-package model.xmlParsers.ModelsParsers;
+package data.xmlParsers.ModelsParsers;
 
-import model.Branch;
-import model.xmlParsers.XMLParser;
-import model.Employee;
+import data.Branch;
+import data.xmlParsers.XMLParser;
+import data.Employee;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
@@ -13,11 +13,9 @@ import javax.xml.parsers.ParserConfigurationException;
 import javax.xml.transform.TransformerException;
 import java.io.IOException;
 import java.util.HashMap;
-import java.util.List;
-import java.util.Set;
 
 public final class EmployeeXML extends XMLParser<Employee> {
-    private static final String path = "src\\xmlFiles\\Employees.xml";
+    private static final String path = "src\\data\\xmlFiles\\Employees.xml";
     public EmployeeXML() {
         file = path;
         TAG = "employee";

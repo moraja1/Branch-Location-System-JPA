@@ -1,7 +1,6 @@
-package model.dao;
+package data.dao;
 
-import model.xmlParsers.XMLParser;
-import org.w3c.dom.Document;
+import data.xmlParsers.XMLParser;
 import org.xml.sax.SAXException;
 
 import javax.xml.parsers.ParserConfigurationException;
@@ -29,9 +28,9 @@ public abstract class DAO<T> {
             return false;
         }
     }
-    public abstract boolean add();
-    public abstract boolean erase();
-    public abstract boolean edit();
+    public abstract boolean add(T obj);
+    public abstract boolean erase(T obj);
+    public abstract boolean edit(T obj);
     public abstract HashMap<String, T> getAllObjects();
     public abstract T getSingleObject();
 

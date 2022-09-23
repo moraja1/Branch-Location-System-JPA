@@ -1,9 +1,9 @@
-package model.xmlParsers.ModelsParsers;
+package data.xmlParsers.ModelsParsers;
 
-import model.xmlParsers.XMLParser;
-import model.Branch;
-import model.Coordinates;
-import model.Employee;
+import data.xmlParsers.XMLParser;
+import data.Branch;
+import data.Coordinates;
+import data.Employee;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
@@ -18,10 +18,9 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 public final class BranchXML extends XMLParser<Branch> {
-    protected final String path = "src\\xmlFiles\\Branches.xml";
+    protected final String path = "src\\data\\xmlFiles\\Branches.xml";
     public BranchXML() {
         file = path;
         TAG = "branch";

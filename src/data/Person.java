@@ -1,4 +1,4 @@
-package model;
+package data;
 
 public class Person {
     protected String id;

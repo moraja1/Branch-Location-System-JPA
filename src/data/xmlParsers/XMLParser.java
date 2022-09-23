@@ -1,9 +1,6 @@
-package model.xmlParsers;
+package data.xmlParsers;
 
-import model.Coordinates;
-import model.xmlParsers.ModelsParsers.BranchXML;
-import model.xmlParsers.ModelsParsers.CoordinateXML;
-import model.xmlParsers.ModelsParsers.EmployeeXML;
+import data.Coordinates;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
@@ -33,7 +30,7 @@ public abstract class XMLParser<T> {
     protected String TAG;
     protected String ROOT_TAG;
     /**
-     * Return a DOM Document parsed as the name of the file .xml located in src\xmlFiles\
+     * Return a DOM Document parsed as the name of the file .xml located in src\data.xmlFiles\
      * @return Document
      * @throws ParserConfigurationException
      * @throws IOException
@@ -47,7 +44,7 @@ public abstract class XMLParser<T> {
     }
 
     /**
-     * Return a DOM Document parsed as Places.xml located in src\xmlFiles\Places.xml
+     * Return a DOM Document parsed as Places.xml located in src\data.xmlFiles\Places.xml
      * @param file
      * @return Document
      * @throws ParserConfigurationException
@@ -63,7 +60,7 @@ public abstract class XMLParser<T> {
     }
 
     /**
-     * Create a file if there is not a file for coordinates in program´s src directory. File will be findable src\xmlFiles\
+     * Create a file if there is not a file for coordinates in program´s src directory. File will be findable src\data.xmlFiles\
      * @param doc
      * @throws TransformerException
      */
@@ -74,7 +71,7 @@ public abstract class XMLParser<T> {
         TransformerFactory transformerFactory = TransformerFactory.newInstance();
         Transformer transformer = transformerFactory.newTransformer();
         DOMSource domSource = new DOMSource(doc);
-        StreamResult streamResult = new StreamResult(new File(new StringBuilder().append("src\\xmlFiles\\").append(file_name).toString()));
+        StreamResult streamResult = new StreamResult(new File(new StringBuilder().append("src\\data.xmlFiles\\").append(file_name).toString()));
         transformer.transform(domSource, streamResult);
     }
     /**

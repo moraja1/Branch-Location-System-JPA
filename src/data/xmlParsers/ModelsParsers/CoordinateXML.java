@@ -1,21 +1,19 @@
-package model.xmlParsers.ModelsParsers;
+package data.xmlParsers.ModelsParsers;
 
-import model.xmlParsers.XMLParser;
-import model.Coordinates;
+import data.xmlParsers.XMLParser;
+import data.Coordinates;
 import org.w3c.dom.*;
 import org.xml.sax.SAXException;
 
 import javax.swing.*;
 import javax.xml.parsers.ParserConfigurationException;
 import javax.xml.transform.*;
-import javax.xml.transform.dom.DOMSource;
-import javax.xml.transform.stream.StreamResult;
 import java.io.File;
 import java.io.IOException;
 import java.util.HashMap;
 
 public final class CoordinateXML extends XMLParser<Coordinates> {
-    private static final String path = "src\\xmlFiles\\Places.xml";
+    private static final String path = "src\\data\\xmlFiles\\Places.xml";
     public CoordinateXML() {
         file = path;
         TAG = "coordinates";
@@ -126,13 +124,9 @@ public final class CoordinateXML extends XMLParser<Coordinates> {
 
         NodeList nodeList = doc.getElementsByTagName(TAG);
         Element elem = (Element)searchNode(nodeList, obj.getId());
-        if(elem != null){
-            root.removeChild(elem);
-            //Elimino los espacios en blanco del elemento agregado
-            removeEmptyText(root);
-            //Guardo los cambios
-            saveChanges(doc, path);
-        }
+        root.removeChild(elem);//Elimino los espacios en blanco del elemento agregado
+        removeEmptyText(root);//Guardo los cambios
+        saveChanges(doc, path);
 
         BranchXML xml = new BranchXML();
         xml.removeCoordinatesFromBranch(coordinatesID);

@@ -1,4 +1,4 @@
-package model;
+package data;
 
 public class Coordinates {
     private String id;

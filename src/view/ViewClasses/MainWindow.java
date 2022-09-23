@@ -1,7 +1,7 @@
 package view.ViewClasses;
 
 
-import controller.ViewControllers.MainWindowViewController;
+import presentation.controller.ViewControllers.MainWindowViewController;
 import view.utils.GeneralUtilities;
 import view.ViewParent;
 

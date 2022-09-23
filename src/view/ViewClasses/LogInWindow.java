@@ -1,7 +1,7 @@
 package view.ViewClasses;
 
 import view.utils.GeneralUtilities;
-import controller.ViewControllers.LogInWindowViewController;
+import presentation.controller.ViewControllers.LogInWindowViewController;
 import view.ViewParent;
 
 import javax.swing.*;

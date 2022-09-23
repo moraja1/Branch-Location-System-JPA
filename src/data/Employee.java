@@ -1,4 +1,4 @@
-package model;
+package data;
 
 public class Employee extends Person{
     private Double base_salary;
