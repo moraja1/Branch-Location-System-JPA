@@ -1,6 +1,6 @@
 package presentation.controller.ViewControllers;
 
-import view.ViewClasses.LogInWindow;
+import presentation.view.ViewClasses.LogInWindow;
 
 public class LogInWindowViewController {
     private static String email;

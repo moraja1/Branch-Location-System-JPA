@@ -1,6 +1,6 @@
 package presentation.controller.ViewControllers;
 
-import view.ViewClasses.MainWindow;
+import presentation.view.ViewClasses.MainWindow;
 
 public class MainWindowViewController {
     private static MainWindow main_window = new MainWindow();

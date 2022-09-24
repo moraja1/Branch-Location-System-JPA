@@ -1,7 +1,7 @@
 package presentation.controller.flowController;
 
 import presentation.controller.ViewControllers.MainWindowViewController;
-import view.ViewParent;
+import presentation.view.ViewParent;
 import java.util.HashMap;
 
 public class MainController {
