@@ -117,7 +117,6 @@ public final class CoordinateXML extends XMLParser<Coordinates> {
     @Override
     public void eraseElement(Coordinates obj) throws ParserConfigurationException, IOException, SAXException,
             TransformerException {
-        String coordinatesID = obj.getId();
 
         doc = getDocument();
         Element root = (Element) doc.getFirstChild();//Busco el primer tag del file
@@ -127,9 +126,6 @@ public final class CoordinateXML extends XMLParser<Coordinates> {
         root.removeChild(elem);//Elimino los espacios en blanco del elemento agregado
         removeEmptyText(root);//Guardo los cambios
         saveChanges(doc, path);
-
-        BranchXML xml = new BranchXML();
-        xml.removeCoordinatesFromBranch(coordinatesID);
     }
     /**
      * This method search for the Node that contains the same key that the Coordinates passed by param, and the
@@ -149,26 +145,18 @@ public final class CoordinateXML extends XMLParser<Coordinates> {
 
         NodeList nodeList = doc.getElementsByTagName(TAG);
         Element elem = (Element)searchNode(nodeList, coord.getId());
-        if(elem != null){
-            NodeList coord_fields = elem.getChildNodes();
-            for(int j = 0; j < coord_fields.getLength(); j++){
-                Node attr = coord_fields.item(j);
-                if (attr.getNodeType() == Node.ELEMENT_NODE){
-                    if("x".equals(attr.getNodeName())
-                            && !attr.getTextContent().equals(coord.getX())){
-                        attr.setTextContent(String.valueOf(coord.getX()));
-                    }
-                    if("y".equals(attr.getNodeName())
-                        && !attr.getTextContent().equals(coord.getY())){
-                        attr.setTextContent(String.valueOf(coord.getY()));
-                    }
-                }
-            }
-            //Elimino los espacios en blanco del elemento agregado
-            removeEmptyText(root);
-            //Guardo los cambios
-            saveChanges(doc, path);
+        Element x = (Element) elem.getElementsByTagName("x").item(0);
+        Element y = (Element) elem.getElementsByTagName("y").item(0);
+        if(x != null){
+            x.setTextContent(String.valueOf(coord.getX()));
         }
+        if(y != null){
+            y.setTextContent(String.valueOf(coord.getY()));
+        }
+        //Elimino los espacios en blanco del elemento agregado
+        removeEmptyText(root);
+        //Guardo los cambios
+        saveChanges(doc, path);
     }
     /**
      * This method create a Coordinates in the xml form before adding it to the file.
@@ -198,8 +186,13 @@ public final class CoordinateXML extends XMLParser<Coordinates> {
         // Get the value of all sub-elements.
         String x = elem.getElementsByTagName("x").item(0).getChildNodes().item(0).getNodeValue();
         String y = elem.getElementsByTagName("y").item(0).getChildNodes().item(0).getNodeValue();
-        coordinate.setX(Integer.parseInt(x));
-        coordinate.setY(Integer.parseInt(y));
+        if(x != null && y != null){
+            coordinate.setX(Integer.parseInt(x));
+            coordinate.setY(Integer.parseInt(y));
+        }else{
+            coordinate.setX(0);
+            coordinate.setY(0);
+        }
 
         return coordinate;
     }

@@ -8,6 +8,11 @@ public class Coordinates {
     public Coordinates(String id){
         this.id = id;
     };
+    public Coordinates(int x, int y) {
+        this.x = x;
+        this.y = y;
+    }
+
     public Coordinates(String id, int x, int y){
         this.id = id;
         this.x = x;
@@ -15,6 +20,9 @@ public class Coordinates {
     }
     public String getId() {
         return id;
+    }
+    public void setId(String id) {
+        this.id = id;
     }
     public int getX() {
         return x;

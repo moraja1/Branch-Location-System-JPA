@@ -13,6 +13,7 @@ import java.util.HashMap;
  */
 public abstract class DAO<T> {
     protected XMLParser xml;
+    protected DAO dao;
     public DAO(){
     }
     protected boolean exists(String key){
@@ -32,7 +33,7 @@ public abstract class DAO<T> {
     public abstract boolean erase(T obj);
     public abstract boolean edit(T obj);
     public abstract HashMap<String, T> getAllObjects();
-    public abstract T getSingleObject();
+    public abstract T getSingleObject(String key);
 
 
 }
