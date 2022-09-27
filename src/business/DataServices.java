@@ -1,4 +1,4 @@
-package Business;
+package business;
 
 import data.Branch;
 import data.Coordinates;

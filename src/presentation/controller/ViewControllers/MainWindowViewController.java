@@ -1,17 +1,12 @@
 package presentation.controller.ViewControllers;
 
-import Business.DataServices;
-import data.Branch;
+import business.DataServices;
 import presentation.model.viewModels.BranchTableInfo;
 import presentation.model.viewModels.EmployeeTableInfo;
 import presentation.model.viewModels.tableModels.BranchTableModel;
 import presentation.model.viewModels.tableModels.EmployeeTableModel;
 import presentation.view.ViewClasses.MainWindow;
 
-import javax.swing.*;
-import java.awt.*;
-import java.awt.image.BufferedImage;
-import java.io.File;
 import java.util.List;
 
 public class MainWindowViewController {
@@ -44,7 +39,8 @@ public class MainWindowViewController {
     private static void updateImages() {
         List<BranchTableInfo> branches = DataServices.getBranchesForTable();
         for(BranchTableInfo branch : branches){
-
+            System.out.println(branch.getPoint().getLocation());
+            main_window.setBranchPointOnMap(branch.getPoint());
         }
     }
     public static void addEmployee() {

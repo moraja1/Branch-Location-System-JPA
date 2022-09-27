@@ -53,7 +53,6 @@ public class MainWindow extends ViewParent {
             setTitle("Sistema de Sucursales y Empleados");
             setLocation(utils.getScreenX()/6, utils.getScreenY()/8);
             map_layered_pane = getLayeredPane();
-            map_layered_pane.setSize(new Dimension(900, 800));
             //map_layered_pane.setBounds(map_panel.getBounds());
 
             //Image about
@@ -66,8 +65,7 @@ public class MainWindow extends ViewParent {
             resizer = resizer.getScaledInstance(900, 800,  java.awt.Image.SCALE_SMOOTH);
             map.setImage(resizer);
             map_image = new JLabel(map);
-            map_layered_pane.add(map_image, new Integer(1));
-            map_layered_pane.setVisible(true);
+            map_panel.add(map_image, BorderLayout.CENTER);
 
             //Insert Tables
             emp_table = new JTable();
@@ -175,6 +173,16 @@ public class MainWindow extends ViewParent {
         }
     }
     public void setBranchPointOnMap(JLabel point){
+        int x = point.getX() + 350;
+        int y = point.getY();
+        point.setBounds(x, y, 50, 80);
+        map_layered_pane.add(point);
+        repaintWindow();
+    }
 
+    private void repaintWindow() {
+        if(getSelectedTabIndex() == 1){
+
+        }
     }
 }

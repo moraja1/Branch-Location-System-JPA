@@ -22,7 +22,6 @@ public class BranchTableInfo {
 
         createPoint();
     }
-
     private void createPoint() {
         int coordX = Integer.parseInt(coords.split(",\\s")[0]);
         int coordY = Integer.parseInt(coords.split(",\\s")[1]);
@@ -52,11 +51,13 @@ public class BranchTableInfo {
             pointer = new ImageIcon("src\\resources\\Ubicación seleccionada.png");
         }
         Image resizer = pointer.getImage();
-        resizer = resizer.getScaledInstance(50, 50, Image.SCALE_SMOOTH);
+        resizer = resizer.getScaledInstance(30, 30, Image.SCALE_SMOOTH);
         pointer.setImage(resizer);
         return pointer;
     }
-
+    public JLabel getPoint() {
+        return point;
+    }
     public String getId() {
         return id;
     }
