@@ -204,7 +204,16 @@
                       <opaque value="false"/>
                     </properties>
                     <border type="none"/>
-                    <children/>
+                    <children>
+                      <component id="9c3ab" class="javax.swing.JLabel" binding="map_image" custom-create="true">
+                        <constraints>
+                          <grid row="0" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
+                        </constraints>
+                        <properties>
+                          <text value=""/>
+                        </properties>
+                      </component>
+                    </children>
                   </grid>
                 </children>
               </splitpane>
@@ -232,6 +241,12 @@
                 <properties>
                   <horizontalAlignment value="0"/>
                   <text value="Jason Mora Viquez - Carlos Daniel Sibaja Vindas - Brandon Alfaro Espinoza"/>
+                </properties>
+              </component>
+              <component id="76cf0" class="javax.swing.JLabel" binding="image_logo" custom-create="true">
+                <constraints border-constraint="Center"/>
+                <properties>
+                  <text value=""/>
                 </properties>
               </component>
             </children>

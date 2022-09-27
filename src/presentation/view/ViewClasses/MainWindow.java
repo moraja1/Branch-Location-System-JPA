@@ -30,6 +30,8 @@ public class MainWindow extends ViewParent {
     private JPanel dept_table_panel;
     private JButton edit_employee_button;
     private JButton edit_branch_button;
+    private JLabel image_logo;
+    private JLabel map_image;
     private GeneralUtilities utils;
     private JTable emp_table;
     public MainWindow(){
@@ -105,4 +107,10 @@ public class MainWindow extends ViewParent {
     public String getBranchesSearchBar(){ return branches_srch_bar.getText(); }
 
 
+    private void createUIComponents() {
+        // TODO: place custom component creation code here
+
+        image_logo = new JLabel(new ImageIcon("resources\\UNA_logo.png"));
+        //map_image = new JLabel(new ImageIcon("resources\\CR_map_image,jpg"));
+    }
 }
