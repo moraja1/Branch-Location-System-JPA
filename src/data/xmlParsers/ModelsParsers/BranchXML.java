@@ -1,9 +1,9 @@
 package data.xmlParsers.ModelsParsers;
 
-import data.xmlParsers.XMLParser;
 import data.Branch;
 import data.Coordinates;
 import data.Employee;
+import data.xmlParsers.XMLParser;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
@@ -151,11 +151,15 @@ public final class BranchXML extends XMLParser<Branch> {
         NodeList nodeList = doc.getElementsByTagName(TAG);
         Element elem = (Element)searchNode(nodeList, obj.getId());
 
+        Element reference = (Element) elem.getElementsByTagName("reference").item(0);
         Element address = (Element) elem.getElementsByTagName("address").item(0);
         Element zoning_percentage = (Element) elem.getElementsByTagName("zoning_percentage").item(0);
         Element coords = (Element) elem.getElementsByTagName("coords").item(0);
         NodeList employeesNodeList = elem.getElementsByTagName("employee");
 
+        if(reference != null) {
+            reference.setTextContent(obj.getReference());
+        }
         if(address != null) {
             address.setTextContent(obj.getAddress());
         }
@@ -200,6 +204,7 @@ public final class BranchXML extends XMLParser<Branch> {
         branchTag.setAttribute("id", branch.getId());//Asigno el atributo principal.
 
         //Asigno los subnodos y valores del objeto
+        branchTag.appendChild(createSubElements(doc, "reference", String.valueOf(branch.getReference())));
         branchTag.appendChild(createSubElements(doc, "address", String.valueOf(branch.getAddress())));
         branchTag.appendChild(createSubElements(doc, "zoning_percentage", String.valueOf(branch.getZoning_percentage())));
         branchTag.appendChild(createSubElements(doc, "coords", branch.getId()));
@@ -230,6 +235,7 @@ public final class BranchXML extends XMLParser<Branch> {
     @Override
     protected Branch getElementData(Element elem, Branch branch) throws ParserConfigurationException, IOException, SAXException {
         // Get the value of all sub-elements.
+        String reference = elem.getElementsByTagName("reference").item(0).getChildNodes().item(0).getNodeValue();
         String address = elem.getElementsByTagName("address").item(0).getChildNodes().item(0).getNodeValue();
         String zoning_percentage = elem.getElementsByTagName("zoning_percentage").item(0).getChildNodes().item(0).getNodeValue();
         String coords = elem.getElementsByTagName("coords").item(0).getChildNodes().item(0).getNodeValue();
@@ -251,6 +257,7 @@ public final class BranchXML extends XMLParser<Branch> {
             }
         }
         //Set the values of all sub-elements.
+        branch.setReference(reference);
         branch.setAddress(address);
         branch.setZoning_percentage(Double.valueOf(zoning_percentage));
         branch.setCoords(coordinates);
@@ -281,54 +288,5 @@ public final class BranchXML extends XMLParser<Branch> {
         }
         removeEmptyText(doc.getFirstChild());
         saveChanges(doc, path);
-    }
-    public void addEmployeeToBranch(Employee obj) throws ParserConfigurationException, IOException,
-            TransformerException, SAXException {
-        String branchID = obj.getBranch().getId();
-        boolean exists = false;
-        doc = getDocument();
-        NodeList branches = doc.getElementsByTagName("branch");
-        Element elem = (Element) searchNode(branches, branchID);
-
-        if(elem != null){
-            NodeList employeesTagNodeList = elem.getElementsByTagName("employees");
-            if(employeesTagNodeList != null){
-                Element employeesTag = (Element) employeesTagNodeList.item(0);
-                NodeList employees = employeesTag.getChildNodes();
-                if(employees != null){
-                    for (int j = 0; j < employees.getLength(); j++) {
-                        Node emp = employees.item(j);
-                        if (emp.getNodeType() == Node.ELEMENT_NODE) {
-                            if ("employee".equals(emp.getNodeName())) {
-                                if (emp.getTextContent().equals(obj.getId())) {
-                                    exists = true;
-                                }
-                            }
-                        }
-                    }
-                    if(!exists){
-                        employeesTag.appendChild(createSubElements(doc, "employee", obj.getId()));
-                        removeEmptyText(doc.getFirstChild());
-                        saveChanges(doc, path);
-                    }
-                }
-            }
-        }
-    }
-    public void removeCoordinatesFromBranch(String coordinatesID) throws ParserConfigurationException, IOException, SAXException, TransformerException {
-        doc = getDocument();
-        Element root = (Element) doc.getFirstChild();
-        NodeList coordinates = root.getElementsByTagName("coords");
-        if(coordinates != null){
-            for(int i = 0; i < coordinates.getLength(); i++){
-                Element coord = (Element) root.getElementsByTagName("coords").item(i);
-                if(coord != null && coord.getTextContent().equals(coordinatesID)){
-                    coord.setTextContent("null");
-                    //Guardo los cambios
-                    removeEmptyText(root);
-                    saveChanges(doc, path);
-                }
-            }
-        }
     }
 }

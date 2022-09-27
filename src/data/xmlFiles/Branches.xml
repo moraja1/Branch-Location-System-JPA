@@ -1,19 +1,14 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <Branches>
-    <branch id="1">
-        <address>San Jose, San Jose, Mata Redonda</address>
-        <zoning_percentage>0.7</zoning_percentage>
-        <coords>2</coords>
-        <employees>
-            <employee>1</employee>
-        </employees>
-    </branch>
     <branch id="0">
-        <address>San Jose, Costa Rica</address>
+        <reference>Heredia</reference>
+        <address>Heredia, Heredia, San Pablo</address>
         <zoning_percentage>7.5</zoning_percentage>
         <coords>1</coords>
         <employees>
             <employee>0</employee>
+            <employee>1</employee>
+            <employee>2</employee>
         </employees>
     </branch>
 </Branches>

@@ -91,7 +91,7 @@ public class EmployeeEditView extends ViewParent {
 
             @Override
             public void windowClosed(WindowEvent e) {
-                MainWindowViewController.updateTable();
+                MainWindowViewController.updateTables();
             }
 
             @Override

@@ -31,6 +31,6 @@ public class EmployeeEditViewController {
          */
     }
     public static void windowClosed(){
-        MainWindowViewController.windowInitialized();
+        MainWindowViewController.updateTables();
     }
 }

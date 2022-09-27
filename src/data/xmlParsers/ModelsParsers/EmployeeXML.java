@@ -1,8 +1,8 @@
 package data.xmlParsers.ModelsParsers;
 
 import data.Branch;
-import data.xmlParsers.XMLParser;
 import data.Employee;
+import data.xmlParsers.XMLParser;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
@@ -33,7 +33,7 @@ public final class EmployeeXML extends XMLParser<Employee> {
     @Override
     public HashMap<String, Employee> getObjectsHashMap() throws TransformerException, ParserConfigurationException, IOException, SAXException {
         HashMap<String, Employee> employees = new HashMap<>();
-
+        doc = getDocument();
 
         NodeList nodeList = doc.getElementsByTagName(TAG);
         for (int i = 0; i < nodeList.getLength(); i++) {

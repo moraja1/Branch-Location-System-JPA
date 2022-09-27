@@ -29,7 +29,7 @@ public class EmployeeAddViewController {
         }*/
     }
     public static void windowClosed(){
-        MainWindowViewController.windowInitialized();
+        MainWindowViewController.updateTables();
     }
 
 

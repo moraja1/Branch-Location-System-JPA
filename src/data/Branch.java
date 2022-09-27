@@ -4,6 +4,7 @@ import java.util.List;
 
 public class Branch {
     private String id;
+    private String reference;
     private String address;
     private Double zoning_percentage;
     private Coordinates coords;
@@ -16,8 +17,9 @@ public class Branch {
         this.id = id;
     }
 
-    public Branch(String id, String address, Double zoning_percentage, Coordinates coords, List<Employee> employees) {
+    public Branch(String id, String reference, String address, Double zoning_percentage, Coordinates coords, List<Employee> employees) {
         this.id = id;
+        this.reference = reference;
         this.address = address;
         this.zoning_percentage = zoning_percentage;
         this.coords = coords;
@@ -26,6 +28,13 @@ public class Branch {
 
     public String getId() {
         return id;
+    }
+    public String getReference() {
+        return reference;
+    }
+
+    public void setReference(String reference) {
+        this.reference = reference;
     }
 
     public String getAddress() {
