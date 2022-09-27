@@ -14,7 +14,7 @@
       <tabbedpane id="9ef5c" binding="tabbed_Pane">
         <constraints>
           <grid row="0" column="0" row-span="1" col-span="1" vsize-policy="3" hsize-policy="3" anchor="0" fill="3" indent="0" use-parent-layout="false">
-            <preferred-size width="1000" height="800"/>
+            <preferred-size width="1300" height="900"/>
           </grid>
         </constraints>
         <properties/>
@@ -111,7 +111,9 @@
             <children>
               <splitpane id="824e5">
                 <constraints border-constraint="Center"/>
-                <properties/>
+                <properties>
+                  <enabled value="false"/>
+                </properties>
                 <border type="none"/>
                 <children>
                   <grid id="5f3c5" layout-manager="GridLayoutManager" row-count="3" column-count="5" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
@@ -194,17 +196,30 @@
                       </component>
                     </children>
                   </grid>
-                  <grid id="caf7b" layout-manager="GridLayoutManager" row-count="1" column-count="1" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
-                    <margin top="10" left="10" bottom="10" right="10"/>
+                  <grid id="caf7b" layout-manager="BorderLayout" hgap="0" vgap="0">
                     <constraints>
                       <splitpane position="right"/>
                     </constraints>
                     <properties>
+                      <alignmentX value="0.0"/>
+                      <alignmentY value="0.0"/>
+                      <autoscrolls value="false"/>
                       <minimumSize width="24" height="24"/>
                       <opaque value="false"/>
                     </properties>
                     <border type="none"/>
-                    <children/>
+                    <children>
+                      <component id="30d66" class="javax.swing.JLabel" binding="map_image">
+                        <constraints border-constraint="Center"/>
+                        <properties>
+                          <alignmentX value="0.5"/>
+                          <autoscrolls value="true"/>
+                          <horizontalAlignment value="0"/>
+                          <horizontalTextPosition value="0"/>
+                          <text value=""/>
+                        </properties>
+                      </component>
+                    </children>
                   </grid>
                 </children>
               </splitpane>
@@ -232,12 +247,6 @@
                 <properties>
                   <horizontalAlignment value="0"/>
                   <text value="Jason Mora Viquez - Carlos Daniel Sibaja Vindas - Brandon Alfaro Espinoza"/>
-                </properties>
-              </component>
-              <component id="fd378" class="javax.swing.JLabel" binding="image_logo">
-                <constraints border-constraint="Center"/>
-                <properties>
-                  <text value="Label"/>
                 </properties>
               </component>
             </children>

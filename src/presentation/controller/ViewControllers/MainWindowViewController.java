@@ -7,6 +7,10 @@ import presentation.model.viewModels.tableModels.BranchTableModel;
 import presentation.model.viewModels.tableModels.EmployeeTableModel;
 import presentation.view.ViewClasses.MainWindow;
 
+import javax.swing.*;
+import java.awt.*;
+import java.awt.image.BufferedImage;
+import java.io.File;
 import java.util.List;
 
 public class MainWindowViewController {
@@ -14,6 +18,10 @@ public class MainWindowViewController {
 
     public static MainWindow getMain_window() {
         return main_window;
+    }
+    public static void windowInitialized() {
+        updateTables();
+        updateImages();
     }
     public static void updateTables() {
         int selectedTab = main_window.getSelectedTabIndex();
@@ -31,6 +39,9 @@ public class MainWindowViewController {
             default:
                 break;
         }
+    }
+    private static void updateImages() {
+
     }
     public static void addEmployee() {
 

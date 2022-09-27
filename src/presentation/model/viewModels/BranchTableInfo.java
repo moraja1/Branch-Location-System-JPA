@@ -1,5 +1,7 @@
 package presentation.model.viewModels;
 
+import javax.swing.*;
+
 public class BranchTableInfo {
     private String id;
     private String reference;

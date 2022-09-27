@@ -33,6 +33,7 @@ public class MainWindow extends ViewParent {
     private JPanel branch_table_panel;
     private JButton edit_employee_button;
     private JButton edit_branch_button;
+    private JLabel map_image;
     private JLabel image_logo;
     private GeneralUtilities utils;
     private JTable emp_table;
@@ -46,6 +47,16 @@ public class MainWindow extends ViewParent {
             setSize(new Dimension(1300, 900));
             setTitle("Sistema de Sucursales y Empleados");
             setLocation(utils.getScreenX()/6, utils.getScreenY()/8);
+            //Image about
+            image_logo = new JLabel(new ImageIcon("src\\resources\\UNA_logo.png"));
+            tab_about.add(image_logo, BorderLayout.CENTER);
+
+            //Map Image
+            ImageIcon map = new ImageIcon("src\\resources\\Doodle_Map_of_Costa_Rica_With_States_generated.jpg");
+            Image resizer = map.getImage();
+            resizer = resizer.getScaledInstance(900, 800,  java.awt.Image.SCALE_SMOOTH);
+            map.setImage(resizer);
+            map_image.setIcon(map);
 
             //Insert Tables
             emp_table = new JTable();
@@ -131,9 +142,8 @@ public class MainWindow extends ViewParent {
                 MainWindowViewController.updateTables();
             }
         });
-
         //Controller initialize other components
-        MainWindowViewController.updateTables();
+        MainWindowViewController.windowInitialized();
         //Window opens
         setVisible(true);
     }
@@ -154,12 +164,5 @@ public class MainWindow extends ViewParent {
         if(tabSelected == 1){
             branch_table.setModel(tm);
         }
-    }
-
-    private void createUIComponents() {
-        // TODO: place custom component creation code here
-
-        image_logo = new JLabel(new ImageIcon("resources\\UNA_logo.png"));
-        //map_image = new JLabel(new ImageIcon("resources\\CR_map_image,jpg"));
     }
 }

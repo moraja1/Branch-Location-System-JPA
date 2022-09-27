@@ -1,4 +1,14 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <Branches>
-
+    <branch id="0">
+        <reference>Heredia</reference>
+        <address>Heredia, Heredia, San Pablo</address>
+        <zoning_percentage>7.5</zoning_percentage>
+        <coords>1</coords>
+        <employees>
+            <employee>0</employee>
+            <employee>1</employee>
+            <employee>2</employee>
+        </employees>
+    </branch>
 </Branches>

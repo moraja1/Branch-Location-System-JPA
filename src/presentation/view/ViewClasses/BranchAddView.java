@@ -10,4 +10,5 @@ public class BranchAddView {
     private JButton add_branch_guardar_btn;
     private JButton add_branch_cancel_btn;
     private JPanel add_branch_map_panel;
+    private JLabel map_image;
 }
