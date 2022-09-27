@@ -1,6 +1,7 @@
 package presentation.controller.ViewControllers;
 
 import Business.DataServices;
+import data.Branch;
 import presentation.model.viewModels.BranchTableInfo;
 import presentation.model.viewModels.EmployeeTableInfo;
 import presentation.model.viewModels.tableModels.BranchTableModel;
@@ -41,7 +42,10 @@ public class MainWindowViewController {
         }
     }
     private static void updateImages() {
+        List<BranchTableInfo> branches = DataServices.getBranchesForTable();
+        for(BranchTableInfo branch : branches){
 
+        }
     }
     public static void addEmployee() {
 

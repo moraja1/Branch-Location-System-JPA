@@ -12,6 +12,8 @@ import javax.swing.table.TableModel;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 
 public class MainWindow extends ViewParent {
     private JPanel main_window_panel;
@@ -33,11 +35,14 @@ public class MainWindow extends ViewParent {
     private JPanel branch_table_panel;
     private JButton edit_employee_button;
     private JButton edit_branch_button;
+    private JPanel map_panel;
+    private JPanel branch_info_panel;
     private JLabel map_image;
     private JLabel image_logo;
     private GeneralUtilities utils;
     private JTable emp_table;
     private JTable branch_table;
+    private JLayeredPane map_layered_pane;
     public MainWindow(){
         utils = GeneralUtilities.getInstanceOf();
 
@@ -47,6 +52,10 @@ public class MainWindow extends ViewParent {
             setSize(new Dimension(1300, 900));
             setTitle("Sistema de Sucursales y Empleados");
             setLocation(utils.getScreenX()/6, utils.getScreenY()/8);
+            map_layered_pane = getLayeredPane();
+            map_layered_pane.setSize(new Dimension(900, 800));
+            //map_layered_pane.setBounds(map_panel.getBounds());
+
             //Image about
             image_logo = new JLabel(new ImageIcon("src\\resources\\UNA_logo.png"));
             tab_about.add(image_logo, BorderLayout.CENTER);
@@ -56,7 +65,9 @@ public class MainWindow extends ViewParent {
             Image resizer = map.getImage();
             resizer = resizer.getScaledInstance(900, 800,  java.awt.Image.SCALE_SMOOTH);
             map.setImage(resizer);
-            map_image.setIcon(map);
+            map_image = new JLabel(map);
+            map_layered_pane.add(map_image, new Integer(1));
+            map_layered_pane.setVisible(true);
 
             //Insert Tables
             emp_table = new JTable();
@@ -147,8 +158,6 @@ public class MainWindow extends ViewParent {
         //Window opens
         setVisible(true);
     }
-
-
     public String getEmployeesSearchBar(){ return employees_srch_bar.getText(); }
 
     public String getBranchesSearchBar(){ return branches_srch_bar.getText(); }
@@ -164,5 +173,8 @@ public class MainWindow extends ViewParent {
         if(tabSelected == 1){
             branch_table.setModel(tm);
         }
+    }
+    public void setBranchPointOnMap(JLabel point){
+
     }
 }
