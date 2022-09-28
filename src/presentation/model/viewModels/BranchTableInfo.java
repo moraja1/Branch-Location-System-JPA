@@ -1,5 +1,7 @@
 package presentation.model.viewModels;
 
+import presentation.model.mouseListener.MapSensor;
+
 import javax.swing.*;
 import javax.swing.event.MouseInputAdapter;
 import javax.swing.event.MouseInputListener;
@@ -111,6 +113,7 @@ public class BranchTableInfo extends JLabel implements MouseInputListener {
         getParent().getMouseListeners()[0].mouseClicked(e);
         selected = true;
         setIcon(getPointerImage());
+        ((MapSensor)getParent().getMouseListeners()[0]).mouseClickedOutside(e);
         repaint();
     }
 

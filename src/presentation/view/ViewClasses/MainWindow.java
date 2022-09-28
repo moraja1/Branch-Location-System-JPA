@@ -2,6 +2,7 @@ package presentation.view.ViewClasses;
 
 
 import presentation.controller.ViewControllers.MainWindowViewController;
+import presentation.model.mouseListener.MapSensor;
 import presentation.model.viewModels.BranchTableInfo;
 import presentation.view.utils.GeneralUtilities;
 import presentation.view.ViewParent;
@@ -154,7 +155,10 @@ public class MainWindow extends ViewParent {
                 repaintWindow();
             }
         });
-        map_image.addMouseListener(new MouseInputAdapter() {
+        /*
+        SI HAGO UNA IMPLEMENTACION CON CLICKOUTSIDE PUEDO MANDAR A LLAMARLO DESDE EL PUNTO
+         */
+        map_image.addMouseListener(new MapSensor() {
             @Override
             public void mouseClicked(MouseEvent e) {
                 List<Component> points = List.of(map_layered_pane.getComponentsInLayer(0));
@@ -162,6 +166,16 @@ public class MainWindow extends ViewParent {
                 for (BranchTableInfo branch : branches) {
                     if(branch.isSelected()){
                         branch.mouseClikedOutside(e);
+                    }
+                }
+            }
+            @Override
+            public void mouseClickedOutside(MouseEvent e) {
+                List<Component> points = List.of(map_layered_pane.getComponentsInLayer(0));
+                List<BranchTableInfo> branches = (List<BranchTableInfo>)(List<?>) points;
+                for (BranchTableInfo branch : branches) {
+                    if(branch.isSelected()){
+                        System.out.println("Hola");
                     }
                 }
             }
