@@ -1,4 +1,4 @@
-package presentation.model.viewModels.tableModels;
+package presentation.model.viewModels.componentModels;
 
 import presentation.model.viewModels.EmployeeTableInfo;
 

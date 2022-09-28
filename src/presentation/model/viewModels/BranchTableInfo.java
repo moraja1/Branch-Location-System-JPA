@@ -1,14 +1,11 @@
 package presentation.model.viewModels;
 
-import presentation.model.mouseListener.MapSensor;
+import presentation.model.mouseListener.ImageMouseSensor;
 
 import javax.swing.*;
-import javax.swing.event.MouseInputAdapter;
 import javax.swing.event.MouseInputListener;
 import java.awt.*;
-import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
-import java.awt.event.MouseListener;
 
 public class BranchTableInfo extends JLabel implements MouseInputListener {
     private String id;
@@ -113,18 +110,19 @@ public class BranchTableInfo extends JLabel implements MouseInputListener {
         getParent().getMouseListeners()[0].mouseClicked(e);
         selected = true;
         setIcon(getPointerImage());
-        ((MapSensor)getParent().getMouseListeners()[0]).mouseClickedOutside(e);
+        ((ImageMouseSensor)getParent().getMouseListeners()[0]).mouseClickedOutside(e);
         repaint();
+        e.consume();
     }
 
     @Override
     public void mousePressed(MouseEvent e) {
-
+        e.consume();
     }
 
     @Override
     public void mouseReleased(MouseEvent e) {
-
+        e.consume();
     }
 
     @Override
@@ -132,6 +130,7 @@ public class BranchTableInfo extends JLabel implements MouseInputListener {
         if(!selected){
             setIcon(getPointerImage(false));
         }
+        e.consume();
     }
 
     @Override
@@ -139,20 +138,22 @@ public class BranchTableInfo extends JLabel implements MouseInputListener {
         if(!selected){
             setIcon(getPointerImage(true));
         }
+        e.consume();
     }
 
     @Override
     public void mouseDragged(MouseEvent e) {
-
+        e.consume();
     }
 
     @Override
     public void mouseMoved(MouseEvent e) {
-
+        e.consume();
     }
     public void mouseClikedOutside(MouseEvent e){
         selected = false;
         setIcon(getPointerImage());
         repaint();
+        e.consume();
     }
 }

@@ -3,7 +3,7 @@ package presentation.model.mouseListener;
 import javax.swing.event.MouseInputListener;
 import java.awt.event.MouseEvent;
 
-public abstract class MapSensor implements MouseInputListener {
+public abstract class ImageMouseSensor implements MouseInputListener {
     @Override
     public abstract void mouseClicked(MouseEvent e);
 

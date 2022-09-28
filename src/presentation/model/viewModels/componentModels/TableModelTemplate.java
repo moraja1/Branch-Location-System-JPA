@@ -1,4 +1,4 @@
-package presentation.model.viewModels.tableModels;
+package presentation.model.viewModels.componentModels;
 
 import javax.swing.table.DefaultTableModel;
 import java.util.List;

@@ -2,7 +2,7 @@ package presentation.view.ViewClasses;
 
 
 import presentation.controller.ViewControllers.MainWindowViewController;
-import presentation.model.mouseListener.MapSensor;
+import presentation.model.mouseListener.ImageMouseSensor;
 import presentation.model.viewModels.BranchTableInfo;
 import presentation.view.utils.GeneralUtilities;
 import presentation.view.ViewParent;
@@ -10,12 +10,9 @@ import presentation.view.ViewParent;
 import javax.swing.*;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
-import javax.swing.event.MouseInputAdapter;
 import javax.swing.table.TableModel;
 import java.awt.*;
 import java.awt.event.*;
-import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 public class MainWindow extends ViewParent {
@@ -158,7 +155,7 @@ public class MainWindow extends ViewParent {
         /*
         SI HAGO UNA IMPLEMENTACION CON CLICKOUTSIDE PUEDO MANDAR A LLAMARLO DESDE EL PUNTO
          */
-        map_image.addMouseListener(new MapSensor() {
+        map_image.addMouseListener(new ImageMouseSensor() {
             @Override
             public void mouseClicked(MouseEvent e) {
                 List<Component> points = List.of(map_layered_pane.getComponentsInLayer(0));

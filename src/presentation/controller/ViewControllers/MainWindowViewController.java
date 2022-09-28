@@ -3,8 +3,8 @@ package presentation.controller.ViewControllers;
 import business.DataServices;
 import presentation.model.viewModels.BranchTableInfo;
 import presentation.model.viewModels.EmployeeTableInfo;
-import presentation.model.viewModels.tableModels.BranchTableModel;
-import presentation.model.viewModels.tableModels.EmployeeTableModel;
+import presentation.model.viewModels.componentModels.BranchTableModel;
+import presentation.model.viewModels.componentModels.EmployeeTableModel;
 import presentation.view.ViewClasses.MainWindow;
 
 import java.util.List;
