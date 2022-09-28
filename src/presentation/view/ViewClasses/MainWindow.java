@@ -49,9 +49,9 @@ public class MainWindow extends ViewParent {
         if(!getContentPane().equals(main_window_panel)){
             setContentPane(main_window_panel);
             setName("MainWindow");
-            setSize(new Dimension(1300, 900));
+            setSize(new Dimension(1600, 900));
             setTitle("Sistema de Sucursales y Empleados");
-            setLocation(utils.getScreenX()/6, utils.getScreenY()/8);
+            setLocation(utils.getScreenX()/9, utils.getScreenY()/8);
             map_layered_pane = getLayeredPane();
 
             //Image about
@@ -165,6 +165,8 @@ public class MainWindow extends ViewParent {
                         branch.mouseClikedOutside(e);
                     }
                 }
+                System.out.println(e.getPoint());
+                e.consume();
             }
             @Override
             public void mouseClickedOutside(MouseEvent e) {
@@ -172,7 +174,7 @@ public class MainWindow extends ViewParent {
                 List<BranchTableInfo> branches = (List<BranchTableInfo>)(List<?>) points;
                 for (BranchTableInfo branch : branches) {
                     if(branch.isSelected()){
-                        System.out.println("Hola");
+                        selectTableRow(branch);
                     }
                 }
             }
@@ -183,10 +185,17 @@ public class MainWindow extends ViewParent {
         //Window opens
         setVisible(true);
     }
-    public String getEmployeesSearchBar(){ return employees_srch_bar.getText(); }
 
-    public String getBranchesSearchBar(){ return branches_srch_bar.getText(); }
-
+    private void selectTableRow(BranchTableInfo branch) {
+        String branchID = branch.getId();
+        String tableID;
+        for(int i = 0; i < branch_table.getRowCount(); i++){
+            tableID = (String) branch_table.getValueAt(i,0);
+            if(branchID.equals(tableID)){
+                branch_table.setRowSelectionInterval(i, i);
+            }
+        }
+    }
     public int getSelectedTabIndex(){
         return tabbed_Pane.getSelectedIndex();
     }
@@ -201,9 +210,9 @@ public class MainWindow extends ViewParent {
     }
     public void setBranchPointOnMap(BranchTableInfo point){
         point.setVisible(false);
-        int x = point.getX() + 350;
+        int x = point.getX() + 600;
         int y = point.getY();
-        point.setBounds(x, y, 50, 80);
+        point.setBounds(x, y, 80, 80);
         map_layered_pane.add(point, 1);
         repaintWindow();
     }
@@ -217,4 +226,7 @@ public class MainWindow extends ViewParent {
             map_layered_pane.repaint();
         }
     }
+    public String getEmployeesSearchBar(){ return employees_srch_bar.getText(); }
+
+    public String getBranchesSearchBar(){ return branches_srch_bar.getText(); }
 }
