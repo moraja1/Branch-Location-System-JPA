@@ -166,6 +166,7 @@ public class MainWindow extends ViewParent {
                 }
             }
         });
+        map_layered_pane.addMouseListener(map_image.getMouseListeners()[0]);
         //Controller initialize other components
         MainWindowViewController.windowInitialized();
         //Window opens

@@ -18,4 +18,22 @@
         <base_salary>690000.0</base_salary>
         <branch>0</branch>
     </employee>
+    <employee id="3">
+        <name>Mainor Vargas Mejias</name>
+        <phone_number>23146513</phone_number>
+        <base_salary>800000.0</base_salary>
+        <branch>1</branch>
+    </employee>
+    <employee id="4">
+        <name>Stephanie Gonzalez Segura</name>
+        <phone_number>35698126</phone_number>
+        <base_salary>400000.0</base_salary>
+        <branch>1</branch>
+    </employee>
+    <employee id="5">
+        <name>Marta Segura Jimenez</name>
+        <phone_number>78542136</phone_number>
+        <base_salary>300000.0</base_salary>
+        <branch>1</branch>
+    </employee>
 </Employees>

@@ -108,6 +108,7 @@ public class BranchTableInfo extends JLabel implements MouseInputListener {
 
     @Override
     public void mouseClicked(MouseEvent e) {
+        getParent().getMouseListeners()[0].mouseClicked(e);
         selected = true;
         setIcon(getPointerImage());
         repaint();
