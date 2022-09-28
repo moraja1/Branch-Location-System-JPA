@@ -17,7 +17,7 @@ public class Branch {
         this.id = id;
     }
 
-    public Branch(String id, String reference, String address, Double zoning_percentage, Coordinates coords, List<Employee> employees) {
+    public Branch(String id, String reference,String address, double zoning_percentage) {
         this.id = id;
         this.reference = reference;
         this.address = address;
