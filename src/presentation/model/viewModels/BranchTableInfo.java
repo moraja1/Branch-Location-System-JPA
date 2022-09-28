@@ -1,6 +1,7 @@
 package presentation.model.viewModels;
 
 import javax.swing.*;
+import javax.swing.event.MouseInputAdapter;
 import java.awt.*;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
@@ -12,6 +13,7 @@ public class BranchTableInfo {
     private Double zoning_percentage;
     private String coords;
     private JLabel point;
+    private boolean selected = false;
 
     public BranchTableInfo(String id, String reference, String address, Double zoning_percentage, String coords) {
         this.id = id;
@@ -32,8 +34,21 @@ public class BranchTableInfo {
             @Override
             public void mouseClicked(MouseEvent e) {
                 if((JLabel)e.getComponent() == point || (e.getX()+350 == point.getX() && e.getY() == point.getY())){
-                    point.setIcon(getPointerImage(true));
+                    selected = true;
                 }else{
+                    selected = false;
+                }
+                point.setIcon(getPointerImage(selected));
+            }
+            @Override
+            public void mouseEntered(MouseEvent e) {
+                if(!selected){
+                    point.setIcon(getPointerImage(true));
+                }
+            }
+            @Override
+            public void mouseExited(MouseEvent e) {
+                if(!selected){
                     point.setIcon(getPointerImage(false));
                 }
             }
@@ -93,5 +108,9 @@ public class BranchTableInfo {
 
     public void setCoords(String coords) {
         this.coords = coords;
+    }
+
+    public boolean isSelected() {
+        return selected;
     }
 }

@@ -2,6 +2,7 @@ package presentation.view.ViewClasses;
 
 
 import presentation.controller.ViewControllers.MainWindowViewController;
+import presentation.model.viewModels.BranchTableInfo;
 import presentation.view.utils.GeneralUtilities;
 import presentation.view.ViewParent;
 
@@ -153,33 +154,13 @@ public class MainWindow extends ViewParent {
                 repaintWindow();
             }
         });
-        map_image.addMouseMotionListener(new MouseMotionAdapter() {
-            @Override
-            public void mouseMoved(MouseEvent e) {
-                System.out.println("Hola");
-            }
-        });
         map_image.addMouseListener(new MouseInputAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
-                map_layered_pane.dispatchEvent(e);
-            }
-        });
-        map_layered_pane.addMouseListener(new MouseInputAdapter() {
-            @Override
-            public void mouseClicked(MouseEvent e) {
                 List<Component> points = List.of(map_layered_pane.getComponentsInLayer(0));
                 for (Component point : points) {
                     point.dispatchEvent(e);
-                }
-            }
-        });
-        map_layered_pane.addMouseMotionListener(new MouseMotionAdapter() {
-            @Override
-            public void mouseMoved(MouseEvent e) {
-                List<Component> points = List.of(map_layered_pane.getComponentsInLayer(0));
-                for (Component point : points) {
-                    point.dispatchEvent(e);
+
                 }
             }
         });
