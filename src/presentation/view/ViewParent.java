@@ -6,6 +6,7 @@ public abstract class ViewParent extends JFrame {
 
     public ViewParent(){
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        setResizable(false);
     }
 
     /**
