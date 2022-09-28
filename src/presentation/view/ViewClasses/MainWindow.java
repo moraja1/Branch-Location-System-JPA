@@ -158,9 +158,11 @@ public class MainWindow extends ViewParent {
             @Override
             public void mouseClicked(MouseEvent e) {
                 List<Component> points = List.of(map_layered_pane.getComponentsInLayer(0));
-                for (Component point : points) {
-                    point.dispatchEvent(e);
-
+                List<BranchTableInfo> branches = (List<BranchTableInfo>)(List<?>) points;
+                for (BranchTableInfo branch : branches) {
+                    if(branch.isSelected()){
+                        branch.mouseClikedOutside(e);
+                    }
                 }
             }
         });
@@ -185,7 +187,7 @@ public class MainWindow extends ViewParent {
             branch_table.setModel(tm);
         }
     }
-    public void setBranchPointOnMap(JLabel point){
+    public void setBranchPointOnMap(BranchTableInfo point){
         point.setVisible(false);
         int x = point.getX() + 350;
         int y = point.getY();

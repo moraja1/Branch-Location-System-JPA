@@ -39,7 +39,7 @@ public class MainWindowViewController {
     private static void updateImages() {
         List<BranchTableInfo> branches = DataServices.getBranchesForTable();
         for(BranchTableInfo branch : branches){
-            main_window.setBranchPointOnMap(branch.getPoint());
+            main_window.setBranchPointOnMap(branch);
         }
     }
     public static void addEmployee() {
