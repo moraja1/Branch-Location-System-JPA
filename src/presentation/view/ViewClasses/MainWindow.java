@@ -8,12 +8,13 @@ import presentation.view.ViewParent;
 import javax.swing.*;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
+import javax.swing.event.MouseInputAdapter;
 import javax.swing.table.TableModel;
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
+import java.awt.event.*;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 
 public class MainWindow extends ViewParent {
     private JPanel main_window_panel;
@@ -53,7 +54,6 @@ public class MainWindow extends ViewParent {
             setTitle("Sistema de Sucursales y Empleados");
             setLocation(utils.getScreenX()/6, utils.getScreenY()/8);
             map_layered_pane = getLayeredPane();
-            //map_layered_pane.setBounds(map_panel.getBounds());
 
             //Image about
             image_logo = new JLabel(new ImageIcon("src\\resources\\UNA_logo.png"));
@@ -65,6 +65,7 @@ public class MainWindow extends ViewParent {
             resizer = resizer.getScaledInstance(900, 800,  java.awt.Image.SCALE_SMOOTH);
             map.setImage(resizer);
             map_image = new JLabel(map);
+            map_image.setFocusable(true);
             map_panel.add(map_image, BorderLayout.CENTER);
 
             //Insert Tables
@@ -149,6 +150,37 @@ public class MainWindow extends ViewParent {
             @Override
             public void stateChanged(ChangeEvent e) {
                 MainWindowViewController.updateTables();
+                repaintWindow();
+            }
+        });
+        map_image.addMouseMotionListener(new MouseMotionAdapter() {
+            @Override
+            public void mouseMoved(MouseEvent e) {
+                System.out.println("Hola");
+            }
+        });
+        map_image.addMouseListener(new MouseInputAdapter() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                map_layered_pane.dispatchEvent(e);
+            }
+        });
+        map_layered_pane.addMouseListener(new MouseInputAdapter() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                List<Component> points = List.of(map_layered_pane.getComponentsInLayer(0));
+                for (Component point : points) {
+                    point.dispatchEvent(e);
+                }
+            }
+        });
+        map_layered_pane.addMouseMotionListener(new MouseMotionAdapter() {
+            @Override
+            public void mouseMoved(MouseEvent e) {
+                List<Component> points = List.of(map_layered_pane.getComponentsInLayer(0));
+                for (Component point : points) {
+                    point.dispatchEvent(e);
+                }
             }
         });
         //Controller initialize other components
@@ -173,16 +205,21 @@ public class MainWindow extends ViewParent {
         }
     }
     public void setBranchPointOnMap(JLabel point){
+        point.setVisible(false);
         int x = point.getX() + 350;
         int y = point.getY();
         point.setBounds(x, y, 50, 80);
-        map_layered_pane.add(point);
+        map_layered_pane.add(point, 1);
         repaintWindow();
     }
 
     private void repaintWindow() {
-        if(getSelectedTabIndex() == 1){
-
+        if (getSelectedTabIndex() == 1){
+            List<Component> points = List.of(map_layered_pane.getComponentsInLayer(0));
+            for(Component c : points){
+                c.setVisible(true);
+            }
+            map_layered_pane.repaint();
         }
     }
 }

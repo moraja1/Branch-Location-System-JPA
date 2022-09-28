@@ -39,7 +39,6 @@ public class MainWindowViewController {
     private static void updateImages() {
         List<BranchTableInfo> branches = DataServices.getBranchesForTable();
         for(BranchTableInfo branch : branches){
-            System.out.println(branch.getPoint().getLocation());
             main_window.setBranchPointOnMap(branch.getPoint());
         }
     }

@@ -31,7 +31,7 @@ public class BranchTableInfo {
         point.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
-                if((JLabel)e.getComponent() == point){
+                if((JLabel)e.getComponent() == point || (e.getX()+350 == point.getX() && e.getY() == point.getY())){
                     point.setIcon(getPointerImage(true));
                 }else{
                     point.setIcon(getPointerImage(false));
@@ -41,6 +41,7 @@ public class BranchTableInfo {
         point.setVisible(true);
         point.setEnabled(true);
         point.setFocusable(true);
+        point.repaint();
     }
 
     private Icon getPointerImage(boolean selected) {
