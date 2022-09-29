@@ -21,7 +21,7 @@ public class BranchAddView extends ViewParent {
     private JTextField add_branch_zon_text;
     private JButton add_branch_guardar_btn;
     private JButton add_branch_cancel_btn;
-    private JPanel add_branch_map_panel;
+    private JPanel map_panel;
     private JLabel map_image;
     private JPanel branch_Add_Panel;
 
@@ -33,9 +33,18 @@ public class BranchAddView extends ViewParent {
         if(!dialog.getContentPane().equals(branch_Add_Panel)){
             dialog.setContentPane(branch_Add_Panel);
             dialog.setName("BranchAddView");
-            dialog.setSize(new Dimension(500, 400));
+            dialog.setSize(new Dimension(1000, 800));
             dialog.setTitle("Sistema de Sucuracles y Empleados");
             dialog.setLocation(utils.getScreenX()/4, utils.getScreenY()/6);
+
+            //Map Image
+            ImageIcon map = new ImageIcon("src\\resources\\Doodle_Map_of_Costa_Rica_With_States_generated.jpg");
+            Image resizer = map.getImage();
+            resizer = resizer.getScaledInstance(700, 700,  java.awt.Image.SCALE_SMOOTH);
+            map.setImage(resizer);
+            map_image = new JLabel(map);
+            map_image.setFocusable(true);
+            map_panel.add(map_image, BorderLayout.CENTER);
         }
         dialog.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
         clearWindow();
@@ -100,6 +109,7 @@ public class BranchAddView extends ViewParent {
 
         dialog.setVisible(true);
     }
+
     public String getBranchID() {return add_branch_cod_text.getText();}
 
     public String getBranchReference() {

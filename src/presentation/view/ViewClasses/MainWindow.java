@@ -61,7 +61,7 @@ public class MainWindow extends ViewParent {
             //Map Image
             ImageIcon map = new ImageIcon("src\\resources\\Doodle_Map_of_Costa_Rica_With_States_generated.jpg");
             Image resizer = map.getImage();
-            resizer = resizer.getScaledInstance(900, 800,  java.awt.Image.SCALE_SMOOTH);
+            resizer = resizer.getScaledInstance(700, 600,  java.awt.Image.SCALE_SMOOTH);
             map.setImage(resizer);
             map_image = new JLabel(map);
             map_image.setFocusable(true);
@@ -206,8 +206,8 @@ public class MainWindow extends ViewParent {
     }
     public void setBranchPointOnMap(BranchTableInfo point){
         point.setVisible(false);
-        int x = point.getX() + 650;
-        int y = point.getY() - 26;
+        int x = point.getX() + 530;
+        int y = point.getY() - 50;
         point.setBounds(x, y, 80, 80);
         map_layered_pane.add(point, 1);
         repaintWindow();
@@ -228,6 +228,16 @@ public class MainWindow extends ViewParent {
             }
             map_layered_pane.repaint();
         }
+    }
+    public void updateEmployeeTable(TableModel model){
+        emp_table.setModel(model);
+        emp_table.repaint();
+    }
+    public JTable getDepartmentTable() {
+        return branch_table;
+    }
+    public JTable getEmployeeTable() {
+        return emp_table;
     }
     public String getEmployeesSearchBar(){ return employees_srch_bar.getText(); }
 

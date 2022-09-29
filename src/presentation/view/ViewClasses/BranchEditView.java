@@ -19,10 +19,11 @@ public class BranchEditView extends ViewParent {
     private JTextField edit_branch_ref_text;
     private JTextField edit_branch_dir_text;
     private JTextField edit_branch_zon_text;
-    private JButton edit_branch_guardar_btn;
+    private JButton edit_branch_save_btn;
     private JButton edit_branch_cancel_btn;
-    private JPanel edit_branch_map_panel;
+    private JPanel map_panel;
     private JPanel branch_edit_panel;
+    private JLabel map_image;
 
     private GeneralUtilities utils;
 
@@ -33,9 +34,18 @@ public class BranchEditView extends ViewParent {
         if(!dialog.getContentPane().equals(branch_edit_panel)){
             dialog.setContentPane(branch_edit_panel);
             dialog.setName("BranchAddView");
-            dialog.setSize(new Dimension(500, 400));
+            dialog.setSize(new Dimension(1000, 800));
             dialog.setTitle("Sistema de Sucuracles y Empleados");
             dialog.setLocation(utils.getScreenX()/4, utils.getScreenY()/6);
+
+            //Map Image
+            ImageIcon map = new ImageIcon("src\\resources\\Doodle_Map_of_Costa_Rica_With_States_generated.jpg");
+            Image resizer = map.getImage();
+            resizer = resizer.getScaledInstance(700, 700,  java.awt.Image.SCALE_SMOOTH);
+            map.setImage(resizer);
+            map_image = new JLabel(map);
+            map_image.setFocusable(true);
+            map_panel.add(map_image, BorderLayout.CENTER);
         }
         dialog.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
         clearWindow();
@@ -58,7 +68,7 @@ public class BranchEditView extends ViewParent {
 
     @Override
     public void initComponents() {
-        edit_branch_guardar_btn.addActionListener(new ActionListener() {
+        edit_branch_save_btn.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 BranchEditViewController.saveButtonPressed();

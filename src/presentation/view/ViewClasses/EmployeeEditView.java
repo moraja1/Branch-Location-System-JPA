@@ -2,6 +2,7 @@ package presentation.view.ViewClasses;
 
 import presentation.controller.ViewControllers.EmployeeEditViewController;
 import presentation.controller.ViewControllers.MainWindowViewController;
+import presentation.model.viewModels.BranchTableInfo;
 import presentation.view.ViewParent;
 import presentation.view.utils.GeneralUtilities;
 
@@ -15,11 +16,12 @@ public class EmployeeEditView extends ViewParent {
     private JTextField edit_emp_nombre_text;
     private JTextField edit_emp_tel_text;
     private JTextField edit_emp_salario_text;
-    private JButton edit_emp_guardar_btn;
+    private JButton edit_emp_save_btn;
     private JButton edit_emp_cancel_btn;
     private JPanel edit_emp_map_panel;
     private JPanel emp_edit_panel;
     private GeneralUtilities utils;
+    private BranchTableInfo selectedBranch;
 
     public EmployeeEditView(Object[] model) {
         dialog = new JDialog(this, true);
@@ -53,7 +55,7 @@ public class EmployeeEditView extends ViewParent {
     }
 
     public void initComponents() {
-        edit_emp_guardar_btn.addActionListener(new ActionListener() {
+        edit_emp_save_btn.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 EmployeeEditViewController.saveButtonPressed();
@@ -118,4 +120,8 @@ public class EmployeeEditView extends ViewParent {
     public String getEmployeeName() { return edit_emp_nombre_text.getText();}
     public String getEmployeePhoneNumber() { return edit_emp_tel_text.getText();}
     public String getEmployeeSalary(){ return edit_emp_salario_text.getText();}
+
+    public BranchTableInfo getSelectedBranch() {
+        return selectedBranch;
+    }
 }

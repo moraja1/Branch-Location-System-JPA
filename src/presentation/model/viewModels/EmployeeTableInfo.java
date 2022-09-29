@@ -18,6 +18,13 @@ public class EmployeeTableInfo {
         this.zoning_percentage = zoning_percentage;
         this.total_salary = total_salary;
     }
+    public EmployeeTableInfo(String id, String name, String phone_number, double base_salary, String branch_reference) {
+        this.id = id;
+        this.name = name;
+        this.phone_number = phone_number;
+        this.base_salary = base_salary;
+        this.branch_reference = branch_reference;
+    }
 
     public String getId() {
         return id;

@@ -7,8 +7,8 @@ import presentation.view.ViewClasses.BranchEditView;
 import javax.swing.*;
 
 public class BranchEditViewController {
+
     private static BranchEditView branch_edit_view;
-    private static BranchesDAO branchesDAO = new BranchesDAO();
 
     public static BranchEditView getBranch_edit_view(Object[] model) {
         branch_edit_view = new BranchEditView(model);
@@ -21,12 +21,7 @@ public class BranchEditViewController {
         String address = branch_edit_view.getBranchDir();
         String zoning_percentage = branch_edit_view.getBranchZone();
 
-        Branch branch= new Branch(id, reference,address,Double.valueOf(zoning_percentage));
-        if(branchesDAO.edit(branch)){
-            JOptionPane.showMessageDialog(null, "Operación realizada correctamente.");
-        }else{
-            JOptionPane.showMessageDialog(null, "Operación no realizada.");
-        }
+
     }
     public static void windowClosed(){
         MainWindowViewController.windowInitialized();
