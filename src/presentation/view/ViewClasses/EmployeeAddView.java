@@ -154,8 +154,8 @@ public class EmployeeAddView extends ViewParent {
 
     public void setBranchPointOnMap(BranchTableInfo point){
         point.setVisible(false);
-        int x = point.getX();
-        int y = point.getY();
+        int x = point.getX() + 135;
+        int y = point.getY() - 80;
         point.setBounds(x, y, 80, 80);
         map_layered_pane.add(point, 1);
         repaintWindow();

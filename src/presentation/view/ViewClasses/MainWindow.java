@@ -61,7 +61,7 @@ public class MainWindow extends ViewParent {
             //Map Image
             ImageIcon map = new ImageIcon("src\\resources\\Doodle_Map_of_Costa_Rica_With_States_generated.jpg");
             Image resizer = map.getImage();
-            resizer = resizer.getScaledInstance(700, 600,  java.awt.Image.SCALE_SMOOTH);
+            resizer = resizer.getScaledInstance(900, 800,  java.awt.Image.SCALE_SMOOTH);
             map.setImage(resizer);
             map_image = new JLabel(map);
             map_image.setFocusable(true);
@@ -91,6 +91,9 @@ public class MainWindow extends ViewParent {
             public void actionPerformed(ActionEvent e) {
                 if(emp_table.getSelectedRow() != -1){
                     MainWindowViewController.editEmployee();
+                }else{
+                    JOptionPane.showMessageDialog(new JFrame(), "Debe seleccionar un empleado de la tabla",
+                            "Editar Empleado", JOptionPane.WARNING_MESSAGE);
                 }
             }
         });
@@ -122,8 +125,11 @@ public class MainWindow extends ViewParent {
         edit_branch_button.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                if(emp_table.getSelectedRow() != -1){
+                if(branch_table.getSelectedRow() != -1){
                     MainWindowViewController.editBranch();
+                }else{
+                    JOptionPane.showMessageDialog(new JFrame(), "Debe seleccionar una Sucursal de la tabla",
+                            "Editar Sucursal", JOptionPane.WARNING_MESSAGE);
                 }
             }
         });
@@ -162,6 +168,7 @@ public class MainWindow extends ViewParent {
                         branch.mouseClikedOutside(e);
                     }
                 }
+                System.out.println(e.getPoint());
                 e.consume();
             }
             @Override
@@ -206,8 +213,8 @@ public class MainWindow extends ViewParent {
     }
     public void setBranchPointOnMap(BranchTableInfo point){
         point.setVisible(false);
-        int x = point.getX() + 530;
-        int y = point.getY() - 50;
+        int x = point.getX() + 650;
+        int y = point.getY() - 30;
         point.setBounds(x, y, 80, 80);
         map_layered_pane.add(point, 1);
         repaintWindow();

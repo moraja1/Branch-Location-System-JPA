@@ -45,7 +45,7 @@ public class BranchEditView extends ViewParent {
             map.setImage(resizer);
             map_image = new JLabel(map);
             map_image.setFocusable(true);
-            map_panel.add(map_image, BorderLayout.CENTER);
+            map_panel.add(map_image);
         }
         dialog.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
         clearWindow();
@@ -59,11 +59,11 @@ public class BranchEditView extends ViewParent {
         edit_branch_zon_text.setText("");
     }
     public void initComponents(Object[] model) {
-        edit_branch_cod_text.setText(String.valueOf(model[0]));
+        /*edit_branch_cod_text.setText(String.valueOf(model[0]));
         edit_branch_ref_text.setText(String.valueOf(model[1]));
         edit_branch_dir_text.setText(String.valueOf(model[2]));
         edit_branch_zon_text.setText(String.valueOf(model[3]));
-        edit_branch_cod_text.setEnabled(false);
+        edit_branch_cod_text.setEnabled(false);*/
     }
 
     @Override
