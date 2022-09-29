@@ -181,7 +181,7 @@ public final class EmployeeXML extends XMLParser<Employee> {
         //Asigno los subnodos y valores del objeto
         emp.appendChild(createSubElements(doc, "name", employee.getName()));
         emp.appendChild(createSubElements(doc, "phone_number", String.valueOf(employee.getPhone_number())));
-        emp.appendChild(createSubElements(doc, "base_salary", String.valueOf(employee.getPhone_number())));
+        emp.appendChild(createSubElements(doc, "base_salary", String.valueOf(employee.getBase_salary())));
         emp.appendChild(createSubElements(doc, "branch", employee.getBranch().getId()));
         return emp;
     }

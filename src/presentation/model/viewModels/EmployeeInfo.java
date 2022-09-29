@@ -1,6 +1,6 @@
 package presentation.model.viewModels;
 
-public class EmployeeTableInfo {
+public class EmployeeInfo {
     private String id;
     private String name;
     private String phone_number;
@@ -9,7 +9,7 @@ public class EmployeeTableInfo {
     private double zoning_percentage;
     private double total_salary;
 
-    public EmployeeTableInfo(String id, String name, String phone_number, double base_salary, String branch_reference, double zoning_percentage, double total_salary) {
+    public EmployeeInfo(String id, String name, String phone_number, double base_salary, String branch_reference, double zoning_percentage, double total_salary) {
         this.id = id;
         this.name = name;
         this.phone_number = phone_number;
@@ -18,12 +18,11 @@ public class EmployeeTableInfo {
         this.zoning_percentage = zoning_percentage;
         this.total_salary = total_salary;
     }
-    public EmployeeTableInfo(String id, String name, String phone_number, double base_salary, String branch_reference) {
+    public EmployeeInfo(String id, String name, String phone_number, double base_salary) {
         this.id = id;
         this.name = name;
         this.phone_number = phone_number;
         this.base_salary = base_salary;
-        this.branch_reference = branch_reference;
     }
 
     public String getId() {

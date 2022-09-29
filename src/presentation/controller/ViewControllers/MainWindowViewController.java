@@ -2,14 +2,13 @@ package presentation.controller.ViewControllers;
 
 import business.DataServices;
 import presentation.controller.flowController.MainController;
-import presentation.model.viewModels.BranchTableInfo;
-import presentation.model.viewModels.EmployeeTableInfo;
+import presentation.model.viewModels.BranchInfo;
+import presentation.model.viewModels.EmployeeInfo;
 import presentation.model.viewModels.componentModels.BranchTableModel;
 import presentation.model.viewModels.componentModels.EmployeeTableModel;
 import presentation.view.ViewClasses.MainWindow;
 
 import javax.swing.*;
-import javax.swing.table.TableModel;
 import java.util.List;
 
 public class MainWindowViewController {
@@ -26,12 +25,12 @@ public class MainWindowViewController {
         int selectedTab = main_window.getSelectedTabIndex();
         switch (selectedTab){
             case 0:
-                List<EmployeeTableInfo> employees = DataServices.getEmployeesForTable();
+                List<EmployeeInfo> employees = DataServices.getEmployeesForTable();
                 EmployeeTableModel empTableModel = new EmployeeTableModel(employees);
                 main_window.setTableModel(empTableModel);
                 break;
             case 1:
-                List<BranchTableInfo> branches = DataServices.getBranchesForTable();
+                List<BranchInfo> branches = DataServices.getBranchesForTable();
                 BranchTableModel braTableModel = new BranchTableModel(branches);
                 main_window.setTableModel(braTableModel);
                 break;
@@ -40,8 +39,8 @@ public class MainWindowViewController {
         }
     }
     private static void updateImages() {
-        List<BranchTableInfo> branches = DataServices.getBranchesForTable();
-        for(BranchTableInfo branch : branches){
+        List<BranchInfo> branches = DataServices.getBranchesForTable();
+        for(BranchInfo branch : branches){
             main_window.setBranchPointOnMap(branch);
         }
     }
@@ -56,12 +55,16 @@ public class MainWindowViewController {
         String id = String.valueOf(getObjectModel()[0]);
         String name = String.valueOf(getObjectModel()[1]);
         String phone_number = String.valueOf(getObjectModel()[2]);
-        Double salary = (Double)getObjectModel()[3];
+        double salary = (Double)getObjectModel()[3];
         String reference = String.valueOf(getObjectModel()[4]);
-        Double zon_percentage = (Double)getObjectModel()[5];
-        Double total_salary = (Double)getObjectModel()[6];
+        double zone_percentage = (Double)getObjectModel()[5];
+        double total_salary = (Double)getObjectModel()[6];
 
-        //Falta implementacion para el delete junto al update table
+        EmployeeInfo employee = new EmployeeInfo(id, name, phone_number, salary, reference, zone_percentage, total_salary);
+        if(DataServices.removeEmployee(employee)){
+            JOptionPane.showMessageDialog(new JFrame(), "Empleado eliminado correctamente",
+                    "Eliminar Empleado", JOptionPane.INFORMATION_MESSAGE);
+        }
 
     }
     public static void searchEmployee() {

@@ -7,8 +7,8 @@ import data.dao.DAO;
 import data.dao.modelsDAO.BranchesDAO;
 import data.dao.modelsDAO.CoordinatesDAO;
 import data.dao.modelsDAO.EmployeesDAO;
-import presentation.model.viewModels.BranchTableInfo;
-import presentation.model.viewModels.EmployeeTableInfo;
+import presentation.model.viewModels.BranchInfo;
+import presentation.model.viewModels.EmployeeInfo;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -16,14 +16,14 @@ import java.util.List;
 
 public class DataServices {
     private static DAO dataDAO;
-    public static List<EmployeeTableInfo> getEmployeesForTable() {
+    public static List<EmployeeInfo> getEmployeesForTable() {
         dataDAO = new EmployeesDAO();
         HashMap<String, Employee> dataEmployees = dataDAO.getAllObjects();
         List<Employee> dataEmployeesList = dataEmployees.values().stream().toList();
         dataDAO = new BranchesDAO();
         HashMap<String, Branch> dataBranches = dataDAO.getAllObjects();
 
-        List<EmployeeTableInfo> employees = new ArrayList<>();
+        List<EmployeeInfo> employees = new ArrayList<>();
 
         for (Employee emp : dataEmployeesList){
             Branch branch = dataBranches.get(emp.getBranch().getId());
@@ -39,12 +39,12 @@ public class DataServices {
             double total_salary = (base_salary * zoning_percentage) - base_salary;
 
 
-            employees.add(new EmployeeTableInfo(id, name, phone_number, base_salary, branch_reference,
+            employees.add(new EmployeeInfo(id, name, phone_number, base_salary, branch_reference,
                     zoning_percentage, total_salary));
         }
         return employees;
     }
-    public static List<BranchTableInfo> getBranchesForTable() {
+    public static List<BranchInfo> getBranchesForTable() {
         dataDAO = new BranchesDAO();
         HashMap<String, Branch> dataBranches = dataDAO.getAllObjects();
         List<Branch> dataBranchesList = dataBranches.values().stream().toList();
@@ -52,7 +52,7 @@ public class DataServices {
         dataDAO = new CoordinatesDAO();
         HashMap<String, Coordinates> dataCoords = dataDAO.getAllObjects();
 
-        List<BranchTableInfo> branches = new ArrayList<>();
+        List<BranchInfo> branches = new ArrayList<>();
         for(Branch branch : dataBranchesList){
             Coordinates coord = dataCoords.get(branch.getCoords().getId());
             if(coord == null){
@@ -64,9 +64,33 @@ public class DataServices {
             double zoning_percentage = branch.getZoning_percentage();
             String coords = new StringBuilder().append(coord.getX()).append(", ").append(coord.getY()).toString();
 
-            branches.add(new BranchTableInfo(id, reference, address, zoning_percentage, coords));
+            branches.add(new BranchInfo(id, reference, address, zoning_percentage, coords));
         }
         return branches;
     }
+    public static boolean addEmployeeExecution(EmployeeInfo e, BranchInfo b) {
+        //Get Branch
+        dataDAO = new BranchesDAO();
+        Branch branch = (Branch) dataDAO.getSingleObject(b.getId());
+        if(branch == null){
+            return false;
+        }
+        //Create Employee
+        String id = e.getId();
+        String name = e.getName();
+        String phone_number = e.getPhone_number();
+        double base_salary = e.getBase_salary();
 
+        Employee employee = new Employee(id, name, phone_number, base_salary, branch);
+        branch.getEmployees().add(employee);
+        if(dataDAO.edit(branch)){
+            dataDAO = new EmployeesDAO();
+            return dataDAO.add(employee);
+        }
+        return false;
+    }
+    public static boolean removeEmployee(EmployeeInfo e) {
+
+        return false;
+    }
 }

@@ -2,7 +2,7 @@ package presentation.view.ViewClasses;
 
 import presentation.controller.ViewControllers.EmployeeEditViewController;
 import presentation.controller.ViewControllers.MainWindowViewController;
-import presentation.model.viewModels.BranchTableInfo;
+import presentation.model.viewModels.BranchInfo;
 import presentation.view.ViewParent;
 import presentation.view.utils.GeneralUtilities;
 
@@ -21,7 +21,7 @@ public class EmployeeEditView extends ViewParent {
     private JPanel edit_emp_map_panel;
     private JPanel emp_edit_panel;
     private GeneralUtilities utils;
-    private BranchTableInfo selectedBranch;
+    private BranchInfo selectedBranch;
 
     public EmployeeEditView(Object[] model) {
         dialog = new JDialog(this, true);
@@ -121,7 +121,7 @@ public class EmployeeEditView extends ViewParent {
     public String getEmployeePhoneNumber() { return edit_emp_tel_text.getText();}
     public String getEmployeeSalary(){ return edit_emp_salario_text.getText();}
 
-    public BranchTableInfo getSelectedBranch() {
+    public BranchInfo getSelectedBranch() {
         return selectedBranch;
     }
 }

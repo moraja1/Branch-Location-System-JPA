@@ -21,7 +21,7 @@ public class EmployeesDAO extends DAO<Employee> {
         try {
             employeePersisted = (Employee) xml.getObject(id);
         }catch (Exception e){
-            e.printStackTrace();
+            e.getCause();
             employeePersisted = null;
         }
         if(employeePersisted == null){

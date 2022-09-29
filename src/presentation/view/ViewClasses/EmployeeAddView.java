@@ -3,7 +3,7 @@ package presentation.view.ViewClasses;
 import presentation.controller.ViewControllers.EmployeeAddViewController;
 import presentation.controller.ViewControllers.MainWindowViewController;
 import presentation.model.mouseListener.ImageMouseSensor;
-import presentation.model.viewModels.BranchTableInfo;
+import presentation.model.viewModels.BranchInfo;
 import presentation.view.ViewParent;
 import presentation.view.utils.GeneralUtilities;
 
@@ -25,7 +25,7 @@ public class EmployeeAddView extends ViewParent {
     private JLabel map_image;
     private JLayeredPane map_layered_pane;
     private GeneralUtilities utils;
-    private BranchTableInfo selectedBranch;
+    private BranchInfo selectedBranch;
 
     public EmployeeAddView() {
         dialog = new JDialog(this, true);
@@ -65,7 +65,13 @@ public class EmployeeAddView extends ViewParent {
         add_emp_save_btn.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                EmployeeAddViewController.addButtonPressed();
+                if(!getEmployeeID().isEmpty() && !getEmployeeName().isEmpty() && !getEmployeePhoneNumber().isEmpty()
+                        && !getEmployeeSalary().isEmpty() && getSelectedBranch() != null){
+                    EmployeeAddViewController.addButtonPressed();
+                }else{
+                    JOptionPane.showMessageDialog(new JFrame(), "Debe llenar todos los campos",
+                            "Agregar Empleado", JOptionPane.WARNING_MESSAGE);
+                }
             }
         });
         add_emp_cancel_btn.addActionListener(new ActionListener() {
@@ -110,6 +116,30 @@ public class EmployeeAddView extends ViewParent {
 
             }
         });
+        add_emp_tel_text.addKeyListener(new KeyAdapter()
+        {
+            public void keyTyped(KeyEvent e)
+            {
+                char caracter = e.getKeyChar();
+                // Verificar si la tecla pulsada no es un digito
+                if(((caracter < '0') || (caracter > '9')) && (caracter != '\b') && (caracter != '.'))
+                {
+                    e.consume();  // ignorar el evento de teclado
+                }
+            }
+        });
+        add_emp_ced_text.addKeyListener(new KeyAdapter()
+        {
+            public void keyTyped(KeyEvent e)
+            {
+                char caracter = e.getKeyChar();
+                // Verificar si la tecla pulsada no es un digito
+                if(((caracter < '0') || (caracter > '9')) && (caracter != '\b') && (caracter != '.'))
+                {
+                    e.consume();  // ignorar el evento de teclado
+                }
+            }
+        });
         add_emp_salario_text.addKeyListener(new KeyAdapter()
         {
             public void keyTyped(KeyEvent e)
@@ -126,10 +156,10 @@ public class EmployeeAddView extends ViewParent {
             @Override
             public void mouseClicked(MouseEvent e) {
                 java.util.List<Component> points = java.util.List.of(map_layered_pane.getComponentsInLayer(0));
-                java.util.List<BranchTableInfo> branches = (java.util.List<BranchTableInfo>)(java.util.List<?>) points;
-                for (BranchTableInfo branch : branches) {
+                java.util.List<BranchInfo> branches = (java.util.List<BranchInfo>)(java.util.List<?>) points;
+                for (BranchInfo branch : branches) {
                     if(branch.isSelected()){
-                        branch.mouseClikedOutside(e);
+                        branch.mouseClickedOutside(e);
                     }
                 }
                 e.consume();
@@ -137,8 +167,8 @@ public class EmployeeAddView extends ViewParent {
             @Override
             public void mouseClickedOutside(MouseEvent e) {
                 java.util.List<Component> points = java.util.List.of(map_layered_pane.getComponentsInLayer(0));
-                java.util.List<BranchTableInfo> branches = (java.util.List<BranchTableInfo>)(java.util.List<?>) points;
-                for (BranchTableInfo branch : branches) {
+                java.util.List<BranchInfo> branches = (java.util.List<BranchInfo>)(java.util.List<?>) points;
+                for (BranchInfo branch : branches) {
                     if(branch.isSelected()){
                         selectedBranch = branch;
                     }
@@ -152,7 +182,7 @@ public class EmployeeAddView extends ViewParent {
         dialog.setVisible(true);
     }
 
-    public void setBranchPointOnMap(BranchTableInfo point){
+    public void setBranchPointOnMap(BranchInfo point){
         point.setVisible(false);
         int x = point.getX() + 135;
         int y = point.getY() - 80;
@@ -175,7 +205,7 @@ public class EmployeeAddView extends ViewParent {
     public String getEmployeeName() { return add_emp_nombre_text.getText();}
     public String getEmployeePhoneNumber() { return add_emp_tel_text.getText();}
     public String getEmployeeSalary(){ return add_emp_salario_text.getText();}
-    public BranchTableInfo getSelectedBranch() {
+    public BranchInfo getSelectedBranch() {
         return selectedBranch;
     }
 }

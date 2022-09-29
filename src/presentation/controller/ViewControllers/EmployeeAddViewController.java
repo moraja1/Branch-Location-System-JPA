@@ -1,9 +1,8 @@
 package presentation.controller.ViewControllers;
 
 import business.DataServices;
-import data.Branch;
-import data.Employee;
-import presentation.model.viewModels.BranchTableInfo;
+import presentation.model.viewModels.BranchInfo;
+import presentation.model.viewModels.EmployeeInfo;
 import presentation.view.ViewClasses.EmployeeAddView;
 
 import javax.swing.*;
@@ -18,8 +17,8 @@ public class EmployeeAddViewController {
         updateImages();
     }
     private static void updateImages() {
-        List<BranchTableInfo> branches = DataServices.getBranchesForTable();
-        for(BranchTableInfo branch : branches){
+        List<BranchInfo> branches = DataServices.getBranchesForTable();
+        for(BranchInfo branch : branches){
             employee_add_view.setBranchPointOnMap(branch);
         }
     }
@@ -27,14 +26,19 @@ public class EmployeeAddViewController {
         String id = employee_add_view.getEmployeeID();
         String name = employee_add_view.getEmployeeName();
         String phone_number = employee_add_view.getEmployeePhoneNumber();
-        String salary = employee_add_view.getEmployeeSalary();
-        BranchTableInfo branch = employee_add_view.getSelectedBranch();
+        double salary = Double.parseDouble(employee_add_view.getEmployeeSalary());
+        BranchInfo branch = employee_add_view.getSelectedBranch();
 
-        if(!id.isEmpty() || !name.isEmpty() || !phone_number.isEmpty() || !salary.isEmpty()){
+        EmployeeInfo employee = new EmployeeInfo(id, name, phone_number, salary);
 
+        if(DataServices.addEmployeeExecution(employee, branch)){
+            JOptionPane.showMessageDialog(new JFrame(), "Empleado agregado correctamente", "Confirmación",
+                    JOptionPane.INFORMATION_MESSAGE);
         }else{
-
+            JOptionPane.showMessageDialog(new JFrame(), "Error en almacenamiento de los datos", "Confirmación",
+                    JOptionPane.INFORMATION_MESSAGE);
         }
+
     }
     public static void windowClosed(){
         MainWindowViewController.updateTables();

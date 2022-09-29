@@ -3,7 +3,7 @@ package presentation.view.ViewClasses;
 
 import presentation.controller.ViewControllers.MainWindowViewController;
 import presentation.model.mouseListener.ImageMouseSensor;
-import presentation.model.viewModels.BranchTableInfo;
+import presentation.model.viewModels.BranchInfo;
 import presentation.view.utils.GeneralUtilities;
 import presentation.view.ViewParent;
 
@@ -100,7 +100,16 @@ public class MainWindow extends ViewParent {
         erase_employee_button.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                MainWindowViewController.eraseEmployee();
+                if(emp_table.getSelectedRow() != -1){
+                    int n = JOptionPane.showConfirmDialog(new JFrame(), "Está seguro que desea borrar el empleado?",
+                            "Confirmación requerida", JOptionPane.YES_NO_OPTION);
+                    if(n == JOptionPane.YES_OPTION){
+                        MainWindowViewController.eraseEmployee();
+                    }
+                }else{
+                    JOptionPane.showMessageDialog(new JFrame(), "Debe seleccionar un empleado de la tabla",
+                            "Eliminar Empleado", JOptionPane.WARNING_MESSAGE);
+                }
             }
         });
         srch_employee_button.addActionListener(new ActionListener() {
@@ -162,20 +171,19 @@ public class MainWindow extends ViewParent {
             @Override
             public void mouseClicked(MouseEvent e) {
                 List<Component> points = List.of(map_layered_pane.getComponentsInLayer(0));
-                List<BranchTableInfo> branches = (List<BranchTableInfo>)(List<?>) points;
-                for (BranchTableInfo branch : branches) {
+                List<BranchInfo> branches = (List<BranchInfo>)(List<?>) points;
+                for (BranchInfo branch : branches) {
                     if(branch.isSelected()){
-                        branch.mouseClikedOutside(e);
+                        branch.mouseClickedOutside(e);
                     }
                 }
-                System.out.println(e.getPoint());
                 e.consume();
             }
             @Override
             public void mouseClickedOutside(MouseEvent e) {
                 List<Component> points = List.of(map_layered_pane.getComponentsInLayer(0));
-                List<BranchTableInfo> branches = (List<BranchTableInfo>)(List<?>) points;
-                for (BranchTableInfo branch : branches) {
+                List<BranchInfo> branches = (List<BranchInfo>)(List<?>) points;
+                for (BranchInfo branch : branches) {
                     if(branch.isSelected()){
                         selectTableRow(branch);
                     }
@@ -189,7 +197,7 @@ public class MainWindow extends ViewParent {
         setVisible(true);
     }
 
-    private void selectTableRow(BranchTableInfo branch) {
+    private void selectTableRow(BranchInfo branch) {
         String branchID = branch.getId();
         String tableID;
         for(int i = 0; i < branch_table.getRowCount(); i++){
@@ -211,7 +219,7 @@ public class MainWindow extends ViewParent {
             branch_table.setModel(tm);
         }
     }
-    public void setBranchPointOnMap(BranchTableInfo point){
+    public void setBranchPointOnMap(BranchInfo point){
         point.setVisible(false);
         int x = point.getX() + 650;
         int y = point.getY() - 30;

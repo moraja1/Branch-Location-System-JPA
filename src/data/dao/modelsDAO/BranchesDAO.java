@@ -77,39 +77,10 @@ public class BranchesDAO extends DAO<Branch> {
         String id = obj.getId();
         xml = new BranchXML();
         Branch branchPersisted;
-        Coordinates coordinates = obj.getCoords();
-        List<Employee> employeesPersisted;
         try {
             branchPersisted = (Branch) xml.getObject(id);
             if (branchPersisted != null) {
-                xml.mergeElement(id);
-                Coordinates coordinatesPersisted = branchPersisted.getCoords();
-                employeesPersisted = branchPersisted.getEmployees();
-                if(coordinates != null){
-                    if(!coordinates.getId().equals(coordinatesPersisted.getId())){
-                        CoordinatesDAO dao = new CoordinatesDAO();
-                        dao.erase(coordinatesPersisted);
-                        dao.add(coordinates);
-                    }
-                }
-                if (employeesPersisted != null) {
-                    EmployeesDAO dao = new EmployeesDAO();
-                    for (Employee e : employeesPersisted) {
-                        dao.removeBranch(e);
-                    }
-                }
-                List<Employee> newEmployees = obj.getEmployees();
-                if (newEmployees != null) {
-                    EmployeesDAO dao = new EmployeesDAO();
-                    xml = new EmployeeXML();
-                    for (Employee e : newEmployees) {
-                        Employee emp = (Employee) xml.getObject(e.getId());
-                        if(emp != null){
-                            e.setBranch(new Branch(obj.getId()));
-                            dao.changeBranch(e);
-                        }
-                    }
-                }
+                xml.mergeElement(obj);
             }
             return true;
         } catch(Exception e){

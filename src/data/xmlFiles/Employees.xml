@@ -36,4 +36,10 @@
         <base_salary>300000.0</base_salary>
         <branch>1</branch>
     </employee>
+    <employee id="6">
+        <name>Kevin Vazquez Hernandez</name>
+        <phone_number>95123648</phone_number>
+        <base_salary>650000.0</base_salary>
+        <branch>1</branch>
+    </employee>
 </Employees>

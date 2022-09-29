@@ -95,6 +95,30 @@ public final class BranchXML extends XMLParser<Branch> {
         return null;
     }
 
+    public Branch getBranchByReference(String reference) throws ParserConfigurationException, IOException, SAXException {
+        Branch branch;
+        doc = getDocument();
+        NodeList nodeList = doc.getElementsByTagName(TAG);
+
+        for (int i = 0; i < nodeList.getLength(); i++) {
+            Node node = nodeList.item(i);
+            if(node.getNodeType() == Node.ELEMENT_NODE){
+                Element branchTag = (Element) node;
+                Element referenceTag = (Element) branchTag.getElementsByTagName("reference").item(0);
+                if(referenceTag != null){
+                    String value = referenceTag.getTextContent();
+                    if(value.equals(reference)){
+                        // Get the value of the ID attribute.
+                        String id = branchTag.getAttributes().getNamedItem("id").getNodeValue();
+                        branch = new Branch(id);
+                        branch = getElementData(branchTag, branch);
+                        return branch;
+                    }
+                }
+            }
+        }
+        return null;
+    }
 
 
     /**
@@ -155,7 +179,7 @@ public final class BranchXML extends XMLParser<Branch> {
         Element address = (Element) elem.getElementsByTagName("address").item(0);
         Element zoning_percentage = (Element) elem.getElementsByTagName("zoning_percentage").item(0);
         Element coords = (Element) elem.getElementsByTagName("coords").item(0);
-        NodeList employeesNodeList = elem.getElementsByTagName("employee");
+        Element employeesTag = (Element) elem.getElementsByTagName("employees").item(0);
 
         if(reference != null) {
             reference.setTextContent(obj.getReference());
@@ -170,16 +194,18 @@ public final class BranchXML extends XMLParser<Branch> {
             coords.setTextContent(obj.getId());
         }
         //Empleados
-        if(employeesNodeList != null){
-            Element employeesTag = (Element) employeesNodeList.item(0).getParentNode();
-            for(int i = 0; i < employeesNodeList.getLength(); i++){
-                Element employeeTag = (Element) employeesNodeList.item(i);
-                employeeTag.getParentNode().removeChild(employeeTag);
+        if(employeesTag != null){
+            NodeList employees = employeesTag.getChildNodes();
+            for(int i = 0; i < employees.getLength(); i++){
+                Node employeeTag = employees.item(i);
+                if(employeeTag.getNodeType() == Node.ELEMENT_NODE){
+                    employeesTag.removeChild(employeeTag);
+                }
             }
-            List<Employee> employees = obj.getEmployees();
-            if(employees != null){
-                for(int i = 0; i < employees.size(); i++){
-                    employeesTag.appendChild(createSubElements(doc, "employee", employees.get(i).getId()));
+            List<Employee> newEmployees = obj.getEmployees();
+            if(newEmployees != null){
+                for(int i = 0; i < newEmployees.size(); i++){
+                    employeesTag.appendChild(createSubElements(doc, "employee", newEmployees.get(i).getId()));
                 }
             }else{
                 employeesTag.appendChild(createSubElements(doc, "employee", "null"));
@@ -250,10 +276,12 @@ public final class BranchXML extends XMLParser<Branch> {
         List<Employee> employees = new ArrayList<>();
         for (int i = 0; i < employees_nodeList.getLength(); i++) {
             Node node = employees_nodeList.item(i);
-            // Get the value of the ID attribute.
-            String id_employee = node.getChildNodes().item(0).getNodeValue();
-            if(!(id_employee.equals("null") || id_employee != null)){
-                employees.add(new Employee(id_employee));
+            if(node.getNodeType() == Node.ELEMENT_NODE){
+                // Get the value of the ID attribute.
+                String id_employee = node.getChildNodes().item(0).getNodeValue();
+                if(!id_employee.equals("null")){
+                    employees.add(new Employee(id_employee));
+                }
             }
         }
         //Set the values of all sub-elements.

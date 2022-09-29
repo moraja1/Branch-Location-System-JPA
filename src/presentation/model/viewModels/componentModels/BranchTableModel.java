@@ -1,21 +1,21 @@
 package presentation.model.viewModels.componentModels;
 
 
-import presentation.model.viewModels.BranchTableInfo;
+import presentation.model.viewModels.BranchInfo;
 
 import java.util.List;
 
-public class BranchTableModel extends TableModelTemplate<BranchTableInfo> {
+public class BranchTableModel extends TableModelTemplate<BranchInfo> {
 
 
-    public BranchTableModel(List<BranchTableInfo> list) {
+    public BranchTableModel(List<BranchInfo> list) {
         super(list, new String[]{"ID", "Referencia", "Direccion", "Porcentaje de Zona", "Coordenadas"},
                 new Class[]{String.class, String.class, String.class, Double.class, String.class});
     }
 
     //FALTA CAMBIAR ESTE METODO PARA ADECUARLO A ESTA CLASE
     @Override
-    protected void setRows(List<BranchTableInfo> list) {
+    protected void setRows(List<BranchInfo> list) {
             rows = new Object[list.size()][columns.length];
             for(int i = 0; i < list.size(); i++){
                 for(int j = 0; j < columns.length; j++){
