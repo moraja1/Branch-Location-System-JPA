@@ -1,6 +1,7 @@
 package presentation.controller.ViewControllers;
 
 import business.DataServices;
+import presentation.controller.flowController.MainController;
 import presentation.model.viewModels.BranchTableInfo;
 import presentation.model.viewModels.EmployeeTableInfo;
 import presentation.model.viewModels.componentModels.BranchTableModel;
@@ -43,7 +44,7 @@ public class MainWindowViewController {
         }
     }
     public static void addEmployee() {
-
+        MainController.changeWindow(EmployeeAddViewController.getEmployee_add_view());
     }
     public static void editEmployee() {
     }

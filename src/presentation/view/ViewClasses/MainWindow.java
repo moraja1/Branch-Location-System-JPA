@@ -51,7 +51,7 @@ public class MainWindow extends ViewParent {
             setName("MainWindow");
             setSize(new Dimension(1600, 900));
             setTitle("Sistema de Sucursales y Empleados");
-            setLocation(utils.getScreenX()/9, utils.getScreenY()/8);
+            setLocation(utils.getScreenX()/11, utils.getScreenY()/11);
             map_layered_pane = getLayeredPane();
 
             //Image about
@@ -152,9 +152,6 @@ public class MainWindow extends ViewParent {
                 repaintWindow();
             }
         });
-        /*
-        SI HAGO UNA IMPLEMENTACION CON CLICKOUTSIDE PUEDO MANDAR A LLAMARLO DESDE EL PUNTO
-         */
         map_image.addMouseListener(new ImageMouseSensor() {
             @Override
             public void mouseClicked(MouseEvent e) {
@@ -165,7 +162,6 @@ public class MainWindow extends ViewParent {
                         branch.mouseClikedOutside(e);
                     }
                 }
-                System.out.println(e.getPoint());
                 e.consume();
             }
             @Override
@@ -210,18 +206,25 @@ public class MainWindow extends ViewParent {
     }
     public void setBranchPointOnMap(BranchTableInfo point){
         point.setVisible(false);
-        int x = point.getX() + 600;
-        int y = point.getY();
+        int x = point.getX() + 650;
+        int y = point.getY() - 26;
         point.setBounds(x, y, 80, 80);
         map_layered_pane.add(point, 1);
         repaintWindow();
     }
 
     private void repaintWindow() {
+        List<Component> points = List.of(map_layered_pane.getComponentsInLayer(0));
         if (getSelectedTabIndex() == 1){
-            List<Component> points = List.of(map_layered_pane.getComponentsInLayer(0));
             for(Component c : points){
                 c.setVisible(true);
+                c.setEnabled(true);
+            }
+            map_layered_pane.repaint();
+        }else{
+            for(Component c : points){
+                c.setVisible(false);
+                c.setEnabled(false);
             }
             map_layered_pane.repaint();
         }

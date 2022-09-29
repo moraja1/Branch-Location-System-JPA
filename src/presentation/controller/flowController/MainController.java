@@ -31,9 +31,9 @@ public class MainController {
 
     /**
      * Alternate within existent windows.
-     * @param new_View
+     * @param newView
      */
-    public static void changeWindow(ViewParent new_View){
-
+    public static void changeWindow(ViewParent newView){
+        newView.initComponents();
     }
 }

@@ -4,11 +4,22 @@
         <reference>Heredia</reference>
         <address>Heredia, Heredia, San Pablo</address>
         <zoning_percentage>7.5</zoning_percentage>
-        <coords>1</coords>
+        <coords>0</coords>
         <employees>
             <employee>0</employee>
             <employee>1</employee>
             <employee>2</employee>
+        </employees>
+    </branch>
+    <branch id="1">
+        <reference>Cartago</reference>
+        <address>Cartago, Paraiso, Occidente</address>
+        <zoning_percentage>3.5</zoning_percentage>
+        <coords>1</coords>
+        <employees>
+            <employee>3</employee>
+            <employee>4</employee>
+            <employee>5</employee>
         </employees>
     </branch>
 </Branches>

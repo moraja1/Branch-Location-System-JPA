@@ -15,7 +15,6 @@ public class EmployeeEditView extends ViewParent {
     private JTextField edit_emp_nombre_text;
     private JTextField edit_emp_tel_text;
     private JTextField edit_emp_salario_text;
-    private JTextField edit_emp_suc_text;
     private JButton edit_emp_guardar_btn;
     private JButton edit_emp_cancel_btn;
     private JPanel edit_emp_map_panel;
@@ -43,7 +42,6 @@ public class EmployeeEditView extends ViewParent {
         edit_emp_nombre_text.setText("");
         edit_emp_tel_text.setText("");
         edit_emp_salario_text.setText("");
-        edit_emp_suc_text.setText("");
     }
 
     private void initComponents(Object[] model) {
@@ -51,7 +49,6 @@ public class EmployeeEditView extends ViewParent {
         edit_emp_nombre_text.setText(String.valueOf(model[1]));
         edit_emp_tel_text.setText(String.valueOf(model[2]));
         edit_emp_salario_text.setText(String.valueOf(model[3]));
-        edit_emp_suc_text.setText(String.valueOf(model[4]));
         edit_emp_ced_text.setEnabled(false);
     }
 
@@ -121,5 +118,4 @@ public class EmployeeEditView extends ViewParent {
     public String getEmployeeName() { return edit_emp_nombre_text.getText();}
     public String getEmployeePhoneNumber() { return edit_emp_tel_text.getText();}
     public String getEmployeeSalary(){ return edit_emp_salario_text.getText();}
-    public String getEmployeeBranch(){ return edit_emp_suc_text.getText();}
 }

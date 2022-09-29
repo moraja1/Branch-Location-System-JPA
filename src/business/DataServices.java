@@ -44,7 +44,6 @@ public class DataServices {
         }
         return employees;
     }
-
     public static List<BranchTableInfo> getBranchesForTable() {
         dataDAO = new BranchesDAO();
         HashMap<String, Branch> dataBranches = dataDAO.getAllObjects();
@@ -69,4 +68,5 @@ public class DataServices {
         }
         return branches;
     }
+
 }

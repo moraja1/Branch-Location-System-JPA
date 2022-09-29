@@ -2,12 +2,15 @@ package presentation.view.ViewClasses;
 
 import presentation.controller.ViewControllers.EmployeeAddViewController;
 import presentation.controller.ViewControllers.MainWindowViewController;
+import presentation.model.mouseListener.ImageMouseSensor;
+import presentation.model.viewModels.BranchTableInfo;
 import presentation.view.ViewParent;
 import presentation.view.utils.GeneralUtilities;
 
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
+import java.util.List;
 
 public class EmployeeAddView extends ViewParent {
     private JDialog dialog;
@@ -15,13 +18,14 @@ public class EmployeeAddView extends ViewParent {
     private JTextField add_emp_nombre_text;
     private JTextField add_emp_tel_text;
     private JTextField add_emp_salario_text;
-    private JButton add_emp_guardar_btn;
+    private JButton add_emp_save_btn;
     private JButton add_emp_cancel_btn;
-    private JTextField add_emp_suc_text;
-    private JPanel add_emp_map_panel;
+    private JPanel map_panel;
     private JPanel emp_add_panel;
-
+    private JLabel map_image;
+    private JLayeredPane map_layered_pane;
     private GeneralUtilities utils;
+    private BranchTableInfo selectedBranch;
 
     public EmployeeAddView() {
         dialog = new JDialog(this, true);
@@ -30,9 +34,20 @@ public class EmployeeAddView extends ViewParent {
         if(!dialog.getContentPane().equals(emp_add_panel)){
             dialog.setContentPane(emp_add_panel);
             dialog.setName("EmployeeAddView");
-            dialog.setSize(new Dimension(500, 400));
+            dialog.setSize(new Dimension(1000, 800));
             dialog.setTitle("Sistema de Sucursales y Empleados");
             dialog.setLocation(utils.getScreenX()/4, utils.getScreenY()/6);
+            dialog.setResizable(false);
+            map_layered_pane = dialog.getLayeredPane();
+
+            //Map Image
+            ImageIcon map = new ImageIcon("src\\resources\\Doodle_Map_of_Costa_Rica_With_States_generated.jpg");
+            Image resizer = map.getImage();
+            resizer = resizer.getScaledInstance(700, 700,  java.awt.Image.SCALE_SMOOTH);
+            map.setImage(resizer);
+            map_image = new JLabel(map);
+            map_image.setFocusable(true);
+            map_panel.add(map_image, BorderLayout.CENTER);
         }
         dialog.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
         clearWindow();
@@ -43,12 +58,11 @@ public class EmployeeAddView extends ViewParent {
         add_emp_nombre_text.setText("");
         add_emp_tel_text.setText("");
         add_emp_salario_text.setText("");
-        add_emp_suc_text.setText("");
     }
 
     @Override
     public void initComponents() {
-        add_emp_guardar_btn.addActionListener(new ActionListener() {
+        add_emp_save_btn.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 EmployeeAddViewController.addButtonPressed();
@@ -108,10 +122,51 @@ public class EmployeeAddView extends ViewParent {
                 }
             }
         });
-
-
-
+        map_image.addMouseListener(new ImageMouseSensor() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                java.util.List<Component> points = java.util.List.of(map_layered_pane.getComponentsInLayer(0));
+                java.util.List<BranchTableInfo> branches = (java.util.List<BranchTableInfo>)(java.util.List<?>) points;
+                for (BranchTableInfo branch : branches) {
+                    if(branch.isSelected()){
+                        branch.mouseClikedOutside(e);
+                    }
+                }
+                e.consume();
+            }
+            @Override
+            public void mouseClickedOutside(MouseEvent e) {
+                java.util.List<Component> points = java.util.List.of(map_layered_pane.getComponentsInLayer(0));
+                java.util.List<BranchTableInfo> branches = (java.util.List<BranchTableInfo>)(java.util.List<?>) points;
+                for (BranchTableInfo branch : branches) {
+                    if(branch.isSelected()){
+                        selectedBranch = branch;
+                    }
+                }
+                e.consume();
+            }
+        });
+        map_layered_pane.addMouseListener(map_image.getMouseListeners()[0]);
+        //Controller initialize other components
+        EmployeeAddViewController.windowInitialized();
         dialog.setVisible(true);
+    }
+
+    public void setBranchPointOnMap(BranchTableInfo point){
+        point.setVisible(false);
+        int x = point.getX();
+        int y = point.getY();
+        point.setBounds(x, y, 80, 80);
+        map_layered_pane.add(point, 1);
+        repaintWindow();
+    }
+
+    private void repaintWindow() {
+        java.util.List<Component> points = List.of(map_layered_pane.getComponentsInLayer(0));
+        for(Component c : points){
+            c.setVisible(true);
+            c.setEnabled(true);
+        }
     }
 
     public String getEmployeeID() {
@@ -120,7 +175,7 @@ public class EmployeeAddView extends ViewParent {
     public String getEmployeeName() { return add_emp_nombre_text.getText();}
     public String getEmployeePhoneNumber() { return add_emp_tel_text.getText();}
     public String getEmployeeSalary(){ return add_emp_salario_text.getText();}
-    public String getEmployeeBranch(){ return add_emp_suc_text.getText();}
-
-
+    public BranchTableInfo getSelectedBranch() {
+        return selectedBranch;
+    }
 }
