@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <Employees>
     <employee id="0">
-        <name>Jaison Mora Víquez</name>
+        <name>Jaison Mora Víque</name>
         <phone_number>52316548</phone_number>
         <base_salary>750000.0</base_salary>
-        <branch>0</branch>
+        <branch>null</branch>
     </employee>
     <employee id="1">
         <name>Gerardo Chavez Masis</name>
