@@ -39,7 +39,6 @@ public class EmployeeAddViewController {
             JOptionPane.showMessageDialog(new JFrame(), "Error en almacenamiento de los datos", "Confirmación",
                     JOptionPane.INFORMATION_MESSAGE);
         }
-
     }
     public static void windowClosed(){
         MainWindowViewController.updateTables();

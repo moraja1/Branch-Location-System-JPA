@@ -5,6 +5,7 @@ import presentation.model.viewModels.BranchInfo;
 import presentation.model.viewModels.EmployeeInfo;
 import presentation.view.ViewClasses.EmployeeEditView;
 
+import javax.swing.*;
 import java.util.List;
 
 public class EmployeeEditViewController {
@@ -14,15 +15,22 @@ public class EmployeeEditViewController {
         return employee_edit_view;
     }
     public static void saveButtonPressed() {
-        /*String id = employee_edit_view.getEmployeeID();
+        String id = employee_edit_view.getEmployeeID();
         String name = employee_edit_view.getEmployeeName();
         String phone_number = employee_edit_view.getEmployeePhoneNumber();
-        String salary = employee_edit_view.getEmployeeSalary();
+        double salary = Double.parseDouble(employee_edit_view.getEmployeeSalary());
         BranchInfo branch = employee_edit_view.getSelectedBranch();
-        EmployeeInfo employeeInfo = new EmployeeInfo(id, name, phone_number, Double.valueOf(salary), branch.getReference());*/
+        String reference = branch.getReference();
 
-        //Falta la implementacion de que hacer cuando se le da al boton guardar
-        //Cree otro constructor en EmployeeTableInfo porque la ventana de editar no tiene para zonaje y demas
+        EmployeeInfo employee = new EmployeeInfo(id, name, phone_number, salary, reference);
+
+        if(DataServices.editEmployeeExecution(employee, branch)){
+            JOptionPane.showMessageDialog(new JFrame(), "Empleado editado correctamente", "Confirmación",
+                    JOptionPane.INFORMATION_MESSAGE);
+        }else{
+            JOptionPane.showMessageDialog(new JFrame(), "Error en almacenamiento de los datos", "Confirmación",
+                    JOptionPane.INFORMATION_MESSAGE);
+        }
 
     }
     public static void windowInitialize() {
@@ -48,11 +56,14 @@ public class EmployeeEditViewController {
             branches.remove(branchDeleter);
             branches.add(b);
         }
+        employee_edit_view.setSelectedBranch(b);
         for(BranchInfo branch : branches){
             employee_edit_view.setBranchPointOnMap(branch);
         }
     }
     public static void windowClosed(){
+        employee_edit_view = null;
+        employee_edit_view = new EmployeeEditView();
         MainWindowViewController.updateTables();
     }
 }

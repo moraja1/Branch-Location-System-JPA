@@ -1,7 +1,9 @@
 package presentation.view.ViewClasses;
 
+import presentation.controller.ViewControllers.EmployeeAddViewController;
 import presentation.controller.ViewControllers.EmployeeEditViewController;
 import presentation.controller.ViewControllers.MainWindowViewController;
+import presentation.model.mouseListener.ImageMouseSensor;
 import presentation.model.viewModels.BranchInfo;
 import presentation.model.viewModels.componentModels.BranchPointer;
 import presentation.view.ViewParent;
@@ -63,7 +65,13 @@ public class EmployeeEditView extends ViewParent {
         edit_emp_save_btn.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                EmployeeEditViewController.saveButtonPressed();
+                if(!getEmployeeID().isEmpty() && !getEmployeeName().isEmpty() && !getEmployeePhoneNumber().isEmpty()
+                        && !getEmployeeSalary().isEmpty() && getSelectedBranch() != null){
+                    EmployeeEditViewController.saveButtonPressed();
+                }else{
+                    JOptionPane.showMessageDialog(new JFrame(), "Debe llenar todos los campos",
+                            "Agregar Empleado", JOptionPane.WARNING_MESSAGE);
+                }
             }
         });
         edit_emp_cancel_btn.addActionListener(new ActionListener() {
@@ -72,7 +80,18 @@ public class EmployeeEditView extends ViewParent {
                 dialog.dispose();
             }
         });
-
+        edit_emp_tel_text.addKeyListener(new KeyAdapter()
+        {
+            public void keyTyped(KeyEvent e)
+            {
+                char caracter = e.getKeyChar();
+                // Verificar si la tecla pulsada no es un digito
+                if(((caracter < '0') || (caracter > '9')) && (caracter != '\b') && (caracter != '.'))
+                {
+                    e.consume();  // ignorar el evento de teclado
+                }
+            }
+        });
         edit_emp_salario_text.addKeyListener(new KeyAdapter() {
             public void keyTyped(KeyEvent e) {
                 char caracter = e.getKeyChar();
@@ -95,7 +114,7 @@ public class EmployeeEditView extends ViewParent {
 
             @Override
             public void windowClosed(WindowEvent e) {
-                MainWindowViewController.updateTables();
+                EmployeeEditViewController.windowClosed();
             }
 
             @Override
@@ -118,6 +137,31 @@ public class EmployeeEditView extends ViewParent {
 
             }
         });
+        map_image.addMouseListener(new ImageMouseSensor() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                java.util.List<Component> points = java.util.List.of(map_layered_pane.getComponentsInLayer(0));
+                java.util.List<BranchInfo> branches = (java.util.List<BranchInfo>)(java.util.List<?>) points;
+                for (BranchInfo branch : branches) {
+                    if(branch.isSelected()){
+                        branch.mouseClickedOutside(e);
+                    }
+                }
+                e.consume();
+            }
+            @Override
+            public void mouseClickedOutside(MouseEvent e) {
+                java.util.List<Component> points = java.util.List.of(map_layered_pane.getComponentsInLayer(0));
+                java.util.List<BranchInfo> branches = (java.util.List<BranchInfo>)(java.util.List<?>) points;
+                for (BranchInfo branch : branches) {
+                    if(branch.isSelected()){
+                        selectedBranch = branch;
+                    }
+                }
+                e.consume();
+            }
+        });
+        map_layered_pane.addMouseListener(map_image.getMouseListeners()[0]);
         EmployeeEditViewController.windowInitialize();
         dialog.setVisible(true);
     }
@@ -152,5 +196,9 @@ public class EmployeeEditView extends ViewParent {
             c.setVisible(true);
             c.setEnabled(true);
         }
+    }
+
+    public void setSelectedBranch(BranchInfo selectedBranch) {
+        this.selectedBranch = selectedBranch;
     }
 }

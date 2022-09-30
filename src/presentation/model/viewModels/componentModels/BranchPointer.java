@@ -104,5 +104,6 @@ public class BranchPointer extends JLabel implements MouseInputListener {
 
     public void setSelected(boolean selected) {
         this.selected = selected;
+        setIcon(getPointerImage());
     }
 }

@@ -103,7 +103,6 @@ public class DataServices {
         }
         return false;
     }
-
     public static BranchInfo getBranchInfo(String key) {
         BranchesDAO dataDAO = new BranchesDAO();
         Branch branch = dataDAO.getSingleObject(key);
@@ -115,5 +114,40 @@ public class DataServices {
         }
         BranchInfo b = BranchParser.toBranchInfo(branch);
         return b;
+    }
+    public static boolean editEmployeeExecution(EmployeeInfo e, BranchInfo b) {
+        //Get Branch
+        dataDAO = new BranchesDAO();
+        Branch newBranch = (Branch) dataDAO.getSingleObject(b.getId());
+
+        Employee employee = EmployeeParser.toEmployee(e);
+
+        List<Employee> employeesOnNewBranch = newBranch.getEmployees();
+        boolean containsEmployee = false;
+        for(Employee em : employeesOnNewBranch){
+            if(em.getId().equals(employee.getId())) {
+                containsEmployee = true;
+            }
+        }
+        if(!containsEmployee) {
+            newBranch.getEmployees().add(employee);
+            BranchesDAO dataDAO = new BranchesDAO();
+            dataDAO.edit(newBranch);
+
+            Branch oldBranch = dataDAO.getBranchByReference(e.getBranch_reference());
+            List<Employee> employeesOnOldBranch = oldBranch.getEmployees();
+            Employee employeeEraser = null;
+            for(Employee em : employeesOnOldBranch){
+                if(em.getId().equals(employee.getId())) {
+                    employeeEraser = em;
+                }
+            }
+            if(employeeEraser != null) {
+                oldBranch.getEmployees().remove(employeeEraser);
+                dataDAO.edit(oldBranch);
+            }
+        }
+        dataDAO = new EmployeesDAO();
+        return dataDAO.edit(employee);
     }
 }

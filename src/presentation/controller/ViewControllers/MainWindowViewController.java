@@ -9,6 +9,8 @@ import presentation.model.viewModels.componentModels.EmployeeTableModel;
 import presentation.view.ViewClasses.MainWindow;
 
 import javax.swing.*;
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 public class MainWindowViewController {
@@ -70,7 +72,28 @@ public class MainWindowViewController {
         }
         updateTables();
     }
+    //DEBUGUEAR
     public static void searchEmployee() {
+        String id = main_window.getEmployeesSearchBar();
+        if(id.isEmpty()){
+            updateTables();
+        }else{
+            List<EmployeeInfo> employees = DataServices.getEmployeesForTable();
+            EmployeeInfo employee = null;
+            for(EmployeeInfo e : employees){
+                if(e.getId().equals(id) || e.getName().equals(id) || e.getPhone_number().equals(id)){
+                    employee = e;
+                }
+            }
+
+            if(employee != null){
+                List<EmployeeInfo> employeeFinded = new ArrayList<>();
+                employeeFinded.add(employee);
+
+                EmployeeTableModel empTableModel = new EmployeeTableModel(employeeFinded);
+                main_window.setTableModel(empTableModel);
+            }
+        }
     }
     public static void reportEmployee() {
     }
