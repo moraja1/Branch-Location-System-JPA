@@ -18,8 +18,9 @@ public class EmployeeEditView extends ViewParent {
     private JTextField edit_emp_salario_text;
     private JButton edit_emp_save_btn;
     private JButton edit_emp_cancel_btn;
-    private JPanel edit_emp_map_panel;
+    private JPanel map_panel;
     private JPanel emp_edit_panel;
+    private JLabel map_image;
     private GeneralUtilities utils;
     private BranchInfo selectedBranch;
 
@@ -30,9 +31,19 @@ public class EmployeeEditView extends ViewParent {
         if(!dialog.getContentPane().equals(emp_edit_panel)){
             dialog.setContentPane(emp_edit_panel);
             dialog.setName("EmployeeEditView");
-            dialog.setSize(new Dimension(500, 400));
+            dialog.setSize(new Dimension(1000, 800));
             dialog.setTitle("Sistema de Sucuracles y Empleados");
             dialog.setLocation(utils.getScreenX()/4, utils.getScreenY()/6);
+
+            //Map Image
+            ImageIcon map = new ImageIcon("src\\resources\\Doodle_Map_of_Costa_Rica_With_States_generated.jpg");
+            Image resizer = map.getImage();
+            resizer = resizer.getScaledInstance(700, 700,  java.awt.Image.SCALE_SMOOTH);
+            map.setImage(resizer);
+            map_image = new JLabel(map);
+            map_image.setFocusable(true);
+            map_panel.add(map_image, BorderLayout.CENTER);
+
         }
         dialog.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
         clearWindow();
