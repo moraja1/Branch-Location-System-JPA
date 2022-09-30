@@ -1,4 +1,4 @@
-package data;
+package data.repository;
 
 public class Coordinates {
     private String id;

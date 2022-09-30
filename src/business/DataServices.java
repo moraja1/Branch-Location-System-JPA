@@ -1,8 +1,8 @@
 package business;
 
-import data.Branch;
-import data.Coordinates;
-import data.Employee;
+import data.repository.Branch;
+import data.repository.Coordinates;
+import data.repository.Employee;
 import data.dao.DAO;
 import data.dao.modelsDAO.BranchesDAO;
 import data.dao.modelsDAO.CoordinatesDAO;
@@ -54,17 +54,10 @@ public class DataServices {
 
         List<BranchInfo> branches = new ArrayList<>();
         for(Branch branch : dataBranchesList){
-            Coordinates coord = dataCoords.get(branch.getCoords().getId());
-            if(coord == null){
-                continue;
+            BranchInfo bInfo = BranchParser.toBranchInfo(branch);
+            if(bInfo != null){
+                branches.add(bInfo);
             }
-            String id = branch.getId();
-            String reference = branch.getReference();
-            String address = branch.getAddress();
-            double zoning_percentage = branch.getZoning_percentage();
-            String coords = new StringBuilder().append(coord.getX()).append(", ").append(coord.getY()).toString();
-
-            branches.add(new BranchInfo(id, reference, address, zoning_percentage, coords));
         }
         return branches;
     }
@@ -109,5 +102,18 @@ public class DataServices {
 
         }
         return false;
+    }
+
+    public static BranchInfo getBranchInfo(String key) {
+        BranchesDAO dataDAO = new BranchesDAO();
+        Branch branch = dataDAO.getSingleObject(key);
+        if(branch == null){
+            branch = dataDAO.getBranchByReference(key);
+            if (branch == null){
+                return null;
+            }
+        }
+        BranchInfo b = BranchParser.toBranchInfo(branch);
+        return b;
     }
 }

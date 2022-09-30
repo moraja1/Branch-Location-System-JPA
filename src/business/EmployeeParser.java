@@ -1,7 +1,7 @@
 package business;
 
-import data.Branch;
-import data.Employee;
+import data.repository.Branch;
+import data.repository.Employee;
 import data.dao.modelsDAO.BranchesDAO;
 import presentation.model.viewModels.EmployeeInfo;
 

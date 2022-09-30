@@ -1,4 +1,4 @@
-package data;
+package data.repository;
 
 public class Employee extends Person{
     private Double base_salary;

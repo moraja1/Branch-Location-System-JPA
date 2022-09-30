@@ -49,7 +49,7 @@ public class MainWindowViewController {
     }
     public static void editEmployee() {
         Object[] model = getObjectModel();
-        MainController.changeWindow(EmployeeEditViewController.getEmployee_edit_view(model));
+        MainController.changeWindow(EmployeeEditViewController.getEmployee_edit_view());
     }
     public static void eraseEmployee() {
         String id = String.valueOf(getObjectModel()[0]);
@@ -79,7 +79,7 @@ public class MainWindowViewController {
         MainController.changeWindow(BranchAddViewController.getBranch_add_view());
     }
     public static void editBranch() {
-        Object[] model = getObjectModelBranch();
+        Object[] model = getObjectModel();
         MainController.changeWindow(BranchEditViewController.getBranch_edit_view(model));
     }
     public static void eraseBranch() {
@@ -88,22 +88,14 @@ public class MainWindowViewController {
     }
     public static void reportBranch() {
     }
+    public static Object[] getObjectModel(){
+        JTable table = main_window.getSelectedTable();
+        int row = table.getSelectedRow();
 
-    private static Object[] getObjectModelBranch(){
-        JTable depTable = main_window.getDepartmentTable();
-        int row = depTable.getSelectedRow();
-        Object[] model = new Object[2];
-        for(int i = 0; i < 2; i++){
-            model[i] = depTable.getValueAt(row, i);
-        }
-        return model;
-    }
-    private static Object[] getObjectModel(){
-        JTable empTable = main_window.getEmployeeTable();
-        int row = empTable.getSelectedRow();
-        Object[] model = new Object[empTable.getColumnCount()];
-        for(int i = 0; i < empTable.getColumnCount(); i++){
-            model[i] = empTable.getValueAt(row, i);
+        Object[] model = new Object[table.getColumnCount()];
+
+        for(int i = 0; i < table.getColumnCount(); i++){
+            model[i] = table.getValueAt(row, i);
         }
         return model;
     }

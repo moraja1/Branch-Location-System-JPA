@@ -1,6 +1,6 @@
 package data.xmlParsers;
 
-import data.Coordinates;
+import data.repository.Coordinates;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;

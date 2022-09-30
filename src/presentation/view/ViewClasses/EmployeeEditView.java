@@ -3,12 +3,14 @@ package presentation.view.ViewClasses;
 import presentation.controller.ViewControllers.EmployeeEditViewController;
 import presentation.controller.ViewControllers.MainWindowViewController;
 import presentation.model.viewModels.BranchInfo;
+import presentation.model.viewModels.componentModels.BranchPointer;
 import presentation.view.ViewParent;
 import presentation.view.utils.GeneralUtilities;
 
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
+import java.util.List;
 
 public class EmployeeEditView extends ViewParent {
     private JDialog dialog;
@@ -23,8 +25,9 @@ public class EmployeeEditView extends ViewParent {
     private JLabel map_image;
     private GeneralUtilities utils;
     private BranchInfo selectedBranch;
+    private JLayeredPane map_layered_pane;
 
-    public EmployeeEditView(Object[] model) {
+    public EmployeeEditView() {
         dialog = new JDialog(this, true);
 
         utils = GeneralUtilities.getInstanceOf();
@@ -34,6 +37,7 @@ public class EmployeeEditView extends ViewParent {
             dialog.setSize(new Dimension(1000, 800));
             dialog.setTitle("Sistema de Sucuracles y Empleados");
             dialog.setLocation(utils.getScreenX()/4, utils.getScreenY()/6);
+            map_layered_pane = dialog.getLayeredPane();
 
             //Map Image
             ImageIcon map = new ImageIcon("src\\resources\\Doodle_Map_of_Costa_Rica_With_States_generated.jpg");
@@ -47,7 +51,6 @@ public class EmployeeEditView extends ViewParent {
         }
         dialog.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
         clearWindow();
-        initComponents(model);
     }
 
     private void clearWindow() {
@@ -56,15 +59,6 @@ public class EmployeeEditView extends ViewParent {
         edit_emp_tel_text.setText("");
         edit_emp_salario_text.setText("");
     }
-
-    private void initComponents(Object[] model) {
-        edit_emp_ced_text.setText(String.valueOf(model[0]));
-        edit_emp_nombre_text.setText(String.valueOf(model[1]));
-        edit_emp_tel_text.setText(String.valueOf(model[2]));
-        edit_emp_salario_text.setText(String.valueOf(model[3]));
-        edit_emp_ced_text.setEnabled(false);
-    }
-
     public void initComponents() {
         edit_emp_save_btn.addActionListener(new ActionListener() {
             @Override
@@ -124,9 +118,17 @@ public class EmployeeEditView extends ViewParent {
 
             }
         });
+        EmployeeEditViewController.windowInitialize();
         dialog.setVisible(true);
     }
-
+    public void setModel(Object[] model) {
+        //Inicio los JFrame
+        edit_emp_ced_text.setText(String.valueOf(model[0]));
+        edit_emp_nombre_text.setText(String.valueOf(model[1]));
+        edit_emp_tel_text.setText(String.valueOf(model[2]));
+        edit_emp_salario_text.setText(String.valueOf(model[3]));
+        edit_emp_ced_text.setEnabled(false);
+    }
     public String getEmployeeID() { return edit_emp_ced_text.getText();}
     public String getEmployeeName() { return edit_emp_nombre_text.getText();}
     public String getEmployeePhoneNumber() { return edit_emp_tel_text.getText();}
@@ -134,5 +136,21 @@ public class EmployeeEditView extends ViewParent {
 
     public BranchInfo getSelectedBranch() {
         return selectedBranch;
+    }
+
+    public void setBranchPointOnMap(BranchInfo point) {
+        point.setVisible(false);
+        int x = point.getX() + 135;
+        int y = point.getY() - 80;
+        point.setBounds(x, y, 80, 80);
+        map_layered_pane.add(point, 1);
+        repaintWindow();
+    }
+    private void repaintWindow() {
+        java.util.List<Component> points = List.of(map_layered_pane.getComponentsInLayer(0));
+        for(Component c : points){
+            c.setVisible(true);
+            c.setEnabled(true);
+        }
     }
 }

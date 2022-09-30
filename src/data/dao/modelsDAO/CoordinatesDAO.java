@@ -1,17 +1,9 @@
 package data.dao.modelsDAO;
 
-import data.Branch;
-import data.Coordinates;
-import data.Employee;
+import data.repository.Coordinates;
 import data.dao.DAO;
-import data.xmlParsers.ModelsParsers.BranchXML;
 import data.xmlParsers.ModelsParsers.CoordinateXML;
-import data.xmlParsers.ModelsParsers.EmployeeXML;
-import org.xml.sax.SAXException;
 
-import javax.xml.parsers.ParserConfigurationException;
-import javax.xml.transform.TransformerException;
-import java.io.IOException;
 import java.util.HashMap;
 
 public class CoordinatesDAO extends DAO<Coordinates> {

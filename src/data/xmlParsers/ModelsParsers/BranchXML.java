@@ -1,8 +1,8 @@
 package data.xmlParsers.ModelsParsers;
 
-import data.Branch;
-import data.Coordinates;
-import data.Employee;
+import data.repository.Branch;
+import data.repository.Coordinates;
+import data.repository.Employee;
 import data.xmlParsers.XMLParser;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;

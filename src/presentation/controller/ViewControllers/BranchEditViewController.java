@@ -1,10 +1,6 @@
 package presentation.controller.ViewControllers;
 
-import data.Branch;
-import data.dao.modelsDAO.BranchesDAO;
 import presentation.view.ViewClasses.BranchEditView;
-
-import javax.swing.*;
 
 public class BranchEditViewController {
 

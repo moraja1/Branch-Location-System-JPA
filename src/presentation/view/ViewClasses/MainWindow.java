@@ -248,11 +248,13 @@ public class MainWindow extends ViewParent {
         emp_table.setModel(model);
         emp_table.repaint();
     }
-    public JTable getDepartmentTable() {
-        return branch_table;
-    }
-    public JTable getEmployeeTable() {
-        return emp_table;
+    public JTable getSelectedTable() {
+        if (getSelectedTabIndex() == 0){
+            return emp_table;
+        }else{
+            return branch_table;
+        }
+
     }
     public String getEmployeesSearchBar(){ return employees_srch_bar.getText(); }
 

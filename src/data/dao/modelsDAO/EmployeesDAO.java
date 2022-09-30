@@ -1,11 +1,9 @@
 package data.dao.modelsDAO;
 
-import data.Branch;
-import data.Coordinates;
-import data.Employee;
+import data.repository.Branch;
+import data.repository.Employee;
 import data.dao.DAO;
 import data.xmlParsers.ModelsParsers.BranchXML;
-import data.xmlParsers.ModelsParsers.CoordinateXML;
 import data.xmlParsers.ModelsParsers.EmployeeXML;
 
 import java.util.HashMap;
