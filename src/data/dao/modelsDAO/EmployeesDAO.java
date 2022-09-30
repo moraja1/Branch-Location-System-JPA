@@ -38,26 +38,16 @@ public class EmployeesDAO extends DAO<Employee> {
     @Override
     public boolean erase(Employee obj) {
         String id = obj.getId();
-        String branchID = obj.getBranch().getId();
-        Branch branch;
-        if(branchID != null){
-            dao = new BranchesDAO();
-            branch = (Branch) dao.getSingleObject(branchID);
-        }else{
-            branch = null;
-        }
+        Branch branch = obj.getBranch();
+
         xml = new EmployeeXML();
         Employee employeePersisted;
         try {
             employeePersisted = (Employee) xml.getObject(id);
             if(employeePersisted != null){
-                xml.eraseElement(id);
-                if(branch != null){
-                        BranchesDAO dao = new BranchesDAO();
-                        dao.removeEmployee(branch, obj);
-                    }
-                }
-                return true;
+                xml.eraseElement(obj);
+            }
+            return true;
         } catch (Exception e){
             e.printStackTrace();
         }

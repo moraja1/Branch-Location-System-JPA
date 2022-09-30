@@ -114,6 +114,18 @@ public class BranchesDAO extends DAO<Branch> {
             return null;
         }
     }
+    public Branch getBranchByReference(String reference) {
+        BranchXML xml = new BranchXML();
+        try {
+            Branch branch = (Branch) xml.getBranchByReference(reference);
+            if(branch != null){
+                return branch;
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
     public boolean removeEmployee(Branch b, Employee e){
         BranchXML xml = new BranchXML();
         try {

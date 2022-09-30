@@ -61,11 +61,14 @@ public class MainWindowViewController {
         double total_salary = (Double)getObjectModel()[6];
 
         EmployeeInfo employee = new EmployeeInfo(id, name, phone_number, salary, reference, zone_percentage, total_salary);
-        if(DataServices.removeEmployee(employee)){
+        if(DataServices.removeEmployeeExecution(employee)){
             JOptionPane.showMessageDialog(new JFrame(), "Empleado eliminado correctamente",
                     "Eliminar Empleado", JOptionPane.INFORMATION_MESSAGE);
+        }else{
+            JOptionPane.showMessageDialog(new JFrame(), "Empleado no eliminado",
+                    "Eliminar Empleado", JOptionPane.INFORMATION_MESSAGE);
         }
-
+        updateTables();
     }
     public static void searchEmployee() {
     }
@@ -98,8 +101,8 @@ public class MainWindowViewController {
     private static Object[] getObjectModel(){
         JTable empTable = main_window.getEmployeeTable();
         int row = empTable.getSelectedRow();
-        Object[] model = new Object[4];
-        for(int i = 0; i < 4; i++){
+        Object[] model = new Object[empTable.getColumnCount()];
+        for(int i = 0; i < empTable.getColumnCount(); i++){
             model[i] = empTable.getValueAt(row, i);
         }
         return model;

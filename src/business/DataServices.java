@@ -75,22 +75,39 @@ public class DataServices {
         if(branch == null){
             return false;
         }
-        //Create Employee
-        String id = e.getId();
-        String name = e.getName();
-        String phone_number = e.getPhone_number();
-        double base_salary = e.getBase_salary();
 
-        Employee employee = new Employee(id, name, phone_number, base_salary, branch);
+        Employee employee = EmployeeParser.toEmployee(e);
         branch.getEmployees().add(employee);
+
         if(dataDAO.edit(branch)){
             dataDAO = new EmployeesDAO();
             return dataDAO.add(employee);
         }
         return false;
     }
-    public static boolean removeEmployee(EmployeeInfo e) {
+    public static boolean removeEmployeeExecution(EmployeeInfo e) {
+        Employee employee = EmployeeParser.toEmployee(e);
+        if(employee != null){
+            dataDAO = new EmployeesDAO();
+            dataDAO.erase(employee);
 
+            Branch branch = employee.getBranch();
+            List<Employee> employeeList = branch.getEmployees();
+            Employee eCopy = null;
+            for (Employee a : employeeList){
+                if(a.getId().equals(employee.getId())){
+                    eCopy = a;
+                }
+            }
+            if (eCopy != null) {
+                employeeList.remove(eCopy);
+            }
+            branch.setEmployees(employeeList);
+
+            dataDAO = new BranchesDAO();
+            return dataDAO.edit(branch);
+
+        }
         return false;
     }
 }

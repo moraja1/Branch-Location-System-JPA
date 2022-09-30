@@ -28,8 +28,9 @@ public class EmployeeAddViewController {
         String phone_number = employee_add_view.getEmployeePhoneNumber();
         double salary = Double.parseDouble(employee_add_view.getEmployeeSalary());
         BranchInfo branch = employee_add_view.getSelectedBranch();
+        String reference = branch.getReference();
 
-        EmployeeInfo employee = new EmployeeInfo(id, name, phone_number, salary);
+        EmployeeInfo employee = new EmployeeInfo(id, name, phone_number, salary, reference);
 
         if(DataServices.addEmployeeExecution(employee, branch)){
             JOptionPane.showMessageDialog(new JFrame(), "Empleado agregado correctamente", "Confirmación",
