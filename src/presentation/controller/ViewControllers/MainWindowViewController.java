@@ -95,8 +95,9 @@ public class MainWindowViewController {
         }
     }
     public static void reportEmployee() {
+        //LE CORRESPONDE A BRANDON HACERLO
     }
-    //BRANCHES
+
     public static void addBranch() {
         MainController.changeWindow(BranchAddViewController.getBranch_add_view());
     }
@@ -109,6 +110,7 @@ public class MainWindowViewController {
     public static void searchBranch() {
     }
     public static void reportBranch() {
+        //LE CORRESPONDE A BRANDON HACERLO
     }
     public static Object[] getObjectModel(){
         JTable table = main_window.getSelectedTable();

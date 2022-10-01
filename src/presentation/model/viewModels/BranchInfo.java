@@ -15,6 +15,13 @@ public class BranchInfo extends BranchPointer {
     private Double zoning_percentage;
     private String coords;
 
+    public BranchInfo() {
+    }
+
+    public BranchInfo(String coords) {
+        super(coords);
+        this.coords = coords;
+    }
     public BranchInfo(String id, String reference, String address, Double zoning_percentage, String coords) {
         super(coords);
         this.id = id;

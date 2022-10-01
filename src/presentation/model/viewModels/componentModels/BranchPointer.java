@@ -10,9 +10,12 @@ import java.awt.event.MouseEvent;
 public class BranchPointer extends JLabel implements MouseInputListener {
     protected boolean selected = false;
 
+    public BranchPointer() {
+    }
+
     public BranchPointer(String coords) {
-        int coordX = Integer.parseInt(coords.split(",\\s")[0]);
-        int coordY = Integer.parseInt(coords.split(",\\s")[1]);
+        int coordX = (int) Double.parseDouble(coords.split(",\\s")[0]);
+        int coordY = (int) Double.parseDouble(coords.split(",\\s")[1]);
         setLocation(coordX, coordY);
         setIcon(getPointerImage());
         addMouseListener(this);

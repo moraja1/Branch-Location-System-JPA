@@ -1,5 +1,6 @@
 package presentation.view.ViewClasses;
 
+import presentation.controller.ViewControllers.BranchAddViewController;
 import presentation.controller.ViewControllers.EmployeeAddViewController;
 import presentation.controller.ViewControllers.MainWindowViewController;
 import presentation.model.mouseListener.ImageMouseSensor;
@@ -70,7 +71,7 @@ public class EmployeeAddView extends ViewParent {
                     EmployeeAddViewController.addButtonPressed();
                 }else{
                     JOptionPane.showMessageDialog(new JFrame(), "Debe llenar todos los campos",
-                            "Agregar Empleado", JOptionPane.WARNING_MESSAGE);
+                            "Agregar Sucursal", JOptionPane.WARNING_MESSAGE);
                 }
             }
         });
