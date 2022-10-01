@@ -55,7 +55,9 @@ public class BranchPointer extends JLabel implements MouseInputListener {
         getParent().getMouseListeners()[0].mouseClicked(e);
         selected = true;
         setIcon(getPointerImage());
-        ((ImageMouseSensor)getParent().getMouseListeners()[0]).mouseClickedOutside(e);
+        if(getParent() != null){
+            ((ImageMouseSensor)getParent().getMouseListeners()[0]).mouseClickedOutside(e);
+        }
         repaint();
         e.consume();
     }

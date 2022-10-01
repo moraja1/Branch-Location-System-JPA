@@ -1,6 +1,7 @@
 package presentation.view.ViewClasses;
 
 import presentation.controller.ViewControllers.BranchAddViewController;
+import presentation.controller.ViewControllers.EmployeeAddViewController;
 import presentation.controller.ViewControllers.MainWindowViewController;
 import presentation.model.mouseListener.ImageMouseSensor;
 import presentation.model.viewModels.BranchInfo;
@@ -65,7 +66,16 @@ public class BranchAddView extends ViewParent {
         add_branch_guardar_btn.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                BranchAddViewController.addButtonPressed();
+                if(!getBranchID().isEmpty() && !getBranchReference().isEmpty() && !getBranchDir().isEmpty()
+                        && !getBranchZone().isEmpty() && getNewBranch() != null){
+                    BranchAddViewController.addButtonPressed();
+                }else if(getNewBranch() == null){
+                    JOptionPane.showMessageDialog(new JFrame(), "Debe seleccionar en el mapa la ubicacion de la sucursal.",
+                            "Agregar Sucursal", JOptionPane.WARNING_MESSAGE);
+                }else{
+                    JOptionPane.showMessageDialog(new JFrame(), "Debe llenar todos los campos.",
+                            "Agregar Sucursal", JOptionPane.WARNING_MESSAGE);
+                }
             }
         });
         add_branch_cancel_btn.addActionListener(new ActionListener() {
@@ -88,7 +98,7 @@ public class BranchAddView extends ViewParent {
 
             @Override
             public void windowClosed(WindowEvent e) {
-                MainWindowViewController.updateTables();
+                BranchAddViewController.windowClosed();
             }
 
             @Override
@@ -118,21 +128,13 @@ public class BranchAddView extends ViewParent {
             }
             @Override
             public void mouseClickedOutside(MouseEvent e) {
-                /*java.util.List<Component> points = java.util.List.of(map_layered_pane.getComponentsInLayer(0));
-                java.util.List<BranchInfo> branches = (java.util.List<BranchInfo>)(java.util.List<?>) points;
-                for (BranchInfo branch : branches) {
-                    if(branch.isSelected()){
-                        selectedBranch = branch;
-                    }
-                }
-                e.consume();*/
+               e.consume();
             }
         });
         map_layered_pane.addMouseListener(map_image.getMouseListeners()[0]);
         dialog.setVisible(true);
     }
     public void updatePointer(BranchInfo newPointer) {
-        cleanLayer();
         newPointer.setVisible(false);
         int x = newPointer.getX() + 253;
         int y = newPointer.getY() - 45;
@@ -140,11 +142,6 @@ public class BranchAddView extends ViewParent {
         map_layered_pane.add(newPointer, 1);
         repaintWindow();
     }
-
-    private void cleanLayer() {
-
-    }
-
     private void repaintWindow() {
         java.util.List<Component> points = List.of(map_layered_pane.getComponentsInLayer(0));
         for(Component c : points){
