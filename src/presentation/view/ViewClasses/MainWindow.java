@@ -8,6 +8,8 @@ import presentation.view.utils.GeneralUtilities;
 import presentation.view.ViewParent;
 
 import javax.swing.*;
+import javax.swing.event.CaretEvent;
+import javax.swing.event.CaretListener;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 import javax.swing.table.TableModel;
@@ -165,6 +167,20 @@ public class MainWindow extends ViewParent {
             public void stateChanged(ChangeEvent e) {
                 MainWindowViewController.updateTables();
                 repaintWindow();
+            }
+        });
+        employees_srch_bar.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                srch_employee_button.getActionListeners()[0].actionPerformed(e);
+            }
+        });
+        employees_srch_bar.addCaretListener(new CaretListener() {
+            @Override
+            public void caretUpdate(CaretEvent e) {
+                if(employees_srch_bar.getText().isEmpty()){
+                    MainWindowViewController.updateTables();
+                }
             }
         });
         map_image.addMouseListener(new ImageMouseSensor() {

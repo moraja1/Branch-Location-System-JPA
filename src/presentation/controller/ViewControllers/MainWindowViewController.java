@@ -72,7 +72,6 @@ public class MainWindowViewController {
         }
         updateTables();
     }
-    //DEBUGUEAR
     public static void searchEmployee() {
         String id = main_window.getEmployeesSearchBar();
         if(id.isEmpty()){
