@@ -164,4 +164,20 @@ public class DataServices {
         }
         return false;
     }
+
+    public static boolean removeBranchExecution(BranchInfo e) {
+        Branch branch = BranchParser.toBranch(e);
+        if(branch != null){
+                dataDAO = new BranchesDAO();
+            dataDAO.erase(branch);
+
+            //Falta terminarlo
+        }
+        return false;
+    }
+
+    /*public static boolean editEmployeeExecution( , ){
+        //Falta la implementacion
+        return false;
+    }*/
 }

@@ -111,9 +111,43 @@ public class MainWindowViewController {
         MainController.changeWindow(BranchEditViewController.getBranch_edit_view(model));
     }
     public static void eraseBranch() {
+        String id = String.valueOf(getObjectModel()[0]);
+        String reference = String.valueOf(getObjectModel()[1]);
+        String address = String.valueOf(getObjectModel()[2]);
+        double zoning_percentage = (Double)getObjectModel()[3];
+        String cords = String.valueOf(getObjectModel()[4]);
 
+        BranchInfo branchInfo = new BranchInfo(id, reference, address, zoning_percentage, cords);
+        if(DataServices.removeBranchExecution(branchInfo)){
+            JOptionPane.showMessageDialog(new JFrame(), "Sucursal eliminada correctamente",
+                    "Eliminar Sucursal", JOptionPane.INFORMATION_MESSAGE);
+        }else{
+            JOptionPane.showMessageDialog(new JFrame(),"Sucursal no eliminada",
+                    "Eliminar Sucursal", JOptionPane.INFORMATION_MESSAGE);
+        }
+        updateTables();
     }
     public static void searchBranch() {
+        String id = main_window.getBranchesSearchBar();
+        if(id.isEmpty()){
+            updateTables();
+        }else{
+            List<BranchInfo> branches = DataServices.getBranchesForTable();
+            BranchInfo branch = null;
+            for(BranchInfo e : branches){
+                if(e.getId().equals(id) || e.getReference().equals(id) || e.getCoords().equals(id)){
+                    branch = e;
+                }
+            }
+
+            if(branch != null){
+                List<BranchInfo> branchFinded = new ArrayList<>();
+                branchFinded.add(branch);
+
+                BranchTableModel branchTableModel = new BranchTableModel(branchFinded);
+                main_window.setTableModel(branchTableModel);
+            }
+        }
     }
     public static void reportBranch() {
         //LE CORRESPONDE A BRANDON HACERLO
