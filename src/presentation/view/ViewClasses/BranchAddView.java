@@ -131,7 +131,6 @@ public class BranchAddView extends ViewParent {
         map_image.addMouseListener(new ImageMouseSensor() {
             @Override
             public void mouseClicked(MouseEvent e) {
-                System.out.println(e.getPoint());
                 BranchAddViewController.clickOnMap(e.getPoint());
             }
             @Override

@@ -186,7 +186,6 @@ public class MainWindow extends ViewParent {
         map_image.addMouseListener(new ImageMouseSensor() {
             @Override
             public void mouseClicked(MouseEvent e) {
-                System.out.println(e.getPoint());
                 List<Component> points = List.of(map_layered_pane.getComponentsInLayer(0));
                 List<BranchInfo> branches = (List<BranchInfo>)(List<?>) points;
                 for (BranchInfo branch : branches) {

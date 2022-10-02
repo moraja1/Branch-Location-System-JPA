@@ -6,7 +6,6 @@
         <zoning_percentage>7.5</zoning_percentage>
         <coords>0</coords>
         <employees>
-            <employee>0</employee>
             <employee>1</employee>
             <employee>2</employee>
         </employees>
@@ -21,7 +20,16 @@
             <employee>4</employee>
             <employee>5</employee>
             <employee>6</employee>
-            <employee>1</employee>
+        </employees>
+    </branch>
+    <branch id="2">
+        <reference>Puntarenas</reference>
+        <address>Puntarenas, Malpais</address>
+        <zoning_percentage>1.8</zoning_percentage>
+        <coords>2</coords>
+        <employees>
+            <employee>7</employee>
+            <employee>0</employee>
         </employees>
     </branch>
 </Branches>
