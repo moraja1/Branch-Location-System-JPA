@@ -38,7 +38,7 @@ public class BranchAddView extends ViewParent {
             map_layered_pane = dialog.getLayeredPane();
 
             //Map Image
-            ImageIcon map = new ImageIcon("src\\resources\\Doodle_Map_of_Costa_Rica_With_States_generated.jpg");
+            ImageIcon map = new ImageIcon("src\\resources\\Mapa_de_Costa_Rica_(cantones_y_distritos).png");
             Image resizer = map.getImage();
             resizer = resizer.getScaledInstance(900, 800,  java.awt.Image.SCALE_SMOOTH);
             map.setImage(resizer);

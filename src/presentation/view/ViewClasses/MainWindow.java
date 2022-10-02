@@ -61,7 +61,7 @@ public class MainWindow extends ViewParent {
             tab_about.add(image_logo, BorderLayout.CENTER);
 
             //Map Image
-            ImageIcon map = new ImageIcon("src\\resources\\Doodle_Map_of_Costa_Rica_With_States_generated.jpg");
+            ImageIcon map = new ImageIcon("src\\resources\\Mapa_de_Costa_Rica_(cantones_y_distritos).png");
             Image resizer = map.getImage();
             resizer = resizer.getScaledInstance(900, 800,  java.awt.Image.SCALE_SMOOTH);
             map.setImage(resizer);
@@ -147,6 +147,16 @@ public class MainWindow extends ViewParent {
         erase_branch_button.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
+                if(branch_table.getSelectedRow() != -1){
+                    int n = JOptionPane.showConfirmDialog(new JFrame(), "Está seguro que desea borrar el empleado?",
+                            "Confirmación requerida", JOptionPane.YES_NO_OPTION);
+                    if(n == JOptionPane.YES_OPTION){
+                        MainWindowViewController.eraseEmployee();
+                    }
+                }else{
+                    JOptionPane.showMessageDialog(new JFrame(), "Debe seleccionar una Sucursal en el mapa",
+                            "Eliminar Empleado", JOptionPane.WARNING_MESSAGE);
+                }
                 MainWindowViewController.eraseBranch();
             }
         });

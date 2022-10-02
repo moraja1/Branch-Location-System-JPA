@@ -111,6 +111,7 @@ public class MainWindowViewController {
         MainController.changeWindow(BranchEditViewController.getBranch_edit_view(model));
     }
     public static void eraseBranch() {
+
     }
     public static void searchBranch() {
     }

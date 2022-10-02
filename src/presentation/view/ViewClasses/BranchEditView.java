@@ -39,7 +39,7 @@ public class BranchEditView extends ViewParent {
             dialog.setLocation(utils.getScreenX()/4, utils.getScreenY()/6);
 
             //Map Image
-            ImageIcon map = new ImageIcon("src\\resources\\Doodle_Map_of_Costa_Rica_With_States_generated.jpg");
+            ImageIcon map = new ImageIcon("src\\resources\\Mapa_de_Costa_Rica_(cantones_y_distritos).png");
             Image resizer = map.getImage();
             resizer = resizer.getScaledInstance(700, 700,  java.awt.Image.SCALE_SMOOTH);
             map.setImage(resizer);
