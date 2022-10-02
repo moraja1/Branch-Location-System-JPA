@@ -1,8 +1,6 @@
 package presentation.view.ViewClasses;
 
 import presentation.controller.ViewControllers.BranchAddViewController;
-import presentation.controller.ViewControllers.EmployeeAddViewController;
-import presentation.controller.ViewControllers.MainWindowViewController;
 import presentation.model.mouseListener.ImageMouseSensor;
 import presentation.model.viewModels.BranchInfo;
 import presentation.view.ViewParent;
@@ -11,9 +9,6 @@ import presentation.view.utils.GeneralUtilities;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
-import java.util.Arrays;
-import java.util.List;
-import java.util.stream.Stream;
 
 public class BranchAddView extends ViewParent {
 
@@ -37,7 +32,7 @@ public class BranchAddView extends ViewParent {
         if(!dialog.getContentPane().equals(branch_Add_Panel)){
             dialog.setContentPane(branch_Add_Panel);
             dialog.setName("BranchAddView");
-            dialog.setSize(new Dimension(1000, 800));
+            dialog.setSize(new Dimension(1200, 900));
             dialog.setTitle("Sistema de Sucuracles y Empleados");
             dialog.setLocation(utils.getScreenX()/4, utils.getScreenY()/6);
             map_layered_pane = dialog.getLayeredPane();
@@ -45,7 +40,7 @@ public class BranchAddView extends ViewParent {
             //Map Image
             ImageIcon map = new ImageIcon("src\\resources\\Doodle_Map_of_Costa_Rica_With_States_generated.jpg");
             Image resizer = map.getImage();
-            resizer = resizer.getScaledInstance(700, 700,  java.awt.Image.SCALE_SMOOTH);
+            resizer = resizer.getScaledInstance(900, 800,  java.awt.Image.SCALE_SMOOTH);
             map.setImage(resizer);
             map_image = new JLabel(map);
             map_image.setFocusable(true);
@@ -83,6 +78,18 @@ public class BranchAddView extends ViewParent {
             public void actionPerformed(ActionEvent e) {
                 BranchAddViewController.windowClosed();
                 dialog.dispose();
+            }
+        });
+        add_branch_zon_text.addKeyListener(new KeyAdapter()
+        {
+            public void keyTyped(KeyEvent e)
+            {
+                char caracter = e.getKeyChar();
+                // Verificar si la tecla pulsada no es un digito
+                if(((caracter < '0') || (caracter > '9')) && (caracter != '\b') && (caracter != '.'))
+                {
+                    e.consume();  // ignorar el evento de teclado
+                }
             }
         });
         dialog.addWindowListener(new WindowListener() {
@@ -124,6 +131,7 @@ public class BranchAddView extends ViewParent {
         map_image.addMouseListener(new ImageMouseSensor() {
             @Override
             public void mouseClicked(MouseEvent e) {
+                System.out.println(e.getPoint());
                 BranchAddViewController.clickOnMap(e.getPoint());
             }
             @Override
@@ -135,19 +143,10 @@ public class BranchAddView extends ViewParent {
         dialog.setVisible(true);
     }
     public void updatePointer(BranchInfo newPointer) {
-        newPointer.setVisible(false);
         int x = newPointer.getX() + 253;
         int y = newPointer.getY() - 45;
         newPointer.setBounds(x, y, 80, 80);
         map_layered_pane.add(newPointer, 1);
-        repaintWindow();
-    }
-    private void repaintWindow() {
-        java.util.List<Component> points = List.of(map_layered_pane.getComponentsInLayer(0));
-        for(Component c : points){
-            c.setVisible(true);
-            c.setEnabled(true);
-        }
         map_layered_pane.repaint();
     }
     public String getBranchID() {return add_branch_cod_text.getText();}
@@ -160,18 +159,15 @@ public class BranchAddView extends ViewParent {
     public String getBranchZone() {
         return add_branch_zon_text.getText();
     }
-    public JLabel getNewBranch() {
+    public BranchInfo getNewBranch() {
         return newBranch;
     }
     public void setNewBranch(BranchInfo newBranch) {
-        if(this.newBranch == null){
-            this.newBranch = newBranch;
-            updatePointer(newBranch);
-        }else{
+        if (this.newBranch != null) {
             map_layered_pane.remove(this.newBranch);
-            this.newBranch = newBranch;
-            updatePointer(newBranch);
         }
+        this.newBranch = newBranch;
+        updatePointer(newBranch);
 
     }
 }

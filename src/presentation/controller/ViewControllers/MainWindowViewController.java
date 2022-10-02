@@ -20,8 +20,13 @@ public class MainWindowViewController {
         return main_window;
     }
     public static void windowInitialized() {
+        cleanWindow();
         updateTables();
         updateImages();
+    }
+
+    private static void cleanWindow() {
+
     }
     public static void updateTables() {
         int selectedTab = main_window.getSelectedTabIndex();

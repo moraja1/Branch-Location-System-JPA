@@ -16,8 +16,6 @@ public class BranchesDAO extends DAO<Branch> {
     public boolean add(Branch obj) {
         String id = obj.getId();
         Branch branchPersisted;
-        Coordinates coordinates = obj.getCoords();
-        coordinates.setId(obj.getId());
         try {
             xml = new BranchXML();
             branchPersisted = (Branch) xml.getObject(id);
@@ -28,8 +26,6 @@ public class BranchesDAO extends DAO<Branch> {
         if(branchPersisted == null){
             try {
                 xml.insertElement(obj);
-                dao = new CoordinatesDAO();
-                dao.add(coordinates);
                 return true;
             } catch (Exception e){
                 e.printStackTrace();

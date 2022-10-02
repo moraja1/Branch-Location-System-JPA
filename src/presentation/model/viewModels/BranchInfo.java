@@ -12,7 +12,7 @@ public class BranchInfo extends BranchPointer {
     private String id;
     private String reference;
     private String address;
-    private Double zoning_percentage;
+    private double zoning_percentage;
     private String coords;
 
     public BranchInfo() {

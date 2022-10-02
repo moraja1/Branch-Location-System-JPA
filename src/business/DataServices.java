@@ -150,4 +150,16 @@ public class DataServices {
         dataDAO = new EmployeesDAO();
         return dataDAO.edit(employee);
     }
+
+    public static boolean addBranchExecution(BranchInfo b) {
+        Branch newBranch = BranchParser.toBranch(b);
+        Coordinates coordinates = newBranch.getCoords();
+
+        dataDAO = new BranchesDAO();
+        if(dataDAO.add(newBranch)){
+            dataDAO = new CoordinatesDAO();
+            return dataDAO.add(coordinates);
+        }
+        return false;
+    }
 }

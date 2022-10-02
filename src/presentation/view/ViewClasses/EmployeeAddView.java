@@ -35,7 +35,7 @@ public class EmployeeAddView extends ViewParent {
         if(!dialog.getContentPane().equals(emp_add_panel)){
             dialog.setContentPane(emp_add_panel);
             dialog.setName("EmployeeAddView");
-            dialog.setSize(new Dimension(1000, 800));
+            dialog.setSize(new Dimension(1200, 900));
             dialog.setTitle("Sistema de Sucursales y Empleados");
             dialog.setLocation(utils.getScreenX()/4, utils.getScreenY()/6);
             dialog.setResizable(false);
@@ -44,7 +44,7 @@ public class EmployeeAddView extends ViewParent {
             //Map Image
             ImageIcon map = new ImageIcon("src\\resources\\Doodle_Map_of_Costa_Rica_With_States_generated.jpg");
             Image resizer = map.getImage();
-            resizer = resizer.getScaledInstance(700, 700,  java.awt.Image.SCALE_SMOOTH);
+            resizer = resizer.getScaledInstance(900, 800,  java.awt.Image.SCALE_SMOOTH);
             map.setImage(resizer);
             map_image = new JLabel(map);
             map_image.setFocusable(true);
@@ -185,8 +185,8 @@ public class EmployeeAddView extends ViewParent {
 
     public void setBranchPointOnMap(BranchInfo point){
         point.setVisible(false);
-        int x = point.getX() + 135;
-        int y = point.getY() - 80;
+        int x = point.getX() + 243;
+        int y = point.getY() - 45;
         point.setBounds(x, y, 80, 80);
         map_layered_pane.add(point, 1);
         repaintWindow();

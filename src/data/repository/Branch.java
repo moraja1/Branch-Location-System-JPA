@@ -22,6 +22,13 @@ public class Branch {
         this.reference = reference;
         this.address = address;
         this.zoning_percentage = zoning_percentage;
+    }
+
+    public Branch(String id, String reference, String address, Double zoning_percentage, Coordinates coords, List<Employee> employees) {
+        this.id = id;
+        this.reference = reference;
+        this.address = address;
+        this.zoning_percentage = zoning_percentage;
         this.coords = coords;
         this.employees = employees;
     }
