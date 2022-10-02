@@ -17,7 +17,6 @@
         <coords>1</coords>
         <employees>
             <employee>3</employee>
-            <employee>4</employee>
             <employee>5</employee>
             <employee>6</employee>
         </employees>
@@ -30,6 +29,15 @@
         <employees>
             <employee>7</employee>
             <employee>0</employee>
+        </employees>
+    </branch>
+    <branch id="3">
+        <reference>Guanacaste</reference>
+        <address>Guanacaste, Santa Rosa, Huacas</address>
+        <zoning_percentage>1.6</zoning_percentage>
+        <coords>3</coords>
+        <employees>
+            <employee>4</employee>
         </employees>
     </branch>
 </Branches>

@@ -25,8 +25,8 @@ public class MainWindowViewController {
         updateImages();
     }
 
-    private static void cleanWindow() {
-
+    private static void cleanWindow(){
+        main_window.cleanLayers();
     }
     public static void updateTables() {
         int selectedTab = main_window.getSelectedTabIndex();

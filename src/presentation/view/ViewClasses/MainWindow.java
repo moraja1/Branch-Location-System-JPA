@@ -271,4 +271,11 @@ public class MainWindow extends ViewParent {
     public String getEmployeesSearchBar(){ return employees_srch_bar.getText(); }
 
     public String getBranchesSearchBar(){ return branches_srch_bar.getText(); }
+
+    public void cleanLayers() {
+        List<Component> points = List.of(map_layered_pane.getComponentsInLayer(0));
+        for(int i = 0; i < points.size(); i++){
+            map_layered_pane.remove(points.get(i));
+        }
+    }
 }
