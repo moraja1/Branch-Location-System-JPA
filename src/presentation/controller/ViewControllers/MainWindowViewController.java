@@ -9,6 +9,8 @@ import presentation.model.viewModels.componentModels.EmployeeTableModel;
 import presentation.view.ViewClasses.MainWindow;
 
 import javax.swing.*;
+import java.awt.*;
+import java.awt.event.MouseEvent;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -162,5 +164,39 @@ public class MainWindowViewController {
             model[i] = table.getValueAt(row, i);
         }
         return model;
+    }
+
+    public static void mapClicked(MouseEvent e) {
+        List<BranchInfo> branches = main_window.getPoints();
+        for (BranchInfo branch : branches) {
+            if(branch.isSelected()){
+                branch.mouseClickedOutside(e);
+            }
+        }
+        main_window.removeTableSelection();
+    }
+
+    public static void mapClickedOutside(MouseEvent e) {
+        List<BranchInfo> branches = main_window.getPoints();
+        for (BranchInfo branch : branches) {
+            if(branch.isSelected()){
+                main_window.selectTableRow(branch);
+            }
+        }
+    }
+
+    public static void tableRowSeleted(MouseEvent e) {
+        List<BranchInfo> branches = main_window.getPoints();
+        for (BranchInfo branch : branches) {
+            if(branch.isSelected()){
+                branch.mouseClickedOutside(e);
+            }
+        }
+        Object[] model = getObjectModel();
+        for (BranchInfo branch : branches) {
+            if(branch.getId().equals(model[0])){
+                branch.mouseClicked(e);
+            }
+        }
     }
 }

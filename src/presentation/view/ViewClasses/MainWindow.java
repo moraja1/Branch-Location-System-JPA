@@ -151,13 +151,12 @@ public class MainWindow extends ViewParent {
                     int n = JOptionPane.showConfirmDialog(new JFrame(), "Está seguro que desea borrar la sucursal?",
                             "Confirmación requerida", JOptionPane.YES_NO_OPTION);
                     if(n == JOptionPane.YES_OPTION){
-                        MainWindowViewController.eraseEmployee();
+                        MainWindowViewController.eraseBranch();
                     }
                 }else{
                     JOptionPane.showMessageDialog(new JFrame(), "Debe seleccionar una Sucursal en el mapa",
                             "Eliminar Sucursal", JOptionPane.WARNING_MESSAGE);
                 }
-                MainWindowViewController.eraseBranch();
             }
         });
         srch_branches_button.addActionListener(new ActionListener() {
@@ -196,24 +195,20 @@ public class MainWindow extends ViewParent {
         map_image.addMouseListener(new ImageMouseSensor() {
             @Override
             public void mouseClicked(MouseEvent e) {
-                List<Component> points = List.of(map_layered_pane.getComponentsInLayer(0));
-                List<BranchInfo> branches = (List<BranchInfo>)(List<?>) points;
-                for (BranchInfo branch : branches) {
-                    if(branch.isSelected()){
-                        branch.mouseClickedOutside(e);
-                    }
-                }
+                MainWindowViewController.mapClicked(e);
                 e.consume();
             }
             @Override
             public void mouseClickedOutside(MouseEvent e) {
-                List<Component> points = List.of(map_layered_pane.getComponentsInLayer(0));
-                List<BranchInfo> branches = (List<BranchInfo>)(List<?>) points;
-                for (BranchInfo branch : branches) {
-                    if(branch.isSelected()){
-                        selectTableRow(branch);
-                    }
-                }
+                MainWindowViewController.mapClickedOutside(e);
+                e.consume();
+            }
+        });
+        branch_table.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                MainWindowViewController.tableRowSeleted(e);
+                e.consume();
             }
         });
         map_layered_pane.addMouseListener(map_image.getMouseListeners()[0]);
@@ -223,7 +218,7 @@ public class MainWindow extends ViewParent {
         setVisible(true);
     }
 
-    private void selectTableRow(BranchInfo branch) {
+    public void selectTableRow(BranchInfo branch) {
         String branchID = branch.getId();
         String tableID;
         for(int i = 0; i < branch_table.getRowCount(); i++){
@@ -287,5 +282,14 @@ public class MainWindow extends ViewParent {
         for(int i = 0; i < points.size(); i++){
             map_layered_pane.remove(points.get(i));
         }
+    }
+    public List<BranchInfo> getPoints(){
+        List<Component> points = List.of(map_layered_pane.getComponentsInLayer(0));
+        List<BranchInfo> branches = (List<BranchInfo>)(List<?>) points;
+        return branches;
+    }
+
+    public void removeTableSelection() {
+        getSelectedTable().clearSelection();
     }
 }
