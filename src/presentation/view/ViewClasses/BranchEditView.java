@@ -4,6 +4,7 @@ import presentation.controller.ViewControllers.BranchAddViewController;
 import presentation.controller.ViewControllers.BranchEditViewController;
 import presentation.controller.ViewControllers.MainWindowViewController;
 import presentation.model.mouseListener.ImageMouseSensor;
+import presentation.model.viewModels.BranchInfo;
 import presentation.view.ViewParent;
 import presentation.view.utils.GeneralUtilities;
 
@@ -23,7 +24,7 @@ public class BranchEditView extends ViewParent {
     private JPanel map_panel;
     private JPanel branch_edit_panel;
     private JLabel map_image;
-
+    private JLayeredPane map_layered_pane;
     private GeneralUtilities utils;
 
     public BranchEditView(Object[] model) {
@@ -36,6 +37,7 @@ public class BranchEditView extends ViewParent {
             dialog.setSize(new Dimension(1000, 800));
             dialog.setTitle("Sistema de Sucuracles y Empleados");
             dialog.setLocation(utils.getScreenX()/4, utils.getScreenY()/6);
+            map_layered_pane = dialog.getLayeredPane();
 
             //Map Image
             ImageIcon map = new ImageIcon("src\\resources\\Mapa_de_Costa_Rica_(cantones_y_distritos).png");
@@ -58,11 +60,11 @@ public class BranchEditView extends ViewParent {
         edit_branch_zon_text.setText("");
     }
     public void initComponents(Object[] model) {
-        /*edit_branch_cod_text.setText(String.valueOf(model[0]));
+        edit_branch_cod_text.setText(String.valueOf(model[0]));
         edit_branch_ref_text.setText(String.valueOf(model[1]));
         edit_branch_dir_text.setText(String.valueOf(model[2]));
         edit_branch_zon_text.setText(String.valueOf(model[3]));
-        edit_branch_cod_text.setEnabled(false);*/
+        edit_branch_cod_text.setEnabled(false);
     }
 
     @Override
@@ -127,10 +129,17 @@ public class BranchEditView extends ViewParent {
                 e.consume();
             }
         });
+        map_layered_pane.addMouseListener(map_image.getMouseListeners()[0]);
+        BranchEditViewController.windowInitialize();
         dialog.setVisible(true);
     }
-
-
+    public void setPointOnMap(BranchInfo point) {
+        int x = point.getX() + 248;
+        int y = point.getY() - 40;
+        point.setBounds(x, y, 80, 80);
+        map_layered_pane.add(point, 1);
+        map_layered_pane.repaint();
+    }
     public String getBranchID() {return edit_branch_cod_text.getText();}
 
     public String getBranchReference() {
@@ -141,6 +150,4 @@ public class BranchEditView extends ViewParent {
     public String getBranchZone() {
         return edit_branch_zon_text.getText();
     }
-
-
 }

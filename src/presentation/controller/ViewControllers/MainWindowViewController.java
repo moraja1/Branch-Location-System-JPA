@@ -26,7 +26,6 @@ public class MainWindowViewController {
         updateTables();
         updateImages();
     }
-
     private static void cleanWindow(){
         main_window.cleanLayers();
     }
@@ -104,7 +103,6 @@ public class MainWindowViewController {
     public static void reportEmployee() {
         //LE CORRESPONDE A BRANDON HACERLO
     }
-
     public static void addBranch() {
         MainController.changeWindow(BranchAddViewController.getBranch_add_view());
     }
@@ -165,7 +163,6 @@ public class MainWindowViewController {
         }
         return model;
     }
-
     public static void mapClicked(MouseEvent e) {
         List<BranchInfo> branches = main_window.getPoints();
         for (BranchInfo branch : branches) {
@@ -175,7 +172,6 @@ public class MainWindowViewController {
         }
         main_window.removeTableSelection();
     }
-
     public static void mapClickedOutside(MouseEvent e) {
         List<BranchInfo> branches = main_window.getPoints();
         for (BranchInfo branch : branches) {
@@ -184,7 +180,6 @@ public class MainWindowViewController {
             }
         }
     }
-
     public static void tableRowSeleted(MouseEvent e) {
         List<BranchInfo> branches = main_window.getPoints();
         for (BranchInfo branch : branches) {
@@ -198,5 +193,14 @@ public class MainWindowViewController {
                 branch.mouseClicked(e);
             }
         }
+    }
+    public static BranchInfo getSelectedPoint() {
+        List<BranchInfo> branches = main_window.getPoints();
+        for (BranchInfo branch : branches) {
+            if(branch.isSelected()){
+                return branch;
+            }
+        }
+        return null;
     }
 }

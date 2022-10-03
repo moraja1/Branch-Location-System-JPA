@@ -139,9 +139,10 @@ public class MainWindow extends ViewParent {
                 if(branch_table.getSelectedRow() != -1){
                     MainWindowViewController.editBranch();
                 }else{
-                    JOptionPane.showMessageDialog(new JFrame(), "Debe seleccionar una Sucursal de la tabla",
+                    JOptionPane.showMessageDialog(new JFrame(), "Debe seleccionar una Sucursal de la tabla o del mapa",
                             "Editar Sucursal", JOptionPane.WARNING_MESSAGE);
                 }
+                map_image.getMouseListeners()[0].mouseClicked(new MouseEvent(branch_table, 0, 0, 0, 100, 100, 1, false));
             }
         });
         erase_branch_button.addActionListener(new ActionListener() {
