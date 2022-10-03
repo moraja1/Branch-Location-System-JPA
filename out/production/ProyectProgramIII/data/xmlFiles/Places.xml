@@ -1,23 +1,11 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <Places>
     <coordinates id="0">
-        <x>499</x>
-        <y>314</y>
+        <x>388</x>
+        <y>263</y>
     </coordinates>
     <coordinates id="1">
-        <x>598</x>
-        <y>365</y>
-    </coordinates>
-    <coordinates id="2">
-        <x>229</x>
-        <y>420</y>
-    </coordinates>
-    <coordinates id="3">
-        <x>161</x>
-        <y>202</y>
-    </coordinates>
-    <coordinates id="4">
-        <x>653</x>
-        <y>267</y>
+        <x>360</x>
+        <y>287</y>
     </coordinates>
 </Places>

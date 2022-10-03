@@ -2,6 +2,8 @@ package presentation.controller.ViewControllers;
 
 import presentation.view.ViewClasses.BranchEditView;
 
+import java.awt.*;
+
 public class BranchEditViewController {
 
     private static BranchEditView branch_edit_view;
@@ -21,5 +23,8 @@ public class BranchEditViewController {
     }
     public static void windowClosed(){
         MainWindowViewController.windowInitialized();
+    }
+
+    public static void clickOnMap(Point point) {
     }
 }

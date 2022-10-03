@@ -1,16 +1,15 @@
 package presentation.view.ViewClasses;
 
+import presentation.controller.ViewControllers.BranchAddViewController;
 import presentation.controller.ViewControllers.BranchEditViewController;
 import presentation.controller.ViewControllers.MainWindowViewController;
+import presentation.model.mouseListener.ImageMouseSensor;
 import presentation.view.ViewParent;
 import presentation.view.utils.GeneralUtilities;
 
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.awt.event.WindowEvent;
-import java.awt.event.WindowListener;
+import java.awt.event.*;
 
 public class BranchEditView extends ViewParent {
 
@@ -115,6 +114,17 @@ public class BranchEditView extends ViewParent {
             @Override
             public void windowDeactivated(WindowEvent e) {
 
+            }
+        });
+        map_image.addMouseListener(new ImageMouseSensor() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                System.out.println(e.getPoint());
+                BranchEditViewController.clickOnMap(e.getPoint());
+            }
+            @Override
+            public void mouseClickedOutside(MouseEvent e) {
+                e.consume();
             }
         });
         dialog.setVisible(true);

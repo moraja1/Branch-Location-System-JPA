@@ -28,7 +28,7 @@ public class BranchParser {
         String address = b.getAddress();
         double zoning_percentage = b.getZoning_percentage();
         String coords = b.getCoords();
-        int coordX = (int) Double.parseDouble(coords.split(",\\s")[0]) + 5;
+        int coordX = (int) Double.parseDouble(coords.split(",\\s")[0]);
         int coordY = (int) Double.parseDouble(coords.split(",\\s")[1]);
         Coordinates coordinates = new Coordinates(id , coordX, coordY);
 

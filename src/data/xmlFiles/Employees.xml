@@ -4,7 +4,7 @@
         <name>Jaison Mora Víquez</name>
         <phone_number>85236987</phone_number>
         <base_salary>1000000.0</base_salary>
-        <branch>2</branch>
+        <branch>1</branch>
     </employee>
     <employee id="1">
         <name>Gerardo Chavez Masis</name>
@@ -16,7 +16,7 @@
         <name>Eduardo Granados Sosa</name>
         <phone_number>85631254</phone_number>
         <base_salary>690000.0</base_salary>
-        <branch>0</branch>
+        <branch>1</branch>
     </employee>
     <employee id="3">
         <name>Mainor Vargas Mejias</name>
@@ -28,7 +28,7 @@
         <name>Stephanie Gonzalez Segura</name>
         <phone_number>35698126</phone_number>
         <base_salary>400000.0</base_salary>
-        <branch>3</branch>
+        <branch>0</branch>
     </employee>
     <employee id="5">
         <name>Marta Segura Jimenez</name>
@@ -46,6 +46,6 @@
         <name>Gerardo Brenes Pantoja</name>
         <phone_number>65237854</phone_number>
         <base_salary>890000.0</base_salary>
-        <branch>2</branch>
+        <branch>0</branch>
     </employee>
 </Employees>

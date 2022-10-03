@@ -51,7 +51,7 @@ public class MainWindow extends ViewParent {
         if(!getContentPane().equals(main_window_panel)){
             setContentPane(main_window_panel);
             setName("MainWindow");
-            setSize(new Dimension(1600, 900));
+            setSize(new Dimension(1400, 800));
             setTitle("Sistema de Sucursales y Empleados");
             setLocation(utils.getScreenX()/11, utils.getScreenY()/11);
             map_layered_pane = getLayeredPane();
@@ -247,8 +247,8 @@ public class MainWindow extends ViewParent {
     }
     public void setBranchPointOnMap(BranchInfo point){
         point.setVisible(false);
-        int x = point.getX() + 650;
-        int y = point.getY() - 30;
+        int x = point.getX() + 648;
+        int y = point.getY() - 25;
         point.setBounds(x, y, 80, 80);
         map_layered_pane.add(point, 1);
         repaintWindow();

@@ -32,7 +32,7 @@ public class BranchAddView extends ViewParent {
         if(!dialog.getContentPane().equals(branch_Add_Panel)){
             dialog.setContentPane(branch_Add_Panel);
             dialog.setName("BranchAddView");
-            dialog.setSize(new Dimension(1200, 900));
+            dialog.setSize(new Dimension(1000, 800));
             dialog.setTitle("Sistema de Sucuracles y Empleados");
             dialog.setLocation(utils.getScreenX()/4, utils.getScreenY()/6);
             map_layered_pane = dialog.getLayeredPane();
@@ -40,7 +40,7 @@ public class BranchAddView extends ViewParent {
             //Map Image
             ImageIcon map = new ImageIcon("src\\resources\\Mapa_de_Costa_Rica_(cantones_y_distritos).png");
             Image resizer = map.getImage();
-            resizer = resizer.getScaledInstance(900, 800,  java.awt.Image.SCALE_SMOOTH);
+            resizer = resizer.getScaledInstance(700, 700,  java.awt.Image.SCALE_SMOOTH);
             map.setImage(resizer);
             map_image = new JLabel(map);
             map_image.setFocusable(true);

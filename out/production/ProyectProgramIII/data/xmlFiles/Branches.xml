@@ -7,46 +7,15 @@
         <coords>0</coords>
         <employees>
             <employee>1</employee>
-            <employee>2</employee>
         </employees>
     </branch>
     <branch id="1">
-        <reference>Cartago</reference>
-        <address>Cartago, Paraiso, Occidente</address>
-        <zoning_percentage>3.5</zoning_percentage>
+        <reference>Alajuela</reference>
+        <address>Alajuela, Alajuela, Central</address>
+        <zoning_percentage>6.3</zoning_percentage>
         <coords>1</coords>
         <employees>
-            <employee>3</employee>
-            <employee>5</employee>
-            <employee>6</employee>
-        </employees>
-    </branch>
-    <branch id="2">
-        <reference>Puntarenas</reference>
-        <address>Puntarenas, Malpais</address>
-        <zoning_percentage>1.8</zoning_percentage>
-        <coords>2</coords>
-        <employees>
-            <employee>7</employee>
-            <employee>0</employee>
-        </employees>
-    </branch>
-    <branch id="3">
-        <reference>Guanacaste</reference>
-        <address>Guanacaste, Santa Rosa, Huacas</address>
-        <zoning_percentage>1.6</zoning_percentage>
-        <coords>3</coords>
-        <employees>
-            <employee>4</employee>
-        </employees>
-    </branch>
-    <branch id="4">
-        <reference>Limon</reference>
-        <address>Guapiles</address>
-        <zoning_percentage>4.5</zoning_percentage>
-        <coords>4</coords>
-        <employees>
-            <employee>null</employee>
+            <employee>2</employee>
         </employees>
     </branch>
 </Branches>

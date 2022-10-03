@@ -36,7 +36,7 @@ public class EmployeeEditView extends ViewParent {
         if(!dialog.getContentPane().equals(emp_edit_panel)){
             dialog.setContentPane(emp_edit_panel);
             dialog.setName("EmployeeEditView");
-            dialog.setSize(new Dimension(1200, 900));
+            dialog.setSize(new Dimension(1000, 800));
             dialog.setTitle("Sistema de Sucuracles y Empleados");
             dialog.setLocation(utils.getScreenX()/4, utils.getScreenY()/6);
             map_layered_pane = dialog.getLayeredPane();
@@ -44,7 +44,7 @@ public class EmployeeEditView extends ViewParent {
             //Map Image
             ImageIcon map = new ImageIcon("src\\resources\\Mapa_de_Costa_Rica_(cantones_y_distritos).png");
             Image resizer = map.getImage();
-            resizer = resizer.getScaledInstance(900, 800,  java.awt.Image.SCALE_SMOOTH);
+            resizer = resizer.getScaledInstance(700, 700,  java.awt.Image.SCALE_SMOOTH);
             map.setImage(resizer);
             map_image = new JLabel(map);
             map_image.setFocusable(true);
@@ -184,8 +184,8 @@ public class EmployeeEditView extends ViewParent {
 
     public void setBranchPointOnMap(BranchInfo point) {
         point.setVisible(false);
-        int x = point.getX() + 245;
-        int y = point.getY() - 45;
+        int x = point.getX() + 242;
+        int y = point.getY() - 41;
         point.setBounds(x, y, 80, 80);
         map_layered_pane.add(point, 1);
         repaintWindow();
