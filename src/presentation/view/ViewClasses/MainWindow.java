@@ -30,15 +30,12 @@ public class MainWindow extends ViewParent {
     private JButton add_employee_button;
     private JButton erase_employee_button;
     private JButton report_employee_button;
-    private JPanel tab_employees;
-    private JPanel tab_branches;
     private JPanel tab_about;
     private JPanel emp_table_panel;
     private JPanel branch_table_panel;
     private JButton edit_employee_button;
     private JButton edit_branch_button;
     private JPanel map_panel;
-    private JPanel branch_info_panel;
     private JLabel map_image;
     private JLabel image_logo;
     private GeneralUtilities utils;
@@ -79,7 +76,6 @@ public class MainWindow extends ViewParent {
             branch_table_panel.add(new JScrollPane(branch_table));
         }
     }
-
     public void initComponents(){
         //Employees Action Listeners
         add_employee_button.addActionListener(new ActionListener() {
@@ -218,7 +214,6 @@ public class MainWindow extends ViewParent {
         //Window opens
         setVisible(true);
     }
-
     public void selectTableRow(BranchInfo branch) {
         String branchID = branch.getId();
         String tableID;
@@ -249,7 +244,6 @@ public class MainWindow extends ViewParent {
         map_layered_pane.add(point, 1);
         repaintWindow();
     }
-
     private void repaintWindow() {
         List<Component> points = List.of(map_layered_pane.getComponentsInLayer(0));
         if (getSelectedTabIndex() == 1){
@@ -275,9 +269,7 @@ public class MainWindow extends ViewParent {
 
     }
     public String getEmployeesSearchBar(){ return employees_srch_bar.getText(); }
-
     public String getBranchesSearchBar(){ return branches_srch_bar.getText(); }
-
     public void cleanLayers() {
         List<Component> points = List.of(map_layered_pane.getComponentsInLayer(0));
         for(int i = 0; i < points.size(); i++){
@@ -289,7 +281,6 @@ public class MainWindow extends ViewParent {
         List<BranchInfo> branches = (List<BranchInfo>)(List<?>) points;
         return branches;
     }
-
     public void removeTableSelection() {
         getSelectedTable().clearSelection();
     }

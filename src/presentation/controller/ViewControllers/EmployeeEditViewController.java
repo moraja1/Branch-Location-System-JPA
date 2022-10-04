@@ -42,6 +42,14 @@ public class EmployeeEditViewController {
         if(b != null){
             b.setSelected(true);
             updateImages(b);
+        }else {
+            updateImages();
+        }
+    }
+    private static void updateImages() {
+        List<BranchInfo> branches = DataServices.getBranchesForTable();
+        for(BranchInfo branch : branches){
+            employee_edit_view.setBranchPointOnMap(branch);
         }
     }
     private static void updateImages(BranchInfo b) {

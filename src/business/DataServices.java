@@ -142,16 +142,18 @@ public class DataServices {
             dataDAO.edit(newBranch);
 
             Branch oldBranch = dataDAO.getSingleObject(oldEmployee.getBranch().getId());
-            List<Employee> employeesOnOldBranch = oldBranch.getEmployees();
-            Employee employeeEraser = null;
-            for(Employee em : employeesOnOldBranch){
-                if(em.getId().equals(newEmployee.getId())) {
-                    employeeEraser = em;
+            if(oldBranch != null){
+                List<Employee> employeesOnOldBranch = oldBranch.getEmployees();
+                Employee employeeEraser = null;
+                for(Employee em : employeesOnOldBranch){
+                    if(em.getId().equals(newEmployee.getId())) {
+                        employeeEraser = em;
+                    }
                 }
-            }
-            if(employeeEraser != null) {
-                oldBranch.getEmployees().remove(employeeEraser);
-                dataDAO.edit(oldBranch);
+                if(employeeEraser != null) {
+                    oldBranch.getEmployees().remove(employeeEraser);
+                    dataDAO.edit(oldBranch);
+                }
             }
         }
         dataDAO = new EmployeesDAO();
