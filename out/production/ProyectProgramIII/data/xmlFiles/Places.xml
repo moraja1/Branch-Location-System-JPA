@@ -9,7 +9,15 @@
         <y>287</y>
     </coordinates>
     <coordinates id="2">
-        <x>101</x>
-        <y>147</y>
+        <x>92</x>
+        <y>205</y>
+    </coordinates>
+    <coordinates id="3">
+        <x>360</x>
+        <y>347</y>
+    </coordinates>
+    <coordinates id="5">
+        <x>610</x>
+        <y>333</y>
     </coordinates>
 </Places>

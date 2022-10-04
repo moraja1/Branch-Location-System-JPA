@@ -18,4 +18,40 @@
             <employee>2</employee>
         </employees>
     </branch>
+    <branch id="2">
+        <reference>Guanacaste</reference>
+        <address>Guanacaste, Liberia</address>
+        <zoning_percentage>3.0</zoning_percentage>
+        <coords>2</coords>
+        <employees>
+            <employee>null</employee>
+        </employees>
+    </branch>
+    <branch id="3">
+        <reference>San Jose</reference>
+        <address>San Jose, San Pedro, Montes de Oca</address>
+        <zoning_percentage>4.7</zoning_percentage>
+        <coords>3</coords>
+        <employees>
+            <employee>null</employee>
+        </employees>
+    </branch>
+    <branch id="5">
+        <reference>Limon</reference>
+        <address>Limon, Talamanca, Manzanillo</address>
+        <zoning_percentage>6.0</zoning_percentage>
+        <coords>5</coords>
+        <employees>
+            <employee>null</employee>
+        </employees>
+    </branch>
+    <branch id="6">
+        <reference>Puntarenas</reference>
+        <address>Puntarenas, Puntarenas, Diagonal al Ferry</address>
+        <zoning_percentage>3.2</zoning_percentage>
+        <coords>6</coords>
+        <employees>
+            <employee>null</employee>
+        </employees>
+    </branch>
 </Branches>

@@ -55,6 +55,10 @@ public class BranchAddView extends ViewParent {
         add_branch_ref_text.setText("");
         add_branch_dir_text.setText("");
         add_branch_zon_text.setText("");
+        if(newBranch != null){
+            map_layered_pane.remove(newBranch);
+        }
+        map_layered_pane.repaint();
     }
     @Override
     public void initComponents() {
@@ -71,6 +75,7 @@ public class BranchAddView extends ViewParent {
                     JOptionPane.showMessageDialog(new JFrame(), "Debe llenar todos los campos.",
                             "Agregar Sucursal", JOptionPane.WARNING_MESSAGE);
                 }
+                clearWindow();
             }
         });
         add_branch_cancel_btn.addActionListener(new ActionListener() {

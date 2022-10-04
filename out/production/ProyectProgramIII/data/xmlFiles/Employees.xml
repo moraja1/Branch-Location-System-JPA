@@ -4,7 +4,7 @@
         <name>Jaison Mora Víquez</name>
         <phone_number>85236987</phone_number>
         <base_salary>1000000.0</base_salary>
-        <branch>2</branch>
+        <branch>null</branch>
     </employee>
     <employee id="1">
         <name>Gerardo Chavez Masis</name>
@@ -46,6 +46,6 @@
         <name>Gerardo Brenes Pantoja</name>
         <phone_number>65237854</phone_number>
         <base_salary>890000.0</base_salary>
-        <branch>2</branch>
+        <branch>null</branch>
     </employee>
 </Employees>
