@@ -30,12 +30,15 @@ public class MainWindow extends ViewParent {
     private JButton add_employee_button;
     private JButton erase_employee_button;
     private JButton report_employee_button;
+    private JPanel tab_employees;
+    private JPanel tab_branches;
     private JPanel tab_about;
     private JPanel emp_table_panel;
     private JPanel branch_table_panel;
     private JButton edit_employee_button;
     private JButton edit_branch_button;
     private JPanel map_panel;
+    private JPanel branch_info_panel;
     private JLabel map_image;
     private JLabel image_logo;
     private GeneralUtilities utils;
@@ -186,6 +189,20 @@ public class MainWindow extends ViewParent {
             public void caretUpdate(CaretEvent e) {
                 if(employees_srch_bar.getText().isEmpty()){
                     MainWindowViewController.updateTables();
+                }
+            }
+        });
+        branches_srch_bar.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                srch_branches_button.getActionListeners()[0].actionPerformed(e);
+            }
+        });
+        branches_srch_bar.addCaretListener(new CaretListener() {
+            @Override
+            public void caretUpdate(CaretEvent e) {
+                if(branches_srch_bar.getText().isEmpty()){
+                    MainWindowViewController.windowInitialized();
                 }
             }
         });

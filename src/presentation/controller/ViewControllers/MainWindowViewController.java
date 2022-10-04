@@ -137,15 +137,19 @@ public class MainWindowViewController {
             for(BranchInfo e : branches){
                 if(e.getId().equals(id) || e.getReference().equals(id) || e.getCoords().equals(id)){
                     branch = e;
+                    branch.setSelected(true);
+                    break;
                 }
             }
 
             if(branch != null){
                 List<BranchInfo> branchFinded = new ArrayList<>();
                 branchFinded.add(branch);
-
                 BranchTableModel branchTableModel = new BranchTableModel(branchFinded);
                 main_window.setTableModel(branchTableModel);
+                main_window.selectTableRow(branch);
+                main_window.cleanLayers();
+                main_window.setBranchPointOnMap(branch);
             }
         }
     }
@@ -177,6 +181,7 @@ public class MainWindowViewController {
         for (BranchInfo branch : branches) {
             if(branch.isSelected()){
                 main_window.selectTableRow(branch);
+
             }
         }
     }

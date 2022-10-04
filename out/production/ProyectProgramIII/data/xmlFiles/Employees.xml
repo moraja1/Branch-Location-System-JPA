@@ -46,6 +46,6 @@
         <name>Gerardo Brenes Pantoja</name>
         <phone_number>65237854</phone_number>
         <base_salary>890000.0</base_salary>
-        <branch>null</branch>
+        <branch>2</branch>
     </employee>
 </Employees>
