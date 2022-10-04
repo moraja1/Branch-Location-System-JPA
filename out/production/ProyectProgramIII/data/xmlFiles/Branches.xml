@@ -24,7 +24,8 @@
         <zoning_percentage>2.8</zoning_percentage>
         <coords>2</coords>
         <employees>
-            <employee>null</employee>
+            <employee>0</employee>
+            <employee>7</employee>
         </employees>
     </branch>
 </Branches>

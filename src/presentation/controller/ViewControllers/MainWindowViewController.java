@@ -125,7 +125,7 @@ public class MainWindowViewController {
             JOptionPane.showMessageDialog(new JFrame(),"Sucursal no eliminada",
                     "Eliminar Sucursal", JOptionPane.INFORMATION_MESSAGE);
         }
-        updateTables();
+        windowInitialized();
     }
     public static void searchBranch() {
         String id = main_window.getBranchesSearchBar();

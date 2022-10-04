@@ -18,13 +18,4 @@
             <employee>2</employee>
         </employees>
     </branch>
-    <branch id="2">
-        <reference>Guanacaste</reference>
-        <address>Guanacaste, Santa Cruz, Huacas</address>
-        <zoning_percentage>2.8</zoning_percentage>
-        <coords>2</coords>
-        <employees>
-            <employee>null</employee>
-        </employees>
-    </branch>
 </Branches>

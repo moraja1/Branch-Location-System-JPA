@@ -59,15 +59,6 @@ public class EmployeesDAO extends DAO<Employee> {
             Employee employeePersisted = (Employee) xml.getObject(obj.getId());
             if(employeePersisted != null){
                 xml.mergeElement(obj);
-
-                xml = new BranchXML();
-                String branchPersistedID = employeePersisted.getBranch().getId();
-                Branch branchPersisted = (Branch) xml.getObject(branchPersistedID);
-                List<Employee> employees = branchPersisted.getEmployees();
-                if(employees.contains(obj) && !obj.getBranch().getId().equals(branchPersistedID)){
-                    BranchesDAO dao = new BranchesDAO();
-                    dao.removeEmployee(branchPersisted, obj);
-                }
                 return true;
             }
         }catch (Exception e){

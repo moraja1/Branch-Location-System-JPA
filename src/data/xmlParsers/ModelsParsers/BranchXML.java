@@ -77,7 +77,6 @@ public final class BranchXML extends XMLParser<Branch> {
     @Override
     public Branch getObject(String key) throws ParserConfigurationException, IOException, SAXException {
         Branch branch;
-
         doc = getDocument();
 
         NodeList nodeList = doc.getElementsByTagName(TAG);

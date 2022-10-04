@@ -43,7 +43,7 @@ public class CoordinatesDAO extends DAO<Coordinates> {
         }
         if(coordinatesPersisted != null){
             try {
-                xml.eraseElement(id);
+                xml.eraseElement(obj);
                 return true;
             } catch (Exception e){
                 e.printStackTrace();

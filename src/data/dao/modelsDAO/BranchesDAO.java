@@ -44,17 +44,7 @@ public class BranchesDAO extends DAO<Branch> {
         try {
             branchPersisted = (Branch) xml.getObject(id);
             if (branchPersisted != null) {
-                xml.eraseElement(id);
-                if(coordinates != null){
-                    dao = new CoordinatesDAO();
-                    dao.erase(coordinates);
-                }
-                if (employees != null) {
-                    EmployeesDAO dao = new EmployeesDAO();
-                    for (Employee e : employees) {
-                        dao.removeBranch(e);
-                    }
-                }
+                xml.eraseElement(obj);
             }
             return true;
         } catch(Exception e){

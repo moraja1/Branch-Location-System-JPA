@@ -27,18 +27,23 @@ public class DataServices {
 
         for (Employee emp : dataEmployeesList){
             Branch branch = dataBranches.get(emp.getBranch().getId());
-            if(branch == null){
-                continue;
-            }
+
             String id = emp.getId();
             String name = emp.getName();
             String phone_number = emp.getPhone_number();
             double base_salary = emp.getBase_salary();
-            String branch_reference = branch.getReference();
-            double zoning_percentage = branch.getZoning_percentage();
-            double total_salary = (base_salary * zoning_percentage) - base_salary;
-
-
+            String branch_reference;
+            double zoning_percentage;
+            double total_salary;
+            if(branch == null){
+                branch_reference = "null";
+                zoning_percentage = 0.0;
+                total_salary = 0.0;
+            }else{
+                branch_reference = branch.getReference();
+                zoning_percentage = branch.getZoning_percentage();
+                total_salary = (base_salary * zoning_percentage) - base_salary;
+            }
             employees.add(new EmployeeInfo(id, name, phone_number, base_salary, branch_reference,
                     zoning_percentage, total_salary));
         }
@@ -165,13 +170,29 @@ public class DataServices {
         return false;
     }
 
-    public static boolean removeBranchExecution(BranchInfo e) {
-        Branch branch = BranchParser.toBranch(e);
+    public static boolean removeBranchExecution(BranchInfo b) {
+        dataDAO = new BranchesDAO();
+        Branch branch = (Branch) dataDAO.getSingleObject(b.getId());
+        dataDAO = new EmployeesDAO();
+        List<Employee> employeesOfBranch = new ArrayList<>();
+        for(Employee em : branch.getEmployees()){
+            Employee emp = (Employee) dataDAO.getSingleObject(em.getId());
+            emp.setBranch(null);
+            employeesOfBranch.add(emp);
+        }
         if(branch != null){
-                dataDAO = new BranchesDAO();
-            dataDAO.erase(branch);
-
-            //Falta terminarlo
+            Coordinates coordinates = branch.getCoords();
+            dataDAO = new CoordinatesDAO();
+            coordinates = (Coordinates) dataDAO.getSingleObject(coordinates.getId());
+            dataDAO = new BranchesDAO();
+            if(dataDAO.erase(branch)){
+                dataDAO = new EmployeesDAO();
+                for(Employee em : employeesOfBranch){
+                    dataDAO.edit(em);
+                }
+                dataDAO = new CoordinatesDAO();
+                return dataDAO.erase(coordinates);
+            }
         }
         return false;
     }
