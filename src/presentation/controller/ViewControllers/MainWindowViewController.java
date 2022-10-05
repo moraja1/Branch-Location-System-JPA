@@ -133,13 +133,19 @@ public class MainWindowViewController {
             List<BranchInfo> branchesFinded = new ArrayList<>();
             for(BranchInfo e : branches){
                 if(e.getId().equals(id) || e.getReference().equals(id) || e.getCoords().equals(id)){
-                    e.setSelected(true);
+                    if(branchesFinded.isEmpty()){
+                        e.setSelected(true);
+                    }
                     branchesFinded.add(e);
                 }
             }
             BranchTableModel branchTableModel = new BranchTableModel(branchesFinded);
             main_window.setTableModel(branchTableModel);
-            branchesFinded.forEach(a-> main_window.selectTableRow(a));
+            branchesFinded.forEach(a-> {
+                if(a.isSelected()){
+                    main_window.selectTableRow(a);
+                }
+            });
             main_window.cleanLayers();
             branchesFinded.forEach(a-> main_window.setBranchPointOnMap(a));
         }
