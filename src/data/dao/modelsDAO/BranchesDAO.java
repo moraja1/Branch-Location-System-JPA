@@ -39,8 +39,6 @@ public class BranchesDAO extends DAO<Branch> {
         String id = obj.getId();
         xml = new BranchXML();
         Branch branchPersisted;
-        Coordinates coordinates = obj.getCoords();
-        List<Employee> employees = obj.getEmployees();
         try {
             branchPersisted = (Branch) xml.getObject(id);
             if (branchPersisted != null) {
@@ -106,18 +104,5 @@ public class BranchesDAO extends DAO<Branch> {
             e.printStackTrace();
         }
         return null;
-    }
-    public boolean removeEmployee(Branch b, Employee e){
-        BranchXML xml = new BranchXML();
-        try {
-            List<Employee> employees = b.getEmployees();
-            if(employees != null && employees.contains(e)){
-                xml.removeEmployeeFromBranch(b, e);
-                return true;
-            }
-        } catch (Exception ex) {
-            ex.printStackTrace();
-        }
-        return false;
     }
 }
