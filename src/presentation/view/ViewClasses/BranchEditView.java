@@ -26,6 +26,7 @@ public class BranchEditView extends ViewParent {
     private JLabel map_image;
     private JLayeredPane map_layered_pane;
     private GeneralUtilities utils;
+    private BranchInfo newBranch = null;
 
     public BranchEditView(Object[] model) {
         dialog = new JDialog(this, true);
@@ -58,6 +59,10 @@ public class BranchEditView extends ViewParent {
         edit_branch_ref_text.setText("");
         edit_branch_dir_text.setText("");
         edit_branch_zon_text.setText("");
+        if(newBranch != null){
+            map_layered_pane.remove(newBranch);
+        }
+        map_layered_pane.repaint();
     }
     public void initComponents(Object[] model) {
         edit_branch_cod_text.setText(String.valueOf(model[0]));
@@ -72,7 +77,17 @@ public class BranchEditView extends ViewParent {
         edit_branch_save_btn.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                BranchEditViewController.saveButtonPressed();
+                if(!getBranchID().isEmpty() && !getBranchReference().isEmpty() && !getBranchDir().isEmpty()
+                        && !getBranchZone().isEmpty() && getNewBranch() != null){
+                    BranchEditViewController.saveButtonPressed();
+                }else if(getNewBranch() == null){
+                    JOptionPane.showMessageDialog(new JFrame(), "Debe seleccionar en el mapa la ubicacion de la sucursal.",
+                            "Editar Sucursal", JOptionPane.WARNING_MESSAGE);
+                }else{
+                    JOptionPane.showMessageDialog(new JFrame(), "Debe llenar todos los campos.",
+                            "Editar Sucursal", JOptionPane.WARNING_MESSAGE);
+                }
+                BranchEditViewController.windowInitialize();
             }
         });
         edit_branch_cancel_btn.addActionListener(new ActionListener() {
@@ -95,7 +110,7 @@ public class BranchEditView extends ViewParent {
 
             @Override
             public void windowClosed(WindowEvent e) {
-                MainWindowViewController.updateTables();
+                MainWindowViewController.windowInitialized();
             }
 
             @Override
@@ -121,7 +136,6 @@ public class BranchEditView extends ViewParent {
         map_image.addMouseListener(new ImageMouseSensor() {
             @Override
             public void mouseClicked(MouseEvent e) {
-                System.out.println(e.getPoint());
                 BranchEditViewController.clickOnMap(e.getPoint());
             }
             @Override
@@ -133,11 +147,18 @@ public class BranchEditView extends ViewParent {
         BranchEditViewController.windowInitialize();
         dialog.setVisible(true);
     }
-    public void setPointOnMap(BranchInfo point) {
-        int x = point.getX() + 248;
-        int y = point.getY() - 40;
-        point.setBounds(x, y, 80, 80);
-        map_layered_pane.add(point, 1);
+    public void setNewBranch(BranchInfo newBranch) {
+        if (this.newBranch != null) {
+            map_layered_pane.remove(this.newBranch);
+        }
+        this.newBranch = newBranch;
+        updatePointer(newBranch);
+    }
+    public void updatePointer(BranchInfo newPointer) {
+        int x = newPointer.getX() + 253;
+        int y = newPointer.getY() - 45;
+        newPointer.setBounds(x, y, 80, 80);
+        map_layered_pane.add(newPointer, 1);
         map_layered_pane.repaint();
     }
     public String getBranchID() {return edit_branch_cod_text.getText();}
@@ -146,7 +167,9 @@ public class BranchEditView extends ViewParent {
         return edit_branch_ref_text.getText();
     }
     public String getBranchDir() {return edit_branch_dir_text.getText();}
-
+    public BranchInfo getNewBranch() {
+        return newBranch;
+    }
     public String getBranchZone() {
         return edit_branch_zon_text.getText();
     }

@@ -25,6 +25,7 @@
         <coords>2</coords>
         <employees>
             <employee>7</employee>
+            <employee>0</employee>
         </employees>
     </branch>
     <branch id="3">
@@ -50,6 +51,15 @@
         <address>Puntarenas, Puntarenas, Diagonal al Ferry</address>
         <zoning_percentage>3.2</zoning_percentage>
         <coords>6</coords>
+        <employees>
+            <employee>4</employee>
+        </employees>
+    </branch>
+    <branch id="9">
+        <reference>Heredia</reference>
+        <address>Heredia, Sarapiqui, Rio Frio</address>
+        <zoning_percentage>2.8</zoning_percentage>
+        <coords>9</coords>
         <employees>
             <employee>null</employee>
         </employees>

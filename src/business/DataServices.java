@@ -198,4 +198,16 @@ public class DataServices {
         }
         return false;
     }
+
+    public static boolean editBranchExecution(BranchInfo b) {
+        Branch newBranch = BranchParser.toBranch(b);
+        Coordinates coordinates = newBranch.getCoords();
+
+        dataDAO = new BranchesDAO();
+        if(dataDAO.edit(newBranch)){
+            dataDAO = new CoordinatesDAO();
+            return dataDAO.edit(coordinates);
+        }
+        return false;
+    }
 }

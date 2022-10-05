@@ -20,7 +20,7 @@
         <properties/>
         <border type="none"/>
         <children>
-          <grid id="442e6" binding="tab_employees" layout-manager="GridLayoutManager" row-count="3" column-count="5" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
+          <grid id="442e6" layout-manager="GridLayoutManager" row-count="3" column-count="5" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
             <margin top="10" left="10" bottom="10" right="10"/>
             <constraints>
               <tabbedpane title="Empleados"/>
@@ -102,7 +102,7 @@
               </component>
             </children>
           </grid>
-          <grid id="7397d" binding="tab_branches" layout-manager="BorderLayout" hgap="0" vgap="0">
+          <grid id="7397d" layout-manager="BorderLayout" hgap="0" vgap="0">
             <constraints>
               <tabbedpane title="Sucursales"/>
             </constraints>
@@ -116,7 +116,7 @@
                 </properties>
                 <border type="none"/>
                 <children>
-                  <grid id="5f3c5" binding="branch_info_panel" layout-manager="GridLayoutManager" row-count="3" column-count="5" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
+                  <grid id="5f3c5" layout-manager="GridLayoutManager" row-count="3" column-count="5" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
                     <margin top="10" left="10" bottom="10" right="10"/>
                     <constraints>
                       <splitpane position="left"/>

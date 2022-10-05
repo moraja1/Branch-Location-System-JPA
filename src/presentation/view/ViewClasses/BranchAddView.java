@@ -172,6 +172,5 @@ public class BranchAddView extends ViewParent {
         }
         this.newBranch = newBranch;
         updatePointer(newBranch);
-
     }
 }

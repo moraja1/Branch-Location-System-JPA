@@ -4,7 +4,7 @@
         <name>Jaison Mora Víquez</name>
         <phone_number>85236987</phone_number>
         <base_salary>1000000.0</base_salary>
-        <branch>null</branch>
+        <branch>2</branch>
     </employee>
     <employee id="1">
         <name>Gerardo Chavez Masis</name>
@@ -28,7 +28,7 @@
         <name>Stephanie Gonzalez Segura</name>
         <phone_number>35698126</phone_number>
         <base_salary>400000.0</base_salary>
-        <branch>0</branch>
+        <branch>6</branch>
     </employee>
     <employee id="5">
         <name>Marta Segura Jimenez</name>

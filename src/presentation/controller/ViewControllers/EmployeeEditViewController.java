@@ -72,6 +72,6 @@ public class EmployeeEditViewController {
     public static void windowClosed(){
         employee_edit_view = null;
         employee_edit_view = new EmployeeEditView();
-        MainWindowViewController.updateTables();
+        MainWindowViewController.windowInitialized();
     }
 }

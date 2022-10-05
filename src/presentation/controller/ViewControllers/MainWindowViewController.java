@@ -29,7 +29,7 @@ public class MainWindowViewController {
     private static void cleanWindow(){
         main_window.cleanLayers();
     }
-    public static void updateTables() {
+    private static void updateTables() {
         int selectedTab = main_window.getSelectedTabIndex();
         switch (selectedTab){
             case 0:
@@ -84,18 +84,15 @@ public class MainWindowViewController {
             updateTables();
         }else{
             List<EmployeeInfo> employees = DataServices.getEmployeesForTable();
-            EmployeeInfo employee = null;
+            List<EmployeeInfo> employeesFinded = new ArrayList<>();
             for(EmployeeInfo e : employees){
-                if(e.getId().equals(id) || e.getName().equals(id) || e.getPhone_number().equals(id)){
-                    employee = e;
+                if(e.getId().equals(id) || e.getName().equals(id) || e.getPhone_number().equals(id) || e.getBranch_reference().equals(id)){
+                    employeesFinded.add(e);
                 }
             }
 
-            if(employee != null){
-                List<EmployeeInfo> employeeFinded = new ArrayList<>();
-                employeeFinded.add(employee);
-
-                EmployeeTableModel empTableModel = new EmployeeTableModel(employeeFinded);
+            if(!employeesFinded.isEmpty()){
+                EmployeeTableModel empTableModel = new EmployeeTableModel(employeesFinded);
                 main_window.setTableModel(empTableModel);
             }
         }
@@ -133,24 +130,18 @@ public class MainWindowViewController {
             updateTables();
         }else{
             List<BranchInfo> branches = DataServices.getBranchesForTable();
-            BranchInfo branch = null;
+            List<BranchInfo> branchesFinded = new ArrayList<>();
             for(BranchInfo e : branches){
                 if(e.getId().equals(id) || e.getReference().equals(id) || e.getCoords().equals(id)){
-                    branch = e;
-                    branch.setSelected(true);
-                    break;
+                    e.setSelected(true);
+                    branchesFinded.add(e);
                 }
             }
-
-            if(branch != null){
-                List<BranchInfo> branchFinded = new ArrayList<>();
-                branchFinded.add(branch);
-                BranchTableModel branchTableModel = new BranchTableModel(branchFinded);
-                main_window.setTableModel(branchTableModel);
-                main_window.selectTableRow(branch);
-                main_window.cleanLayers();
-                main_window.setBranchPointOnMap(branch);
-            }
+            BranchTableModel branchTableModel = new BranchTableModel(branchesFinded);
+            main_window.setTableModel(branchTableModel);
+            branchesFinded.forEach(a-> main_window.selectTableRow(a));
+            main_window.cleanLayers();
+            branchesFinded.forEach(a-> main_window.setBranchPointOnMap(a));
         }
     }
     public static void reportBranch() {

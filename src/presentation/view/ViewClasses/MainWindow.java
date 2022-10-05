@@ -30,23 +30,20 @@ public class MainWindow extends ViewParent {
     private JButton add_employee_button;
     private JButton erase_employee_button;
     private JButton report_employee_button;
-    private JPanel tab_employees;
-    private JPanel tab_branches;
     private JPanel tab_about;
     private JPanel emp_table_panel;
     private JPanel branch_table_panel;
     private JButton edit_employee_button;
     private JButton edit_branch_button;
     private JPanel map_panel;
-    private JPanel branch_info_panel;
     private JLabel map_image;
     private JLabel image_logo;
-    private GeneralUtilities utils;
     private JTable emp_table;
     private JTable branch_table;
     private JLayeredPane map_layered_pane;
     public MainWindow(){
-        utils = GeneralUtilities.getInstanceOf();
+        super();
+        GeneralUtilities utils = GeneralUtilities.getInstanceOf();
 
         if(!getContentPane().equals(main_window_panel)){
             setContentPane(main_window_panel);
@@ -81,44 +78,28 @@ public class MainWindow extends ViewParent {
     }
     public void initComponents(){
         //Employees Action Listeners
-        add_employee_button.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                MainWindowViewController.addEmployee();
+        add_employee_button.addActionListener(e -> MainWindowViewController.addEmployee());
+        edit_employee_button.addActionListener(e -> {
+            if(emp_table.getSelectedRow() != -1){
+                MainWindowViewController.editEmployee();
+            }else{
+                JOptionPane.showMessageDialog(new JFrame(), "Debe seleccionar un empleado de la tabla",
+                        "Editar Empleado", JOptionPane.WARNING_MESSAGE);
             }
         });
-        edit_employee_button.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                if(emp_table.getSelectedRow() != -1){
-                    MainWindowViewController.editEmployee();
-                }else{
-                    JOptionPane.showMessageDialog(new JFrame(), "Debe seleccionar un empleado de la tabla",
-                            "Editar Empleado", JOptionPane.WARNING_MESSAGE);
+        erase_employee_button.addActionListener(e -> {
+            if(emp_table.getSelectedRow() != -1){
+                int n = JOptionPane.showConfirmDialog(new JFrame(), "Está seguro que desea borrar el empleado?",
+                        "Confirmación requerida", JOptionPane.YES_NO_OPTION);
+                if(n == JOptionPane.YES_OPTION){
+                    MainWindowViewController.eraseEmployee();
                 }
+            }else{
+                JOptionPane.showMessageDialog(new JFrame(), "Debe seleccionar un empleado de la tabla",
+                        "Eliminar Empleado", JOptionPane.WARNING_MESSAGE);
             }
         });
-        erase_employee_button.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                if(emp_table.getSelectedRow() != -1){
-                    int n = JOptionPane.showConfirmDialog(new JFrame(), "Está seguro que desea borrar el empleado?",
-                            "Confirmación requerida", JOptionPane.YES_NO_OPTION);
-                    if(n == JOptionPane.YES_OPTION){
-                        MainWindowViewController.eraseEmployee();
-                    }
-                }else{
-                    JOptionPane.showMessageDialog(new JFrame(), "Debe seleccionar un empleado de la tabla",
-                            "Eliminar Empleado", JOptionPane.WARNING_MESSAGE);
-                }
-            }
-        });
-        srch_employee_button.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                MainWindowViewController.searchEmployee();
-            }
-        });
+        srch_employee_button.addActionListener(e -> MainWindowViewController.searchEmployee());
         report_employee_button.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -174,7 +155,7 @@ public class MainWindow extends ViewParent {
         tabbed_Pane.addChangeListener(new ChangeListener() {
             @Override
             public void stateChanged(ChangeEvent e) {
-                MainWindowViewController.updateTables();
+                MainWindowViewController.windowInitialized();
                 repaintWindow();
             }
         });
@@ -188,7 +169,7 @@ public class MainWindow extends ViewParent {
             @Override
             public void caretUpdate(CaretEvent e) {
                 if(employees_srch_bar.getText().isEmpty()){
-                    MainWindowViewController.updateTables();
+                    MainWindowViewController.searchEmployee();
                 }
             }
         });
