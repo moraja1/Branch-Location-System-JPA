@@ -282,4 +282,8 @@ public class MainWindow extends ViewParent {
     public void removeTableSelection() {
         getSelectedTable().clearSelection();
     }
+
+    public JTable getEmployee_table(){return emp_table;}
+
+    public JTable getBranch_table(){return branch_table;}
 }

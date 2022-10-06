@@ -1,6 +1,10 @@
 package presentation.controller.ViewControllers;
 
 import business.DataServices;
+import com.lowagie.text.Document;
+import com.lowagie.text.DocumentException;
+import com.lowagie.text.pdf.PdfPTable;
+import com.lowagie.text.pdf.PdfWriter;
 import presentation.controller.flowController.MainController;
 import presentation.model.viewModels.BranchInfo;
 import presentation.model.viewModels.EmployeeInfo;
@@ -9,10 +13,10 @@ import presentation.model.viewModels.componentModels.EmployeeTableModel;
 import presentation.view.ViewClasses.MainWindow;
 
 import javax.swing.*;
-import java.awt.*;
 import java.awt.event.MouseEvent;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 
 public class MainWindowViewController {
@@ -98,8 +102,62 @@ public class MainWindowViewController {
         }
     }
     public static void reportEmployee() {
-        //LE CORRESPONDE A BRANDON HACERLO
+        String path = "";
+        JFileChooser j = new JFileChooser();
+        j.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
+        int x = j.showSaveDialog(main_window);
+
+        if(x == JFileChooser.APPROVE_OPTION){
+            path = j.getSelectedFile().getPath();
+        }
+
+        Document doc = new Document();
+
+        try {
+            PdfWriter.getInstance(doc,new FileOutputStream(path + "\\Employees.pdf"));
+            doc.open();
+
+            PdfPTable pdfTable = new PdfPTable(7);
+
+            //ADD HEADERS
+            pdfTable.addCell("ID");
+            pdfTable.addCell("Nombre");
+            pdfTable.addCell("Tel");
+            pdfTable.addCell("Salario");
+            pdfTable.addCell("Sucursal");
+            pdfTable.addCell("% Zona");
+            pdfTable.addCell("Salario Total");
+
+
+            for(int i = 0; i < main_window.getEmployee_table().getRowCount(); i++){
+
+                String ID = main_window.getEmployee_table().getValueAt(i,0).toString();
+                String NAME = main_window.getEmployee_table().getValueAt(i,1).toString();
+                String TEL = main_window.getEmployee_table().getValueAt(i,2).toString();
+                String SAL = main_window.getEmployee_table().getValueAt(i,3).toString();
+                String SUC = main_window.getEmployee_table().getValueAt(i,4).toString();
+                String ZON = main_window.getEmployee_table().getValueAt(i,5).toString();
+                String STOTAL = main_window.getEmployee_table().getValueAt(i,6).toString();
+
+                pdfTable.addCell(ID);
+                pdfTable.addCell(NAME);
+                pdfTable.addCell(TEL);
+                pdfTable.addCell(SAL);
+                pdfTable.addCell(SUC);
+                pdfTable.addCell(ZON);
+                pdfTable.addCell(STOTAL);
+            }
+            doc.add(pdfTable);
+
+        } catch (DocumentException e) {
+            throw new RuntimeException(e);
+        } catch (FileNotFoundException e) {
+            throw new RuntimeException(e);
+        }
+
+        doc.close();
     }
+
     public static void addBranch() {
         MainController.changeWindow(BranchAddViewController.getBranch_add_view());
     }
@@ -150,9 +208,57 @@ public class MainWindowViewController {
             branchesFinded.forEach(a-> main_window.setBranchPointOnMap(a));
         }
     }
-    public static void reportBranch() {
-        //LE CORRESPONDE A BRANDON HACERLO
+
+    public static void reportBranch()  {
+        String path = "";
+        JFileChooser j = new JFileChooser();
+        j.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
+        int x = j.showSaveDialog(main_window);
+
+        if(x == JFileChooser.APPROVE_OPTION){
+            path = j.getSelectedFile().getPath();
+        }
+
+        Document doc = new Document();
+
+        try {
+            PdfWriter.getInstance(doc,new FileOutputStream(path + "\\Branches.pdf"));
+            doc.open();
+
+            PdfPTable pdfTable = new PdfPTable(5);
+
+            //ADD HEADERS
+            pdfTable.addCell("ID");
+            pdfTable.addCell("Referencia");
+            pdfTable.addCell("Direccion");
+            pdfTable.addCell("% Zona");
+            pdfTable.addCell("Coordenadas");
+
+            for(int i = 0; i < main_window.getBranch_table().getRowCount(); i++){
+
+                String ID = main_window.getBranch_table().getValueAt(i,0).toString();
+                String REFE = main_window.getBranch_table().getValueAt(i,1).toString();
+                String DIR = main_window.getBranch_table().getValueAt(i,2).toString();
+                String POR = main_window.getBranch_table().getValueAt(i,3).toString();
+                String COOR = main_window.getBranch_table().getValueAt(i,4).toString();
+
+                pdfTable.addCell(ID);
+                pdfTable.addCell(REFE);
+                pdfTable.addCell(DIR);
+                pdfTable.addCell(POR);
+                pdfTable.addCell(COOR);
+            }
+            doc.add(pdfTable);
+
+        } catch (DocumentException e) {
+            throw new RuntimeException(e);
+        } catch (FileNotFoundException e) {
+            throw new RuntimeException(e);
+        }
+
+        doc.close();
     }
+
     public static Object[] getObjectModel(){
         JTable table = main_window.getSelectedTable();
         int row = table.getSelectedRow();
