@@ -118,6 +118,7 @@ public class MainWindowViewController {
             doc.open();
 
             PdfPTable pdfTable = new PdfPTable(7);
+            pdfTable.setWidthPercentage(100f);
 
             //ADD HEADERS
             pdfTable.addCell("ID");
