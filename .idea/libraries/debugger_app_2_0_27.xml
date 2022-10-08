@@ -1,20 +1,9 @@
 <component name="libraryTable">
   <library name="debugger-app-2.0.27">
     <CLASSES>
-      <root url="jar://$PROJECT_DIR$/PDFBox/jarFiles/debugger-app-2.0.27.jar!/" />
-      <root url="jar://$PROJECT_DIR$/PDFBox/jarFiles/fontbox-2.0.27.jar!/" />
-      <root url="jar://$PROJECT_DIR$/PDFBox/jarFiles/pdfbox-2.0.27.jar!/" />
-      <root url="jar://$PROJECT_DIR$/PDFBox/jarFiles/pdfbox-app-2.0.27.jar!/" />
-      <root url="jar://$PROJECT_DIR$/PDFBox/jarFiles/pdfbox-debugger-2.0.27.jar!/" />
-      <root url="jar://$PROJECT_DIR$/PDFBox/jarFiles/pdfbox-tools-2.0.27.jar!/" />
-      <root url="jar://$PROJECT_DIR$/PDFBox/jarFiles/preflight-2.0.27.jar!/" />
-      <root url="jar://$PROJECT_DIR$/PDFBox/jarFiles/preflight-app-2.0.27.jar!/" />
-      <root url="jar://$PROJECT_DIR$/PDFBox/jarFiles/xmpbox-2.0.27.jar!/" />
-      <root url="jar://$PROJECT_DIR$/PDFBox/jarFiles/itext-4.2.1.jar!/" />
+      <root url="jar://$PROJECT_DIR$/itext-4.2.1.jar/itext-4.2.1.jar!/" />
     </CLASSES>
-    <JAVADOC>
-      <root url="jar://$PROJECT_DIR$/PDFBox/pdfbox-2.0.27-javadoc.jar!/" />
-    </JAVADOC>
+    <JAVADOC />
     <SOURCES />
   </library>
 </component>
