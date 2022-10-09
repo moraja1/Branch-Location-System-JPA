@@ -3,6 +3,8 @@ package presentation.controller.ViewControllers;
 import business.DataServices;
 import com.lowagie.text.Document;
 import com.lowagie.text.DocumentException;
+import com.lowagie.text.Element;
+import com.lowagie.text.pdf.PdfDate;
 import com.lowagie.text.pdf.PdfPTable;
 import com.lowagie.text.pdf.PdfWriter;
 import presentation.controller.flowController.MainController;
@@ -100,8 +102,7 @@ public class MainWindowViewController {
                 main_window.setTableModel(empTableModel);
             }
         }
-    }
-    public static void reportEmployee() {
+    }public static void reportEmployee() {
         String path = "";
         JFileChooser j = new JFileChooser();
         j.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
@@ -116,6 +117,11 @@ public class MainWindowViewController {
         try {
             PdfWriter.getInstance(doc,new FileOutputStream(path + "\\Employees.pdf"));
             doc.open();
+
+            PdfPTable Title2 = new PdfPTable(3);
+            Title2.addCell("LISTA DE EMPLEADOS");
+
+            Title2.setWidthPercentage(100f);
 
             PdfPTable pdfTable = new PdfPTable(7);
             pdfTable.setWidthPercentage(100f);
@@ -148,6 +154,7 @@ public class MainWindowViewController {
                 pdfTable.addCell(ZON);
                 pdfTable.addCell(STOTAL);
             }
+            doc.add(Title2);
             doc.add(pdfTable);
 
         } catch (DocumentException e) {
@@ -225,7 +232,8 @@ public class MainWindowViewController {
         try {
             PdfWriter.getInstance(doc,new FileOutputStream(path + "\\Branches.pdf"));
             doc.open();
-
+            PdfPTable Title2 = new PdfPTable(1);
+            Title2.addCell("LISTA DE SUCURSALES");
             PdfPTable pdfTable = new PdfPTable(5);
 
             //ADD HEADERS
@@ -248,9 +256,8 @@ public class MainWindowViewController {
                 pdfTable.addCell(DIR);
                 pdfTable.addCell(POR);
                 pdfTable.addCell(COOR);
-            }
+            } doc.add(Title2);
             doc.add(pdfTable);
-
         } catch (DocumentException e) {
             throw new RuntimeException(e);
         } catch (FileNotFoundException e) {
