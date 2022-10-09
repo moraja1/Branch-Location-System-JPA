@@ -19,6 +19,7 @@ import java.awt.event.MouseEvent;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 public class MainWindowViewController {
@@ -105,6 +106,8 @@ public class MainWindowViewController {
     }public static void reportEmployee() {
         String path = "";
         JFileChooser j = new JFileChooser();
+        java.util.Date fecha = new Date();
+
         j.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
         int x = j.showSaveDialog(main_window);
 
@@ -120,6 +123,8 @@ public class MainWindowViewController {
 
             PdfPTable Title2 = new PdfPTable(3);
             Title2.addCell("LISTA DE EMPLEADOS");
+            Title2.addCell("");
+            Title2.addCell(String.valueOf(fecha));
 
             Title2.setWidthPercentage(100f);
 
@@ -220,6 +225,7 @@ public class MainWindowViewController {
     public static void reportBranch()  {
         String path = "";
         JFileChooser j = new JFileChooser();
+        java.util.Date fecha = new Date();
         j.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
         int x = j.showSaveDialog(main_window);
 
@@ -232,8 +238,11 @@ public class MainWindowViewController {
         try {
             PdfWriter.getInstance(doc,new FileOutputStream(path + "\\Branches.pdf"));
             doc.open();
-            PdfPTable Title2 = new PdfPTable(1);
+            PdfPTable Title2 = new PdfPTable(3);
             Title2.addCell("LISTA DE SUCURSALES");
+            Title2.addCell("");
+            Title2.addCell(String.valueOf(fecha));
+
             PdfPTable pdfTable = new PdfPTable(5);
 
             //ADD HEADERS
